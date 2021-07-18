@@ -1,4 +1,5 @@
 # KitPvPPlus
+![Banner](https://i.imgur.com/AccloGO.png)
 A customizable KitPvP Core for 1.8 - 1.7.
 
 SpigotMC Page: *Coming soon*  
