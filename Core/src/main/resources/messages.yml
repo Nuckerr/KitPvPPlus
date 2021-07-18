@@ -31,7 +31,7 @@ admin:
   plugin-reloaded: '&aPlugin has been reloaded'
 economy:
   balance-message: '&eYour balance is %balance%'
-  other-balanace-message: "&e%target%'s balance is %balance%"
+  other-balanace-message: "&e%targetHell%'s balance is %balance%"
   balance-set: '&aYou have set %target%''s balance to %balance%$'
   balance-reset: '&cYou have reset %target%''s balance'
   balance-given: '&aYou have given %givenAmount%$ to %target%'

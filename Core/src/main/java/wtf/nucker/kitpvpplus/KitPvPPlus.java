@@ -51,13 +51,14 @@ public final class KitPvPPlus extends JavaPlugin {
     - Economy system vault & flat (done)
     - Scoreboard (done)
     - PlaceholderAPI (Done)
-    - World guard (TODO)
+    - World guard (Done)
     - Version support (done)
 
     VERSION 1.2
     - Player vaults
     - Kill tag thingy
     - Kill commands
+    - World guard for 1.12 and lower
      */
 
     private static KitPvPPlus instance;
