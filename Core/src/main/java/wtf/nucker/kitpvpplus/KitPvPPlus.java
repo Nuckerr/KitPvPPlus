@@ -62,7 +62,7 @@ public final class KitPvPPlus extends JavaPlugin {
 
     private static KitPvPPlus instance;
 
-    public final static boolean DEBUG = true; /* TURN THIS OFF FOR PRODUCTION */
+    public final static boolean DEBUG = false; /* TURN THIS OFF FOR PRODUCTION */
 
     private Config messages;
     private DataManager dataManager;
