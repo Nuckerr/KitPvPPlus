@@ -29,7 +29,7 @@ public class EconomyCommands extends BaseCommand {
     @CommandPermission("kitpvpplus.balance.other")
     @CommandCompletion("@players")
     public void onOtherBal(Player p, OnlinePlayer target) {
-        p.sendMessage(Language.OTHER_BAL_MESSAGE.get(p).replace("%player%", target.getPlayer().getName())
+        p.sendMessage(Language.OTHER_BAL_MESSAGE.get(p).replace("%target%", target.getPlayer().getName())
                 .replace("%balance%", String.valueOf(new PlayerBank(target.getPlayer()).getBal())));
     }
 

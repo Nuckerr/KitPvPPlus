@@ -2,6 +2,7 @@ package wtf.nucker.kitpvpplus;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.player.PlayerData;
 
 /**
@@ -55,6 +56,8 @@ public class KitPvPPlaceholderExpansion extends PlaceholderExpansion {
                 return String.valueOf(data.getExp());
             case "kpvp_level":
                 return String.valueOf(data.getLevel());
+            case "kpvp_bal":
+                return String.valueOf(new PlayerBank(p).getBal());
             default:
                 return null;
         }

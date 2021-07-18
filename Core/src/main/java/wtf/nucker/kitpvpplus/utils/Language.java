@@ -76,7 +76,7 @@ public enum Language {
     }
 
     public String get() {
-        return ChatUtils.translate(core.getMessages().getString("general.prefix", "") + core.getMessages().getString(this.path, this.def));
+        return Language.format(ChatUtils.translate(core.getMessages().getString("general.prefix", "") + core.getMessages().getString(this.path, this.def)));
     }
 
     public String get(Player player) {
@@ -99,7 +99,7 @@ public enum Language {
 
     public static String format(String message, Player player) {
         return message
-                .replace("%player%", player.getDisplayName())
+                .replace("%player%", player.getName())
                 .replace("%bar%", ChatUtils.CHAT_BAR)
                 .replace("%blank%", ChatUtils.BLANK_MESSAGE)
                 .replace("%left_arrow%", ChatUtils.Symbols.ARROW_LEFT.getSymbol())
@@ -108,6 +108,17 @@ public enum Language {
                 .replace("%health%", ChatUtils.Symbols.HEALTH.getSymbol())
                 .replace("%warning%", ChatUtils.Symbols.WARNING.getSymbol())
                 ;
+    }
+
+    public static String format(String message) {
+        return message
+                .replace("%bar%", ChatUtils.CHAT_BAR)
+                .replace("%blank%", ChatUtils.BLANK_MESSAGE)
+                .replace("%left_arrow%", ChatUtils.Symbols.ARROW_LEFT.getSymbol())
+                .replace("%right_arrow%", ChatUtils.Symbols.ARROW_RIGHT.getSymbol())
+                .replace("%cross%", ChatUtils.Symbols.CROSS.getSymbol())
+                .replace("%health%", ChatUtils.Symbols.HEALTH.getSymbol())
+                .replace("%warning%", ChatUtils.Symbols.WARNING.getSymbol());
     }
 
     public String getDef() {
