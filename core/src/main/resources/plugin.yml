@@ -1,0 +1,14 @@
+name: KitPvPPlus
+version: ${project.version}
+main: wtf.nucker.kitpvpplus.KitPvPPlus
+load: POSTWORLD
+authors: [Nucker]
+description: ${project.description}
+website: ${project.url}
+api-version: 1.13
+loadbefore:
+  - Essentials
+softdepend:
+  - PlaceholderAPI
+  - Vault
+  - WorldGuard
