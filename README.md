@@ -1,9 +1,10 @@
 # KitPvPPlus
+![Banner](https://i.imgur.com/AccloGO.png)
 A customizable KitPvP Core for 1.8 - 1.7.
 
-SpigotMC Page: *Coming soon*
-Wiki: [wiki.nucker.me](https://wiki.nucker.me)
-JavaDocs: [jdocs.nucker.me](https://jdocs.nucker.me)
+SpigotMC Page: *Coming soon*  
+Wiki: [wiki.nucker.me](https://wiki.nucker.me)  
+JavaDocs: [jdocs.nucker.me](https://jdocs.nucker.me)  
 
 ## Features:
 - Statistics tracking
