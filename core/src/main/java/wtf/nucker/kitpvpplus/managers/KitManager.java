@@ -216,6 +216,8 @@ public class KitManager {
         };
     }
 
+    //TODO: Getting the kits thru the configuration could be harmful?
+    // Maybe follow a Transaction API, or keep it a cached object.
     public List<Kit> getKits() {
         List<Kit> res = new ArrayList<>();
         for (String key : KitManager.getConfig().getConfigurationSection("").getKeys(false)) {

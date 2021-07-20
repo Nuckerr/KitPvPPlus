@@ -14,6 +14,8 @@ import wtf.nucker.kitpvpplus.api.objects.Kit;
  */
 public final class KitPvPPlusAPI {
 
+    //TODO: The API should rely on interfaces for better compatibility, which the plugin itself have implemented.
+
     private static KitPvPPlusAPI instance = null;
 
     private final Locations locations;

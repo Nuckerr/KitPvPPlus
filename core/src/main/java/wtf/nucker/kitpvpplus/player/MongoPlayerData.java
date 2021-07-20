@@ -19,6 +19,7 @@ public class MongoPlayerData {
     private final MongoCollection<Document> collection;
     private Document doc;
 
+    //Don't do IO from the constructor, also it's clever to keep this closable.
     public MongoPlayerData(Player player) {
         this.p = player;
         this.collection = database.getCollection("data");
