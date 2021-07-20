@@ -15,6 +15,33 @@ public class MongoDatabase {
 
     private final MongoClient client;
 
+    //TODO: Example of safer input transaction (Closing the connection of the session after actually using it.
+    /*
+    public void attemptMongoInput() {
+        final ClientSession clientSession = client.startSession();
+
+        final ClientSession clientSession = client.startSession();
+
+        TransactionBody txnBody = new TransactionBody<String>() {
+            public String execute() {
+                MongoCollection<Document> coll2 = client.getDatabase("mydb2").getCollection("bar");
+
+                coll1.insertOne(clientSession, new Document("abc", 1));
+                return "Inserted into collections in different databases";
+            }
+        };
+
+        //Try-with-finally may not always be optional, implementing AutoCloseable would be beneficial.
+        try {
+            clientSession.withTransaction(txnBody, txnOptions);
+        } catch (RuntimeException e) {
+            session.abortTransaction();
+        } finally {
+            clientSession.close();
+        }
+    }
+     */
+
     /**
      * Connect to your database
      *
