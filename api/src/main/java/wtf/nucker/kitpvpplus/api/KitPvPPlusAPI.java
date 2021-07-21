@@ -10,17 +10,37 @@ import wtf.nucker.kitpvpplus.api.objects.Ability;
  * @project KitPvpCore
  * @date 21/07/2021
  */
-public interface KitPvPPlusAPI {
+public abstract class KitPvPPlusAPI {
 
-    static KitPvPPlusAPI getInstance() {
-        return null;
+    private static KitPvPPlusAPI instance;
+
+    private final KitManager kitManager;
+    private final LocationsManager locationsManager;
+    private final ConfigManager configManager;
+
+    public KitPvPPlusAPI(KitManager kitManager, LocationsManager locationsManager, ConfigManager configManager) {
+        instance = this;
+
+        this.kitManager = kitManager;
+        this.locationsManager = locationsManager;
+        this.configManager = configManager;
     }
 
-    public void registerAbility(Ability ability);
+    public abstract void registerAbility(Ability ability);
 
-    public KitManager getKitManager();
+    public KitManager getKitManager() {
+        return this.kitManager;
+    }
 
-    public LocationsManager getLocationsManager();
+    public LocationsManager getLocationsManager() {
+        return this.locationsManager;
+    }
 
-    public ConfigManager getConfigManager();
+    public ConfigManager getConfigManager() {
+        return this.configManager;
+    }
+
+    public static KitPvPPlusAPI getInstance() {
+        return instance;
+    }
 }

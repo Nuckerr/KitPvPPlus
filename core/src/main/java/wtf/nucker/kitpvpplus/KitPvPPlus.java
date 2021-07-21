@@ -326,15 +326,8 @@ public final class KitPvPPlus extends JavaPlugin {
     }
 
     private KitPvPPlusAPI setupAPI() {
-        return new KitPvPPlusAPI() {
-            @Override
-            public void registerAbility(wtf.nucker.kitpvpplus.api.objects.Ability ability) {
-                getAbilityManager().registerAbility(APIConversion.toInstanceAbility(ability));
-            }
-
-            @Override
-            public wtf.nucker.kitpvpplus.api.managers.KitManager getKitManager() {
-                return new wtf.nucker.kitpvpplus.api.managers.KitManager() {
+        return new KitPvPPlusAPI(
+                new wtf.nucker.kitpvpplus.api.managers.KitManager() {
                     @Override
                     public wtf.nucker.kitpvpplus.api.objects.Kit getKitById(String id) {
                         return APIConversion.fromInstanceKit(KitPvPPlus.this.getKitManager().getKit(id));
@@ -348,12 +341,8 @@ public final class KitPvPPlus extends JavaPlugin {
                         });
                         return res;
                     }
-                };
-            }
-
-            @Override
-            public LocationsManager getLocationsManager() {
-                return new LocationsManager() {
+                },
+                new LocationsManager() {
                     @Override
                     public Location getSpawn() {
                         return Locations.SPAWN.get();
@@ -363,12 +352,8 @@ public final class KitPvPPlus extends JavaPlugin {
                     public Location getArena() {
                         return Locations.ARENA.get();
                     }
-                };
-            }
-
-            @Override
-            public ConfigManager getConfigManager() {
-                return new ConfigManager() {
+                },
+                new ConfigManager() {
                     @Override
                     public ConfigValue getMessage(String path) {
                         return new ConfigValue(KitPvPPlus.this.getMessages(), path);
@@ -393,7 +378,10 @@ public final class KitPvPPlus extends JavaPlugin {
                     public ConfigValue getKitDataRaw(String path) {
                         return new ConfigValue(KitManager.getConfig(), path);
                     }
-                };
+                }) {
+            @Override
+            public void registerAbility(wtf.nucker.kitpvpplus.api.objects.Ability ability) {
+                getAbilityManager().registerAbility(APIConversion.toInstanceAbility(ability));
             }
         };
     }
