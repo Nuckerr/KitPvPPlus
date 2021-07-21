@@ -58,12 +58,16 @@
                     </dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
+                            <pattern>wtf.nucker.kitpvpplus.api</pattern>
+                            <shadedPattern>wtf.nucker.kitpvpplus.api</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>co.aikar.commands</pattern>
-                            <shadedPattern>wtf.nucker.kitpvpplus.acf</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>wtf.nucker.kitpvpplus.acf</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>co.aikar.locales</pattern>
-                            <shadedPattern>wtf.nucker.kitpvpplus.locales</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>wtf.nucker.kitpvpplus.locales</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.cryptomorin.xseries</pattern>
@@ -236,6 +240,11 @@
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.5</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>wtf.nucker</groupId>
+            <artifactId>KitPvPPlus-API</artifactId>
+            <version>0.2</version>
         </dependency>
     </dependencies>
 </project>

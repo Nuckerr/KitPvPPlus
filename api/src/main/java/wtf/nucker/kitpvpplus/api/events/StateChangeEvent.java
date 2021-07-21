@@ -5,13 +5,12 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import wtf.nucker.kitpvpplus.api.objects.PlayerState;
-import wtf.nucker.kitpvpplus.managers.DataManager;
 
 /**
  * @author Nucker
  * Called when a player's state changes
  */
-public class StateChangeEvent extends Event implements Cancellable {
+public abstract class StateChangeEvent extends Event implements Cancellable {
 
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
@@ -82,8 +81,5 @@ public class StateChangeEvent extends Event implements Cancellable {
      * Set a new state
      * @param state the new state
      */
-    public void setNewState(PlayerState state) {
-        DataManager.getPlayerStates().remove(this.player);
-        DataManager.getPlayerStates().put(this.player, PlayerState.toInstanceState(state));
-    }
+    public abstract void setNewState(PlayerState state);
 }

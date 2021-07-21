@@ -1,11 +1,14 @@
 package wtf.nucker.kitpvpplus.listeners.custom;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import wtf.nucker.kitpvpplus.api.events.StateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.player.PlayerState;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 
 /**
  * @author Nucker
@@ -26,6 +29,13 @@ public class PlayerStateChangeEvent extends Event implements Cancellable {
         this.oldState = oldState;
         this.newState = newState;
         this.cancelled = false;
+
+        Bukkit.getServer().getPluginManager().callEvent(new StateChangeEvent(player, APIConversion.fromInstanceState(oldState), APIConversion.fromInstanceState(newState)) {
+            @Override
+            public void setNewState(wtf.nucker.kitpvpplus.api.objects.PlayerState state) {
+                PlayerStateChangeEvent.this.setNewState(APIConversion.toInstanceState(state));
+            }
+        });
     }
 
     @Override

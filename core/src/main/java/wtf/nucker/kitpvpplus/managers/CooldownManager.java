@@ -35,7 +35,6 @@ public class CooldownManager {
     }
 
     public static boolean kitCooldown(Player p, Kit kit) {
-        //TODO: look at bug in 1.16
         return (kitCooldowns.containsKey(p.getUniqueId()) && kitCooldowns.containsValue(kit.getId()));
     }
 

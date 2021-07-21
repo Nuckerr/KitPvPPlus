@@ -9,13 +9,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.exceptions.KitAlreadyExistException;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
-import wtf.nucker.kitpvpplus.listeners.custom.KitLoadEvent;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
 import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.player.PlayerData;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
@@ -58,7 +59,7 @@ public class KitCommand extends BaseCommand {
             kit.fillInventory(p);
             p.sendMessage(Language.KIT_LOADED.get(p).replace("%kitname%", kit.getId()));
             if (kit.getCooldown() > 0) CooldownManager.addKitCooldown(p, kit, kit.getCooldown());
-            Bukkit.getPluginManager().callEvent(new KitLoadEvent(kit, p, p));
+            Bukkit.getPluginManager().callEvent(new KitLoadEvent(APIConversion.fromInstanceKit(kit), p, p));
             return;
         }
         if (!p.hasPermission("kitpvpplus.givekits")) {
@@ -69,7 +70,7 @@ public class KitCommand extends BaseCommand {
         p.sendMessage(Language.KIT_SENT.get(p).replace("%target%", target.getPlayer().getName()).replace("%kitname%", kit.getId()));
         target.getPlayer().sendMessage(Language.KIT_GIVEN.get(p).replace("%target%", target.getPlayer().getName()).replace("%kitname%", kit.getId()));
         if (kit.getCooldown() > 0) CooldownManager.addKitCooldown(p, kit, kit.getCooldown());
-        Bukkit.getPluginManager().callEvent(new KitLoadEvent(kit, target.getPlayer(), p));
+        Bukkit.getPluginManager().callEvent(new KitLoadEvent(APIConversion.fromInstanceKit(kit), target.getPlayer(), p));
     }
 
     @Subcommand("purchase|buy")

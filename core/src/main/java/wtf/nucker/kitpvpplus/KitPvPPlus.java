@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,6 +18,10 @@ import wtf.nucker.kitpvpplus.abilities.Fireball;
 import wtf.nucker.kitpvpplus.abilities.Fireman;
 import wtf.nucker.kitpvpplus.abilities.Sonic;
 import wtf.nucker.kitpvpplus.abilities.TNTShooter;
+import wtf.nucker.kitpvpplus.api.KitPvPPlusAPI;
+import wtf.nucker.kitpvpplus.api.managers.ConfigManager;
+import wtf.nucker.kitpvpplus.api.managers.LocationsManager;
+import wtf.nucker.kitpvpplus.api.objects.ConfigValue;
 import wtf.nucker.kitpvpplus.commands.*;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.listeners.*;
@@ -63,7 +68,7 @@ public final class KitPvPPlus extends JavaPlugin {
 
     private static KitPvPPlus instance;
 
-    public final static boolean DEBUG = false; /* TURN THIS OFF FOR PRODUCTION */
+    public final static boolean DEBUG = true; /* TURN THIS OFF FOR PRODUCTION */
 
     private Config messages;
     private DataManager dataManager;
@@ -75,6 +80,7 @@ public final class KitPvPPlus extends JavaPlugin {
     private SignManager signManager;
     private MetricsLite metrics;
     private WorldGuardManager worldGuardManager;
+    private KitPvPPlusAPI api;
 
     @Override
     public void onLoad() {
@@ -193,6 +199,7 @@ public final class KitPvPPlus extends JavaPlugin {
                 this.getServer().getPluginManager().disablePlugin(this);
             }
         });
+        api = this.setupAPI();
 
         Logger.debug("Successfully loaded KitPvPPlus");
     }
@@ -318,6 +325,79 @@ public final class KitPvPPlus extends JavaPlugin {
         this.getAbilityManager().registerAbility(new Fireman());
     }
 
+    private KitPvPPlusAPI setupAPI() {
+        return new KitPvPPlusAPI() {
+            @Override
+            public void registerAbility(wtf.nucker.kitpvpplus.api.objects.Ability ability) {
+                getAbilityManager().registerAbility(APIConversion.toInstanceAbility(ability));
+            }
+
+            @Override
+            public wtf.nucker.kitpvpplus.api.managers.KitManager getKitManager() {
+                return new wtf.nucker.kitpvpplus.api.managers.KitManager() {
+                    @Override
+                    public wtf.nucker.kitpvpplus.api.objects.Kit getKitById(String id) {
+                        return APIConversion.fromInstanceKit(KitPvPPlus.this.getKitManager().getKit(id));
+                    }
+
+                    @Override
+                    public List<wtf.nucker.kitpvpplus.api.objects.Kit> getKits() {
+                        List<wtf.nucker.kitpvpplus.api.objects.Kit> res = new ArrayList<>();
+                        KitPvPPlus.this.getKitManager().getKits().forEach(k -> {
+                            res.add(APIConversion.fromInstanceKit(k));
+                        });
+                        return res;
+                    }
+                };
+            }
+
+            @Override
+            public LocationsManager getLocationsManager() {
+                return new LocationsManager() {
+                    @Override
+                    public Location getSpawn() {
+                        return Locations.SPAWN.get();
+                    }
+
+                    @Override
+                    public Location getArena() {
+                        return Locations.ARENA.get();
+                    }
+                };
+            }
+
+            @Override
+            public ConfigManager getConfigManager() {
+                return new ConfigManager() {
+                    @Override
+                    public ConfigValue getMessage(String path) {
+                        return new ConfigValue(KitPvPPlus.this.getMessages(), path);
+                    }
+
+                    @Override
+                    public ConfigValue getFromConfig(String path) {
+                        return new ConfigValue(KitPvPPlus.this.getConfig(), path);
+                    }
+
+                    @Override
+                    public ConfigValue getDataRaw(String path) {
+                        return new ConfigValue(KitPvPPlus.this.getDataManager().getDataYaml(), path);
+                    }
+
+                    @Override
+                    public ConfigValue getSignDataRaw(String path) {
+                        return new ConfigValue(KitPvPPlus.this.getSignManager().getConfig(), path);
+                    }
+
+                    @Override
+                    public ConfigValue getKitDataRaw(String path) {
+                        return new ConfigValue(KitManager.getConfig(), path);
+                    }
+                };
+            }
+        };
+    }
+
     public YamlConfiguration getMessages() {
         return this.messages.getConfig();
     }
@@ -366,6 +446,10 @@ public final class KitPvPPlus extends JavaPlugin {
         return worldGuardManager;
     }
 
+    public KitPvPPlusAPI getApi() {
+        return api;
+    }
+
     public boolean isWGEnabled() {
         return this.worldGuardManager != null;
     }
@@ -411,5 +495,10 @@ public final class KitPvPPlus extends JavaPlugin {
     public int getSubVersion() {
         String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").replace("v", "").split(",")[3];
         return Integer.parseInt(version.replace("1_", "").replaceAll("_R\\d", ""));
+    }
+
+    @Override
+    public void saveConfig() {
+        this.saveDefaultConfig();
     }
 }

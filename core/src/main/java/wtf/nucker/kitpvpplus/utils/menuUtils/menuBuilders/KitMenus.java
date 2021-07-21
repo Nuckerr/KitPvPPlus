@@ -10,10 +10,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
-import wtf.nucker.kitpvpplus.listeners.custom.KitLoadEvent;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
 import wtf.nucker.kitpvpplus.objects.Kit;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ItemUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
@@ -119,7 +120,7 @@ public class KitMenus {
             p.sendMessage(Language.KIT_LOADED.get(p).replace("%kitname%", kit.getId()));
             player.closeInventory();
             if (kit.getCooldown() > 0) CooldownManager.addKitCooldown(p, kit, kit.getCooldown());
-            Bukkit.getPluginManager().callEvent(new KitLoadEvent(kit, p, p));
+            Bukkit.getPluginManager().callEvent(new KitLoadEvent(APIConversion.fromInstanceKit(kit), p, p));
         });
 
         menu.open(player);

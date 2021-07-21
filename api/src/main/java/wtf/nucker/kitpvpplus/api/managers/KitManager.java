@@ -1,37 +1,17 @@
 package wtf.nucker.kitpvpplus.api.managers;
 
-import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.objects.Kit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Nucker
- * Used for getting and managing kits
+ * @project KitPvpCore
+ * @date 21/07/2021
  */
-public class KitManager {
+public interface KitManager {
 
-    private static KitManager instance;
-    private final wtf.nucker.kitpvpplus.managers.KitManager manager;
+    public Kit getKitById(String id);
 
-    private KitManager() {
-        this.manager = KitPvPPlus.getInstance().getKitManager();
-    }
-
-    public Kit getKitById(String id) {
-        return Kit.fromInstanceKit(manager.getKit(id));
-    }
-
-    public List<Kit> getKits() {
-        List<Kit> res = new ArrayList<>();
-        manager.getKits().forEach(kit -> res.add(Kit.fromInstanceKit(kit)));
-
-        return res;
-    }
-
-    public static KitManager getInstance() {
-        if(instance == null) instance = new KitManager();
-        return instance;
-    }
+    public List<Kit> getKits();
 }

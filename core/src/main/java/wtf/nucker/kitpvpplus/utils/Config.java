@@ -48,6 +48,7 @@ public class Config {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
+        yaml.options().copyDefaults(true);
     }
 
     /**
@@ -78,7 +79,7 @@ public class Config {
      */
     public void save() {
         try {
-            yaml.save(file);
+            yaml.save(this.file);
         } catch (IOException e) {
             e.printStackTrace();
         }

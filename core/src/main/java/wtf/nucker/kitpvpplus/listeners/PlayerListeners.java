@@ -9,13 +9,14 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.listeners.custom.AbilityActivateEvent;
+import wtf.nucker.kitpvpplus.api.events.AbilityActivateEvent;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.player.PlayerData;
 import wtf.nucker.kitpvpplus.player.PlayerState;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.Logger;
 
 /**
@@ -46,7 +47,7 @@ public class PlayerListeners implements Listener {
         if (AbilityManager.isAbilityItem(e.getItem())) {
             Ability ability = AbilityManager.getAbility(e.getItem());
             ability.onActivate(ability, e.getItem(), e);
-            Bukkit.getServer().getPluginManager().callEvent(new AbilityActivateEvent(ability, e.getItem(), e, e.getPlayer()));
+            Bukkit.getServer().getPluginManager().callEvent(new AbilityActivateEvent(APIConversion.fromInstanceAbility(ability), e.getItem(), e));
         }
     }
 

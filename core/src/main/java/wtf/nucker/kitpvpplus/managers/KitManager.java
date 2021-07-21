@@ -15,6 +15,7 @@ import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
 import wtf.nucker.kitpvpplus.utils.Config;
 import wtf.nucker.kitpvpplus.utils.ItemUtils;
+import wtf.nucker.kitpvpplus.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +32,17 @@ public class KitManager {
     private static YamlConfiguration config;
     private final HashMap<String, ClockUtils.CountingRunnable> runnables;
 
+    private static ArrayList<Kit> kitCache;
+
     public KitManager() {
         this.runnables = new HashMap<>();
+        if(kitCache == null) {
+            kitCache = new ArrayList<>();
+
+            for (String key : KitManager.getConfig().getConfigurationSection("").getKeys(false)) {
+                kitCache.add(this.getKit(key));
+            }
+        }
     }
 
     public static void setup() {
@@ -55,10 +65,13 @@ public class KitManager {
         kit.setPermission("");
         kit.setPrice(1);
         kit.setCooldown(0);
+
+        kitCache.add(kit);
         return kit;
     }
 
     public void deleteKit(String id) {
+        kitCache.remove(this.getKit(id));
         id = id.toLowerCase();
         if (!KitManager.getConfig().contains(id)) throw new KitNotExistException("The kit does not exist");
         KitManager.getConfig().set(id, null);
@@ -70,7 +83,9 @@ public class KitManager {
         if (!KitManager.getConfig().contains(configId)) {
             throw new KitNotExistException("Could not find kit");
         }
+
         ConfigurationSection section = KitManager.getConfig().getConfigurationSection(configId);
+        Logger.debug(configId);
         return new Kit() {
             @Override
             public String getId() {
@@ -188,7 +203,7 @@ public class KitManager {
             public void setInventory(Inventory inv) {
                 section.set("inventory", null);
                 for (int i = 0; i < inv.getContents().length; i++) {
-                    ItemUtils.serialize(KitManager.getConfig(), this.getId() + ".inventory." + i, inv.getItem(i));
+                    ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory." + i, inv.getItem(i));
                 }
                 KitManager.getConfigInstance().save();
             }
@@ -199,7 +214,7 @@ public class KitManager {
                 Inventory inv = player.getInventory();
                 for (String key : section.getConfigurationSection("inventory").getKeys(false)) {
                     int index = Integer.parseInt(key);
-                    inv.setItem(index, ItemUtils.serialize(KitManager.getConfig(), this.getId() + ".inventory." + key));
+                    inv.setItem(index, ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory." + key));
                 }
             }
 
@@ -216,15 +231,8 @@ public class KitManager {
         };
     }
 
-    //TODO: Getting the kits thru the configuration could be harmful?
-    // Maybe follow a Transaction API, or keep it a cached object.
     public List<Kit> getKits() {
-        List<Kit> res = new ArrayList<>();
-        for (String key : KitManager.getConfig().getConfigurationSection("").getKeys(false)) {
-            res.add(this.getKit(key));
-        }
-
-        return res;
+        return kitCache;
     }
 
     public static YamlConfiguration getConfig() {
