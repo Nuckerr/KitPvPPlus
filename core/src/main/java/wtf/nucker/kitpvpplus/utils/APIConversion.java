@@ -94,10 +94,28 @@ public class APIConversion {
     }
 
     public static PlayerState fromInstanceState(wtf.nucker.kitpvpplus.player.PlayerState state) {
-        return PlayerState.valueOf(state.name());
+        switch (state) {
+            case SPAWN:
+                return PlayerState.SPAWN;
+            case ARENA:
+                return PlayerState.ARENA;
+            case PROTECTED:
+                return PlayerState.PROTECTED;
+            default:
+                return null;
+        }
     }
 
     public static wtf.nucker.kitpvpplus.player.PlayerState toInstanceState(PlayerState state) {
-        return wtf.nucker.kitpvpplus.player.PlayerState.valueOf(state.name());
+        switch (state) {
+            case SPAWN:
+                return wtf.nucker.kitpvpplus.player.PlayerState.SPAWN;
+            case ARENA:
+                return wtf.nucker.kitpvpplus.player.PlayerState.ARENA;
+            case PROTECTED:
+                return wtf.nucker.kitpvpplus.player.PlayerState.PROTECTED;
+            default:
+                return null;
+        }
     }
 }
