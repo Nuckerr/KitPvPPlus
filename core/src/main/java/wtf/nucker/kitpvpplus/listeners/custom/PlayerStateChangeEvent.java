@@ -29,13 +29,18 @@ public class PlayerStateChangeEvent extends Event implements Cancellable {
         this.oldState = oldState;
         this.newState = newState;
         this.cancelled = false;
+//        for (int i = 0; i < ; i++) {
+//
+//        }
 
-        Bukkit.getServer().getPluginManager().callEvent(new StateChangeEvent(player, APIConversion.fromInstanceState(oldState), APIConversion.fromInstanceState(newState)) {
-            @Override
-            public void setNewState(wtf.nucker.kitpvpplus.api.objects.PlayerState state) {
-                PlayerStateChangeEvent.this.setNewState(APIConversion.toInstanceState(state));
-            }
-        });
+        if(oldState != null) {
+            Bukkit.getServer().getPluginManager().callEvent(new StateChangeEvent(player, APIConversion.fromInstanceState(oldState), APIConversion.fromInstanceState(newState)) {
+                @Override
+                public void setNewState(wtf.nucker.kitpvpplus.api.objects.PlayerState state) {
+                    PlayerStateChangeEvent.this.setNewState(APIConversion.toInstanceState(state));
+                }
+            });
+        }
     }
 
     @Override
