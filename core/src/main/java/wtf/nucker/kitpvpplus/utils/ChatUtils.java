@@ -2,10 +2,13 @@ package wtf.nucker.kitpvpplus.utils;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
+import wtf.nucker.kitpvpplus.KitPvPPlus;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class has a bunch of useful methods and variables
@@ -34,6 +37,7 @@ public class ChatUtils {
      */
     public static final String BLANK_MESSAGE = String.join("", Collections.nCopies(150, " \n"));
 
+    public static final Pattern HEX_PATTERN = Pattern.compile("&#(\\w{5}[0-9a-f])");
 
     /**
      * A shorter method for the bukkit method ChatColor#translateAlternateColorCodes.
@@ -44,6 +48,7 @@ public class ChatUtils {
      */
     public static String translate(String string) {
         if(string == null) return null;
+        string = ChatUtils.translateHexCodes(string);
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
@@ -110,5 +115,19 @@ public class ChatUtils {
         public String getSymbol() {
             return symbol;
         }
+    }
+
+    public static String translateHexCodes (String textToTranslate) {
+        if(!KitPvPPlus.getInstance().isHexEnabled()) return textToTranslate;
+
+        Matcher matcher = HEX_PATTERN.matcher(textToTranslate);
+        StringBuffer buffer = new StringBuffer();
+
+        while(matcher.find()) {
+            matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of("#" + matcher.group(1)).toString());
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+
     }
 }

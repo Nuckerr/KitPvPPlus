@@ -58,6 +58,7 @@ public final class KitPvPPlus extends JavaPlugin {
     - PlaceholderAPI (Done)
     - World guard (Done)
     - Version support (done)
+    - Hex colors
 
     VERSION 1.2
     - Player vaults
@@ -159,7 +160,6 @@ public final class KitPvPPlus extends JavaPlugin {
         this.registerCommands(new BukkitCommandManager(this));
         this.registerAbilities();
         Logger.success("Registered events and commands");
-
         CooldownManager.setup();
         if (this.dataManager.getDataYaml().getConfigurationSection("playerdata") != null) {
             for (String uuid : this.dataManager.getDataYaml().getConfigurationSection("playerdata").getKeys(false)) {
@@ -440,6 +440,10 @@ public final class KitPvPPlus extends JavaPlugin {
 
     public boolean isWGEnabled() {
         return this.worldGuardManager != null;
+    }
+
+    public boolean isHexEnabled() {
+        return this.getSubVersion() >= 16;
     }
 
     public void reloadConfigs() {
