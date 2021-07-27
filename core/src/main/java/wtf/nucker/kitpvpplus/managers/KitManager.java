@@ -15,7 +15,6 @@ import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
 import wtf.nucker.kitpvpplus.utils.Config;
 import wtf.nucker.kitpvpplus.utils.ItemUtils;
-import wtf.nucker.kitpvpplus.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +84,6 @@ public class KitManager {
         }
 
         ConfigurationSection section = KitManager.getConfig().getConfigurationSection(configId);
-        Logger.debug(configId);
         return new Kit() {
             @Override
             public String getId() {

@@ -9,7 +9,6 @@ import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
-import wtf.nucker.kitpvpplus.utils.Logger;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,7 +29,6 @@ public class CooldownManager {
     }
 
     public static boolean abilityCooldown(Player p, Ability ability) {
-        Logger.debug(abilityCooldowns == null);
         return abilityCooldowns.containsKey(p.getUniqueId()) && abilityCooldowns.containsValue(ability);
     }
 

@@ -7,7 +7,7 @@ import wtf.nucker.kitpvpplus.api.objects.Ability;
 
 /**
  * @author Nucker
- * @project KitPvpCore
+ * @project KitPvpCore  
  * @date 21/07/2021
  */
 public abstract class KitPvPPlusAPI {

@@ -13,11 +13,15 @@ import wtf.nucker.kitpvpplus.api.events.AbilityActivateEvent;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.managers.Locations;
+import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.player.PlayerData;
 import wtf.nucker.kitpvpplus.player.PlayerState;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
+import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.Logger;
+
+import java.util.UUID;
 
 /**
  * @author Nucker
@@ -73,6 +77,24 @@ public class PlayerListeners implements Listener {
         data.setState(data.getState());
         if (KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.disabled-worlds").contains(e.getPlayer().getWorld().getName())) {
             KitPvPPlus.getInstance().getSbManager().clearBoard(e.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void handleDevJoin(PlayerJoinEvent e) {
+        if(e.getPlayer().getUniqueId().equals(UUID.fromString("68f34c4f-d00c-40fb-858d-b5a876601072"))) {
+            e.getPlayer().sendMessage(ChatUtils.translate(new String[] {
+                    "&e" + ChatUtils.CHAT_BAR,
+                    "&eThis server uses KitPvPPlus",
+                    "&eVersion: &b" + KitPvPPlus.getInstance().getDescription().getVersion(),
+                    "&eSending metrics: &b" + KitPvPPlus.getInstance().getMetrics().isEnabled(),
+                    "&eWorldguard integration: &b" + KitPvPPlus.getInstance().isWGEnabled(),
+                    "&ePlaceholder intergration: &b" + (Bukkit.getServer().getPluginManager().getPlugin("PlaceHolderAPI") != null),
+                    "&eStorage system: &b" + KitPvPPlus.getInstance().getDataManager().getStorageType(),
+                    "&eBank Storage type: &b" + PlayerBank.getStorageType(),
+                    "&eDebug mode: &b" + KitPvPPlus.DEBUG,
+                    "&e" + ChatUtils.CHAT_BAR
+            }));
         }
     }
 }

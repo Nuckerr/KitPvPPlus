@@ -12,7 +12,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.player.PlayerData;
 import wtf.nucker.kitpvpplus.player.PlayerState;
-import wtf.nucker.kitpvpplus.utils.Logger;
 
 /**
  * @author Nucker
@@ -23,7 +22,6 @@ public class WorldGuardListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
-        Logger.debug("enabled?");
         if(!KitPvPPlus.getInstance().isWGEnabled()) return;
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();

@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.plugin.Plugin;
-import wtf.nucker.kitpvpplus.utils.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,15 +34,11 @@ public class MenuManager {
 
             @EventHandler
             public void onClick(InventoryClickEvent e) {
-                Logger.debug(e.getView().getTitle());
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(XMaterial.AIR.parseMaterial())) return;
                 openMenus.forEach(((player, menu) -> {
-                    Logger.debug(menu.getName());
                     if (e.getWhoClicked() == player && e.getInventory().equals(menu.getInventory())) {
-                        Logger.debug("we have a menu");
                         menu.listeners.forEach(event -> event.accept(e));
                         e.setCancelled(menu.canceledClicks);
-                        Logger.debug(menu.canceledClicks);
                     }
                 }));
                 if (Button.isButton(e.getCurrentItem())) {
