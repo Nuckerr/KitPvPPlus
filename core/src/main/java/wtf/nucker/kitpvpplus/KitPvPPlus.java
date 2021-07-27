@@ -58,9 +58,21 @@ public final class KitPvPPlus extends JavaPlugin {
     - PlaceholderAPI (Done)
     - World guard (Done)
     - Version support (done)
-    - Hex colors
+    - Hex colors (done)
 
-    VERSION 1.2
+    TODO:
+    - Kit gui signs
+    - Soup
+    - Kill streaks & kill:death ratio (kdr) stats
+    - Current kit placeholder
+    - Leaderboard rankings placeholder
+    - Placeholderapi placeholders in all messages
+    - Death messages and arrow hit messages
+    - Arrow and hit sounds
+    - Custom death screen
+    - CUstomise menus
+    - Leaderboards
+    - Health above name
     - Player vaults
     - Kill tag thingy
     - Kill commands
