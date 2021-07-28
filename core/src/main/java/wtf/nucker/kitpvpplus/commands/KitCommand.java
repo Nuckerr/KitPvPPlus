@@ -33,6 +33,11 @@ import java.util.List;
 @Description("Get a kit idiot, what do you think it does")
 public class KitCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "kit";
+    }
+
     @Default
     @Description("Get a kit")
     @CommandCompletion("@ownedkits @players")
@@ -48,7 +53,7 @@ public class KitCommand extends BaseCommand {
         }
 
         if (!KitPvPPlus.getInstance().getDataManager().getPlayerData(p).ownsKit(kit)) {
-            p.sendMessage(Language.KIT_NOT_OWNED.get(p).replace("%kitname%", kit.getId()).replace("%price%", String.valueOf(kit.getPrice())).replace("%permission%", kit.getPermission()));
+            p.sendMessage(Language.KIT_NOT_OWNED.get(p).replace("%kitname%", kit.getId()).replace("%permission%", kit.getPermission()));
             return;
         }
         if (CooldownManager.kitCooldown(p, kit)) {

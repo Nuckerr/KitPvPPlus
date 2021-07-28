@@ -27,7 +27,11 @@ enable-signs: true
 enable-guis: true
 
 exp:
-  kills: 25.0
+  kills: 25
+  deaths: 5
+
+death-sound: "ENTITY_ENDERMAN_DEATH"
+arrow-hit-sound: "BLOCK_NOTE_BLOCK_PLING"
 
 filler-item: "STAINED_GLASS_PANE"
 abilities:
@@ -59,6 +63,9 @@ abilities:
     lore:
       - "&7If your on fire, put your self out by right clicking this"
       - "&7Right click to give speed!"
+
+# When soup is used, should the empty bowl be removed from the inventory
+remove-empty-soup: true
 
 scoreboard:
   enabled: true

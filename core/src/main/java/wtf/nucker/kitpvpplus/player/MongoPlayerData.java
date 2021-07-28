@@ -28,7 +28,9 @@ public class MongoPlayerData {
                     .append("deaths", 0)
                     .append("kills", 0)
                     .append("exp", 0)
-                    .append("level", 0));
+                    .append("level", 0)
+                    .append("killstreak", 0)
+                    .append("highest-killstreak", 0));
         }
         this.doc = collection.find(new Document("uuid", p.getUniqueId())).first();
     }
@@ -47,6 +49,14 @@ public class MongoPlayerData {
 
     public int getLevel() {
         return doc.getInteger("level");
+    }
+
+    public int getKillStreak() {
+        return doc.getInteger("killstreak");
+    }
+
+    public int getHighestKillStreak() {
+        return doc.getInteger("highest-killstreak");
     }
 
     public int setKills(int newAmount) {
@@ -71,6 +81,18 @@ public class MongoPlayerData {
         database.save("data", new Document("uuid", p.getUniqueId()), "level", newAmount);
         this.updateDoc();
         return doc.getInteger("level");
+    }
+
+    public int setKillStreak(int newKS) {
+        database.save("data", new Document("uuid", p.getUniqueId()), "killstreak", newKS);
+        this.updateDoc();
+
+        if(this.getKillStreak() > this.getHighestKillStreak()) {
+            database.save("data", new Document("uuid", p.getUniqueId()), "highest-killstreak", this.getKillStreak());
+        }
+        this.updateDoc();
+
+        return doc.getInteger("killstreak");
     }
 
 

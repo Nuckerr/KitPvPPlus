@@ -3,6 +3,8 @@ package wtf.nucker.kitpvpplus.listeners;
 import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -35,11 +37,16 @@ public class PlayerListeners implements Listener {
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).updateExpBar();
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).setState(PlayerState.SPAWN);
         e.getPlayer().teleport(Locations.SPAWN.get());
+
+        if(KitPvPPlus.getInstance().getConfig().getBoolean("health-display")) {
+            e.getPlayer().setScoreboard(KitPvPPlus.getInstance().getSbManager().getHealthDisplay(e.getPlayer()));
+        }
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         if (e.getItem() == null || e.getItem().getType().equals(XMaterial.AIR.parseMaterial())) return;
+
         if(KitPvPPlus.DEBUG) {
             NBTItem item = new NBTItem(e.getItem());
             item.getKeys().forEach(key -> {
@@ -67,6 +74,22 @@ public class PlayerListeners implements Listener {
                 KitPvPPlus.getInstance().getSbManager().getSpawnBoard(e.getPlayer());
             } else if (e.getNewState().equals(PlayerState.ARENA)) {
                 KitPvPPlus.getInstance().getSbManager().getArenaBoard(e.getPlayer());
+            }
+        }
+    }
+
+    @EventHandler
+    public void handleSoupEat(PlayerInteractEvent e) {
+        if(e.getItem() == null || e.getItem().getType().equals(Material.AIR)) return;
+        if(!e.getAction().name().contains("RIGHT_CLICK")) return;
+        if(!KitPvPPlus.getInstance().getConfig().getBoolean("remove-empty-soup")) return;
+        Player p = e.getPlayer();
+        if(e.getItem().getType().equals(XMaterial.BEETROOT_SOUP.parseMaterial())) {
+            for (int i = 0; i < p.getInventory().getContents().length; i++) {
+                if(p.getInventory().getContents()[i] == null || p.getInventory().getContents()[i].getType().equals(Material.AIR)) continue;
+                if(p.getInventory().getContents()[i].getType().equals(XMaterial.BOWL.parseMaterial())) {
+                    p.getInventory().setItem(i, XMaterial.AIR.parseItem());
+                }
             }
         }
     }

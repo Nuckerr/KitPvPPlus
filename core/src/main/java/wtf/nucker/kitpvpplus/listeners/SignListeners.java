@@ -12,6 +12,7 @@ import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.player.PlayerState;
 import wtf.nucker.kitpvpplus.utils.Language;
+import wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders.KitMenus;
 
 import java.util.List;
 
@@ -51,6 +52,16 @@ public class SignListeners implements Listener {
                     e.getPlayer().sendMessage(Language.SIGN_SET.get(e.getPlayer()).replace("%sign_type%", "arena"));
                     e.getPlayer().playSound(e.getPlayer().getLocation(), XSound.BLOCK_NOTE_BLOCK_PLING.parseSound(), 1f, 250f);
                     break;
+                case "[kitpvp-gui]":
+                    contents = Language.KIT_GUI_SIGN.getAsStringList();
+
+                    for (int i = 0; i < contents.size(); i++) {
+                        e.setLine(i, contents.get(i));
+                    }
+                    e.getBlock().setMetadata("kpvp", new FixedMetadataValue(KitPvPPlus.getInstance(), "kit-gui"));
+                    KitPvPPlus.getInstance().getSignManager().addSign(e.getBlock(), "kit-gui");
+                    e.getPlayer().sendMessage(Language.SIGN_SET.get(e.getPlayer()).replace("%sign_type%", "arena"));
+                    e.getPlayer().playSound(e.getPlayer().getLocation(), XSound.BLOCK_NOTE_BLOCK_PLING.parseSound(), 1f, 250f);
             }
         }
     }
@@ -69,6 +80,10 @@ public class SignListeners implements Listener {
                 case "arena":
                     e.getPlayer().teleport(Locations.ARENA.get());
                     KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).setState(PlayerState.ARENA);
+                    break;
+                case "kit-gui":
+                    e.getPlayer().sendMessage(Language.KIT_MENU.get(e.getPlayer()));
+                    KitMenus.buildKitGUI(e.getPlayer());
                     break;
             }
         }

@@ -26,6 +26,11 @@ import java.util.UUID;
 @Description("Provides information on the plugin and allows you to control it if you are an admin")
 public class KitPvPCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "kitpvpplus";
+    }
+
     @Subcommand("reload config|rl config|reloadconfig|rlconfig")
     @Description("Reloads just the config files")
     @CommandPermission("kitpvpplus.admin")

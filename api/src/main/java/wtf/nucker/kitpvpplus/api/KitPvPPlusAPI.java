@@ -1,9 +1,13 @@
 package wtf.nucker.kitpvpplus.api;
 
+import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.api.managers.ConfigManager;
 import wtf.nucker.kitpvpplus.api.managers.KitManager;
 import wtf.nucker.kitpvpplus.api.managers.LocationsManager;
 import wtf.nucker.kitpvpplus.api.objects.Ability;
+import wtf.nucker.kitpvpplus.api.objects.PlayerData;
+
+import java.util.UUID;
 
 /**
  * @author Nucker
@@ -43,4 +47,8 @@ public abstract class KitPvPPlusAPI {
     public static KitPvPPlusAPI getInstance() {
         return instance;
     }
+
+    public abstract PlayerData getPlayerData(UUID uuid);
+
+    public abstract PlayerData getPlayerData(Player player);
 }

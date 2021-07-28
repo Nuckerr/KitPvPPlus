@@ -1,5 +1,6 @@
 package wtf.nucker.kitpvpplus.player;
 
+import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.objects.Kit;
 
 import java.util.List;
@@ -11,35 +12,48 @@ import java.util.List;
  */
 public interface PlayerData {
 
-    public void updateExp(int newAmount);
+    void updateExp(int newAmount);
 
-    public void incrementDeaths();
+    void incrementDeaths();
 
-    public void incrementKills();
+    void incrementKills();
 
-    public void updateLevel();
+    void updateLevel();
 
-    public void resetData();
+    void incrementKillStreak();
+    void resetKillStreak();
 
-    public void deleteData();
+    void resetData();
 
-    public void setState(PlayerState newState);
+    void deleteData();
 
-    public int getExp();
+    void setState(PlayerState newState);
 
-    public int getDeaths();
+    int getExp();
 
-    public int getKills();
+    int getDeaths();
 
-    public int getLevel();
+    int getKills();
 
-    public PlayerState getState();
+    int getLevel();
 
-    public void updateExpBar();
+    int getKillStreak();
 
-    public List<Kit> getOwnedKits();
+    int getTopKillStreak();
 
-    public boolean ownsKit(Kit kit);
+    double getKDR();
 
-    public List<Kit> purchaseKit(Kit kit);
+    PlayerState getState();
+
+    void updateExpBar();
+
+    List<Kit> getOwnedKits();
+
+    boolean ownsKit(Kit kit);
+
+    List<Kit> purchaseKit(Kit kit);
+
+
+
+    Player getPlayer();
 }

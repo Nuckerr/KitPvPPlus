@@ -4,6 +4,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.managers.PlayerBank;
+import wtf.nucker.kitpvpplus.player.PlayerData;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +37,7 @@ public enum Language {
     ON_COOLDOWN("abilities.cooldown-message", "&cYour still on cooldown"),
     NO_COOLDOWN_NOW("abilities.no-longer-on-cooldown", "&a%name% is no longer on cooldown"),
     SONIC_ACTIVATION("abilities.sonic-activation-message", "&9Speed activated for 1 minute"),
+    FIREMAN_ACTIVATION("abilities.fireman-activation-message", "&6Put you out!"),
     KIT_LOADED("kits.kit-loaded", "&aLoaded kit %kitname%"),
     KIT_NOT_OWNED("kits.kit-not-owned", "&cYou dont own this kit"),
     KIT_ALREADY_OWNED("kits.kit-already-owned", "&cYou already own this kit"),
@@ -54,9 +57,14 @@ public enum Language {
     KIT_HELP_COMMAND("help-commands.kit-command", "null"),
     KIT_ADMIN_HELP("help-commands.kit-admin", "null"),
     KIT_PURCHASE_CANCELED("kits.kit-purchase-canceled", "&cPurchase canceled"),
+    OPENING_PV("general.opening-playervault", "&aOpening player vault %page%"),
     KIT_PURCHASED("kits.kit-purchase", "&aYou purchased kit"),
     KIT_MENU("kits.kit-menu-opening", "&aOpening kit"),
-    NO_LAST_PAGE("genral.no-last-page", "&cNo previous page"),
+    NO_LAST_PAGE("general.no-last-page", "&cNo previous page"),
+    KILLED_MESSAGE("events.killed", "&aYou killed %victim%"),
+    DEATH_MESSAGE("events.death", "&cYou where killed by %killer%"),
+    DEATH_BROADCAST("events.broadcast-death", "&a&l%victim% was killed by %killer%"),
+    ARROW_HIT("events.arrow-hit", "&aYou hit %victim%"),
     NO_NEXT_PAGE("general.no-next-page", "&cNo next page"),
     CORE_HELP("help-commands.core-command", "null"),
     NOT_CONSOLE_COMMAND("general.console-command", "&cConsole cannot run this command"),
@@ -64,6 +72,7 @@ public enum Language {
     SIGN_SET("sign-contents.sign-set", "&aSign has been set to %sign_type%"),
     SIGN_DELETED("sign-contents.sign-deleted", "&cSign deleted"),
     SPAWN_SIGN("sign-contents.spawn-sign", "Click to go to spawn"),
+    KIT_GUI_SIGN("sign-contents.kit-gui-sign", "Click to open the kit GUI"),
     ARENA_SIGN("sign-contents.arena-sign", "CLick to go to the arena!");
 
     private final String path;
@@ -98,7 +107,7 @@ public enum Language {
     }
 
     public static String format(String message, Player player) {
-        return message
+       return message
                 .replace("%player%", player.getName())
                 .replace("%bar%", ChatUtils.CHAT_BAR)
                 .replace("%blank%", ChatUtils.BLANK_MESSAGE)
@@ -106,8 +115,8 @@ public enum Language {
                 .replace("%right_arrow%", ChatUtils.Symbols.ARROW_RIGHT.getSymbol())
                 .replace("%cross%", ChatUtils.Symbols.CROSS.getSymbol())
                 .replace("%health%", ChatUtils.Symbols.HEALTH.getSymbol())
-                .replace("%warning%", ChatUtils.Symbols.WARNING.getSymbol())
-                ;
+                .replace("%warning%", ChatUtils.Symbols.WARNING.getSymbol());
+
     }
 
     public static String format(String message) {
@@ -117,7 +126,7 @@ public enum Language {
                 .replace("%left_arrow%", ChatUtils.Symbols.ARROW_LEFT.getSymbol())
                 .replace("%right_arrow%", ChatUtils.Symbols.ARROW_RIGHT.getSymbol())
                 .replace("%cross%", ChatUtils.Symbols.CROSS.getSymbol())
-                .replace("%health%", ChatUtils.Symbols.HEALTH.getSymbol())
+                .replace("%heart%", ChatUtils.Symbols.HEALTH.getSymbol())
                 .replace("%warning%", ChatUtils.Symbols.WARNING.getSymbol());
     }
 
@@ -127,5 +136,29 @@ public enum Language {
 
     public String getPath() {
         return path;
+    }
+
+    public static String formatPlaceholders(Player p, String params) {
+        PlayerData data = KitPvPPlus.getInstance().getDataManager().getPlayerData(p.getPlayer());
+
+        switch (params) {
+            // Statistics
+            case "kpvp_deaths":
+                return String.valueOf(data.getDeaths());
+            case "kpvp_kills":
+                return String.valueOf(data.getKills());
+            case "kpvp_exp":
+                return String.valueOf(data.getExp());
+            case "kpvp_level":
+                return String.valueOf(data.getLevel());
+            case "kpvp_bal":
+                return String.valueOf(new PlayerBank(p).getBal());
+            case "kpvp_killstreak":
+                return String.valueOf(data.getKillStreak());
+            case "kpvp_kdr":
+                return String.valueOf(data.getKDR());
+            default:
+                return null;
+        }
     }
 }

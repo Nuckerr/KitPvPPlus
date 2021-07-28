@@ -22,6 +22,10 @@ public class FlatFilePlayerData {
             core.getDataManager().getDataYaml().set("playerdata." + p.getUniqueId() + ".deaths", 0);
             core.getDataManager().getDataYaml().set("playerdata." + p.getUniqueId() + ".level", 0);
             core.getDataManager().getDataYaml().set("playerdata." + p.getUniqueId() + ".exp", 0);
+            core.getDataManager().getDataYaml().set("playerdata." + p.getUniqueId() + ".killstreak", 0);
+            core.getDataManager().getDataYaml().set("playerdata." + p.getUniqueId() + ".highest-killstreak", 0);
+
+            core.getDataManager().getDataConfig().save();
         }
         this.section = core.getDataManager().getDataYaml().getConfigurationSection("playerdata." + p.getUniqueId());
     }
@@ -40,6 +44,14 @@ public class FlatFilePlayerData {
 
     public int getExp() {
         return section.getInt("exp");
+    }
+
+    public int getKillStreak() {
+        return section.getInt("killstreak");
+    }
+
+    public int getHighestKillStreak() {
+        return this.section.getInt("highest-killstreak");
     }
 
     public ConfigurationSection getSection() {
@@ -68,6 +80,16 @@ public class FlatFilePlayerData {
         section.set("exp", newExp);
         core.getDataManager().getDataConfig().save();
         return this.getExp();
+    }
+
+    public int setKillStreak(int newKillStreak) {
+        section.set("killstreak", newKillStreak);
+        if(this.getKillStreak() > this.getHighestKillStreak()) {
+            section.set("highest-killstreak", this.getKillStreak());
+        }
+        core.getDataManager().getDataConfig().save();
+
+        return this.getKillStreak();
     }
 
     public Player getPlayer() {

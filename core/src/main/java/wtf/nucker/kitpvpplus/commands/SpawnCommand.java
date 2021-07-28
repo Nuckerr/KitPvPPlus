@@ -20,6 +20,11 @@ import wtf.nucker.kitpvpplus.utils.Language;
 @Description("Sends you back to spawn!")
 public class SpawnCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "spawn";
+    }
+
     @Default
     public void onCommand(Player p) {
         p.teleport(Locations.SPAWN.get());

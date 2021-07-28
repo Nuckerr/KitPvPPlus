@@ -18,6 +18,8 @@ general:
     - "&7Kills: %kills%"
     - "&7Exp: %exp%"
     - "&7Level: %level%"
+    - "&7Killstreak: %killstreak%"
+    - "&7KDR: %kdr%"
     - "&b%bar%"
   spawn-message: '&eYou have been sent to spawn!'
   arena-message: '&aYou are now in the arena'
@@ -25,13 +27,22 @@ general:
   console-command: '&cConsole cannot run this command'
   no-last-page: "&cNo last page"
   no-next-page: "&cNo next page"
+events:
+  death: "&cYou died to %killer%"
+  killed: "&aYou just killed %victim%"
+  broadcast-death: "&a&l%killer% just killed %victim%"
+  arrow-hit: "&aYou hit %victim%"
+health-display:
+  enabled: true
+  # Everything after the number
+  message: "&f%health%  &c%heart%"
 admin:
   spawn-set: '&aSpawn has been set'
   arena-set: '&aArena has been set'
   plugin-reloaded: '&aPlugin has been reloaded'
 economy:
   balance-message: '&eYour balance is %balance%'
-  other-balanace-message: "&e%targetHell%'s balance is %balance%"
+  other-balance-message: "&e%target%'s balance is %balance%"
   balance-set: '&aYou have set %target%''s balance to %balance%$'
   balance-reset: '&cYou have reset %target%''s balance'
   balance-given: '&aYou have given %givenAmount%$ to %target%'
@@ -43,6 +54,7 @@ abilities:
   cooldown-message: '&cYour still on cooldown'
   no-longer-on-cooldown: '&a%name% is no longer on cooldown'
   sonic-activation-message: '&9Speed activated for 1 minute'
+  fire-man-activation-message: '&6Put you out!'
 kits:
   kit-loaded: '&aLoaded kit %kitname%'
   kit-not-owned: '&cYou dont own this kit'
@@ -112,3 +124,6 @@ sign-contents:
   spawn-sign:
     - "&a[Right click]"
     - "&0To go to spawn"
+  kit-gui-sign:
+    - "&a[Right click]"
+    - "&0To open the kit GUI"

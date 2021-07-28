@@ -40,6 +40,8 @@ public class SQLPlayerData {
                     "    deaths int default 0," +
                     "    exp int default 0," +
                     "    level int default 0" +
+                    "    killstreak int default 0" +
+                    "    highestkillstreak int default 0" +
                     ");");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,6 +64,14 @@ public class SQLPlayerData {
         return this.getData(this.uuid, "level");
     }
 
+    public int getKillStreak() {
+        return this.getData(this.uuid, "killstreak");
+    }
+
+    public int getHighestKillStreak() {
+        return this.getData(this.uuid, "highestkillstreak");
+    }
+
     public int setKills(int newValue) {
         return this.setData(uuid, "kills", newValue);
     }
@@ -76,6 +86,13 @@ public class SQLPlayerData {
 
     public int setLevel(int newValue) {
         return this.setData(uuid, "level", newValue);
+    }
+
+    public int setKillStreak(int newValue) {
+        if(newValue > this.getHighestKillStreak()) {
+            this.setData(uuid, "highestkillstreak", newValue);
+        }
+        return this.setData(uuid, "killstreak", newValue);
     }
 
     public boolean containsPlayer(String uuid) {

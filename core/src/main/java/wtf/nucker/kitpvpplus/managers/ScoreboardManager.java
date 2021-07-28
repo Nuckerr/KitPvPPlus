@@ -4,6 +4,9 @@ import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.player.PlayerData;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
@@ -55,7 +58,11 @@ public class ScoreboardManager {
                 .replace("%deaths%", String.valueOf(data.getDeaths()))
                 .replace("%exp%", String.valueOf(data.getExp()))
                 .replace("%bar%", ChatUtils.SB_BAR)
-                .replace("%level%", String.valueOf(data.getLevel())));
+                .replace("%level%", String.valueOf(data.getLevel()))
+                .replace("%killstreak%", String.valueOf(data.getKillStreak()))
+                .replace("%top_killstreak%", String.valueOf(data.getTopKillStreak()))
+                .replace("%kdr%", String.valueOf(data.getKDR()))
+        );
 
         for (int i = 0; i < section.getStringList("board").size(); i++) {
             board.updateLine(i, ChatUtils.translate(section.getStringList("board").get(i))
@@ -64,7 +71,11 @@ public class ScoreboardManager {
                     .replace("%deaths%", String.valueOf(data.getDeaths()))
                     .replace("%exp%", String.valueOf(data.getExp()))
                     .replace("%bar%", ChatUtils.SB_BAR)
-                    .replace("%level%", String.valueOf(data.getLevel())));
+                    .replace("%level%", String.valueOf(data.getLevel()))
+                    .replace("%killstreak%", String.valueOf(data.getKillStreak()))
+                    .replace("%top_killstreak%", String.valueOf(data.getTopKillStreak()))
+                    .replace("%kdr%", String.valueOf(data.getKDR()))
+            );
         }
         this.getBoards().put(player, board);
         return board;
@@ -89,7 +100,11 @@ public class ScoreboardManager {
                             .replace("%deaths%", String.valueOf(data.getDeaths()))
                             .replace("%exp%", String.valueOf(data.getExp()))
                             .replace("%bar%", ChatUtils.SB_BAR)
-                            .replace("%level%", String.valueOf(data.getLevel())));
+                            .replace("%level%", String.valueOf(data.getLevel()))
+                            .replace("%killstreak%", String.valueOf(data.getKillStreak()))
+                            .replace("%top_killstreak%", String.valueOf(data.getTopKillStreak()))
+                            .replace("%kdr%", String.valueOf(data.getKDR()))
+                    );
                 }
 
                 if(KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.spawn.board").size() < board.getLines().size()) {
@@ -106,7 +121,11 @@ public class ScoreboardManager {
                             .replace("%deaths%", String.valueOf(data.getDeaths()))
                             .replace("%exp%", String.valueOf(data.getExp()))
                             .replace("%bar%", ChatUtils.SB_BAR)
-                            .replace("%level%", String.valueOf(data.getLevel())));
+                            .replace("%level%", String.valueOf(data.getLevel()))
+                            .replace("%killstreak%", String.valueOf(data.getKillStreak()))
+                            .replace("%top_killstreak%", String.valueOf(data.getTopKillStreak()))
+                            .replace("%kdr%", String.valueOf(data.getKDR()))
+                    );
                 }
 
                 if(KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.spawn.board").size() < board.getLines().size()) {
@@ -116,6 +135,15 @@ public class ScoreboardManager {
                 }
                 break;
         }
+    }
+
+    public Scoreboard getHealthDisplay(Player player) {
+        Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective obj = board.registerNewObjective("showhealth", "health");
+        obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        obj.setDisplayName(KitPvPPlus.getInstance().getConfig().getString("health-display").replace("%health%", String.valueOf(player.getHealth())));
+
+        return board;
     }
 
     public void clearBoard(Player player) {

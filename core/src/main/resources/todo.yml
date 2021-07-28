@@ -1,0 +1,8 @@
+config:
+  health-display:
+    enabled: true
+    # Everything after the number
+    message: "&f%health%  &c%heart%"
+messages:
+  general:
+    opening-playervault: "&aOpening player vault %page%"

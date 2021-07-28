@@ -20,6 +20,11 @@ import java.util.List;
 @Description("View your balance")
 public class EconomyAdminCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "economy";
+    }
+
     @Subcommand("set")
     @CommandPermission("kitpvpplus.economy.admin")
     @CommandCompletion("@players")

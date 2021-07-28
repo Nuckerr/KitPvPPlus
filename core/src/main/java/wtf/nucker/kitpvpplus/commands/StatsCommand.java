@@ -20,6 +20,11 @@ import java.util.List;
 @Description("View your stats")
 public class StatsCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "statistics";
+    }
+
     @Default
     @CommandCompletion("@players")
     public void onCommand(Player p, @Optional OnlinePlayer t) {
@@ -38,6 +43,9 @@ public class StatsCommand extends BaseCommand {
         message = ChatUtils.replaceInList(message, "%deaths%", String.valueOf(data.getDeaths()));
         message = ChatUtils.replaceInList(message, "%exp%", String.valueOf(data.getExp()));
         message = ChatUtils.replaceInList(message, "%level%", String.valueOf(data.getLevel()));
+        message = ChatUtils.replaceInList(message, "%killstreak%", String.valueOf(data.getKillStreak()));
+        message = ChatUtils.replaceInList(message, "%kdr%", String.valueOf(data.getKDR()));
+        message = ChatUtils.replaceInList(message, "%top_killstreak%", String.valueOf(data.getTopKillStreak()));
         p.sendMessage(message.toArray(new String[message.size()]));
     }
 }

@@ -1,6 +1,5 @@
 package wtf.nucker.kitpvpplus;
 
-import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.MessageKeys;
 import co.aikar.locales.MessageKeyProvider;
@@ -12,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.nucker.kitpvpplus.abilities.Fireball;
@@ -22,7 +22,9 @@ import wtf.nucker.kitpvpplus.api.KitPvPPlusAPI;
 import wtf.nucker.kitpvpplus.api.managers.ConfigManager;
 import wtf.nucker.kitpvpplus.api.managers.LocationsManager;
 import wtf.nucker.kitpvpplus.api.objects.ConfigValue;
+import wtf.nucker.kitpvpplus.api.objects.PlayerData;
 import wtf.nucker.kitpvpplus.commands.*;
+import wtf.nucker.kitpvpplus.commands.custom.CustomCMDManager;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.listeners.*;
 import wtf.nucker.kitpvpplus.managers.*;
@@ -61,21 +63,24 @@ public final class KitPvPPlus extends JavaPlugin {
     - Hex colors (done)
 
     TODO:
-    - Kit gui signs
-    - Soup
-    - Kill streaks & kill:death ratio (kdr) stats
+    - Kit gui signs (DONE)
+    - Soup (DONE)
+    - On death exp (DONE)
+    - Kill streaks & kill:death ratio (kdr) stats (done)
     - Current kit placeholder
     - Leaderboard rankings placeholder
-    - Placeholderapi placeholders in all messages
-    - Death messages and arrow hit messages
-    - Arrow and hit sounds
+    - Placeholderapi placeholders in all messages (DONE)
+    - Death messages and arrow hit messages (DONE)
+    - Arrow and death sounds (DONE)
     - Custom death screen
     - CUstomise menus
     - Leaderboards
-    - Health above name
+    - Health above name (Done)
     - Player vaults
     - Kill tag thingy
     - Kill commands
+    - Fix death teleports
+    - Playerdata in api
     - World guard for 1.12 and lower
      */
 
@@ -94,6 +99,7 @@ public final class KitPvPPlus extends JavaPlugin {
     private MetricsLite metrics;
     private WorldGuardManager worldGuardManager;
     private KitPvPPlusAPI api;
+    private PlayerVaultManager pvManager;
 
     @Override
     public void onLoad() {
@@ -150,6 +156,8 @@ public final class KitPvPPlus extends JavaPlugin {
         this.signManager = new SignManager();
         Logger.success("Configs have been loaded");
 
+        this.pvManager = new PlayerVaultManager();
+
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             PlayerBank.setStorageType(StorageType.BankStorageType.FLAT);
         } else {
@@ -169,7 +177,7 @@ public final class KitPvPPlus extends JavaPlugin {
 
 
         this.registerEvents();
-        this.registerCommands(new BukkitCommandManager(this));
+        this.registerCommands(new CustomCMDManager(this));
         this.registerAbilities();
         Logger.success("Registered events and commands");
         CooldownManager.setup();
@@ -186,8 +194,7 @@ public final class KitPvPPlus extends JavaPlugin {
                             if (currentTime < kitTime) {
                                 CooldownManager.addKitCooldown(getServer().getOfflinePlayer(UUID.fromString(uuid)), kit, Math.toIntExact(kitTime - currentTime));
                             }
-                        } catch (KitNotExistException e) {
-                        } // Ouch
+                        } catch (KitNotExistException e) {} // Ouch
                     }
                 }
                 section.set("kit-cooldown", null);
@@ -214,6 +221,7 @@ public final class KitPvPPlus extends JavaPlugin {
         api = this.setupAPI();
 
         Logger.debug("Successfully loaded KitPvPPlus");
+        Logger.debug(KitPvPPlusAPI.getInstance() == null);
     }
 
     @Override
@@ -251,7 +259,7 @@ public final class KitPvPPlus extends JavaPlugin {
         }
     }
 
-    private void registerCommands(BukkitCommandManager manager) {
+    private void registerCommands(CustomCMDManager manager) {
         Map<MessageKeyProvider, String> messages = new HashMap<>();
         messages.put(MessageKeys.PERMISSION_DENIED, ChatColor.stripColor(Language.PERMISSION_MESSAGE.get()));
         messages.put(MessageKeys.PERMISSION_DENIED_PARAMETER, ChatColor.stripColor(Language.PERMISSION_MESSAGE.get()));
@@ -313,12 +321,12 @@ public final class KitPvPPlus extends JavaPlugin {
         });
         manager.getCommandCompletions().setDefaultCompletion("abilities", Ability.class);
 
-        // (Seems to be fixed. Dont know what happened but reloading dosent matter now) CommandMapUtils.unregisterCommandFromCommandMap("reload", true);
         manager.registerCommand(new StatsCommand());
         manager.registerCommand(new SpawnCommand());
         manager.registerCommand(new ArenaCommand());
         manager.registerCommand(new KitPvPCommand());
         manager.registerCommand(new KitCommand());
+        manager.registerCommand(new PlayerVaultCommand());
 
 
         if (PlayerBank.getStorageType().equals(StorageType.BankStorageType.FLAT)) { /* Only registers commands if there is no economy manager */
@@ -395,6 +403,16 @@ public final class KitPvPPlus extends JavaPlugin {
             public void registerAbility(wtf.nucker.kitpvpplus.api.objects.Ability ability) {
                 getAbilityManager().registerAbility(APIConversion.toInstanceAbility(ability));
             }
+
+            @Override
+            public PlayerData getPlayerData(UUID uuid) {
+                return APIConversion.fromInstanceData(KitPvPPlus.this.getDataManager().getPlayerData(Bukkit.getPlayer(uuid)));
+            }
+
+            @Override
+            public PlayerData getPlayerData(Player player) {
+                return APIConversion.fromInstanceData(KitPvPPlus.this.getDataManager().getPlayerData(player));
+            }
         };
     }
 
@@ -448,6 +466,10 @@ public final class KitPvPPlus extends JavaPlugin {
 
     public KitPvPPlusAPI getApi() {
         return api;
+    }
+
+    public PlayerVaultManager getPvManager() {
+        return pvManager;
     }
 
     public boolean isWGEnabled() {

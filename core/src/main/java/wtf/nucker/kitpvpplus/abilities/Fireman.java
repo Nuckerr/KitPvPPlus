@@ -40,5 +40,6 @@ public class Fireman extends Ability {
         p.setFireTicks(0);
         p.playSound(p.getLocation(), XSound.ENTITY_SILVERFISH_AMBIENT.parseSound(), 1f, 1f);
         CooldownManager.addAbilityCooldown(p, ability, 120);
+        p.sendMessage(Language.FIREMAN_ACTIVATION.get(p));
     }
 }

@@ -20,6 +20,11 @@ import wtf.nucker.kitpvpplus.utils.Language;
 @Description("Joins the arena")
 public class ArenaCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "play";
+    }
+
     @Default
     public void onCommand(Player p) {
         p.teleport(Locations.ARENA.get());

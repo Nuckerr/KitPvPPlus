@@ -22,6 +22,11 @@ import wtf.nucker.kitpvpplus.utils.ChatUtils;
 @CommandPermission("kitpvpplus.debug")
 public class DebugCommand extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "kitpvpdebug";
+    }
+
     @Subcommand("ListAbilities")
     public void onListAbilities(Player p) {
         AbilityManager.getAbilities().forEach((String id, Ability ability) -> {

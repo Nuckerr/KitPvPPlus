@@ -49,6 +49,11 @@ public class MenuManager {
 
             @EventHandler
             public void onClose(InventoryCloseEvent e) {
+                openMenus.forEach(((player, menu) -> {
+                            if (e.getPlayer() == player && e.getInventory().equals(menu.getInventory())) {
+                                menu.closeEvent.accept(e);
+                            }
+                        }));
                 openMenus.remove(e.getPlayer());
             }
         };

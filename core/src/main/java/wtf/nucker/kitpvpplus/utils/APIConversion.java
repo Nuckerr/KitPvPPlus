@@ -5,11 +5,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
 import wtf.nucker.kitpvpplus.api.objects.Kit;
+import wtf.nucker.kitpvpplus.api.objects.PlayerData;
 import wtf.nucker.kitpvpplus.api.objects.PlayerState;
+import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Ability;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -117,5 +121,96 @@ public class APIConversion {
             default:
                 return null;
         }
+    }
+
+    public static PlayerData fromInstanceData(wtf.nucker.kitpvpplus.player.PlayerData data) {
+        return new PlayerData() {
+            @Override
+            public int getExp() {
+                return data.getExp();
+            }
+
+            @Override
+            public int getKills() {
+                return data.getKills();
+            }
+
+            @Override
+            public int getDeaths() {
+                return data.getDeaths();
+            }
+
+            @Override
+            public int getLevel() {
+                return data.getLevel();
+            }
+
+            @Override
+            public int getKillStreak() {
+                return data.getKillStreak();
+            }
+
+            @Override
+            public int getTopKillStreak() {
+                return data.getTopKillStreak();
+            }
+
+            @Override
+            public double getKDR() {
+                return data.getKDR();
+            }
+
+            @Override
+            public PlayerState getState() {
+                return APIConversion.fromInstanceState(data.getState());
+            }
+
+            @Override
+            public List<Kit> getOwnedKits() {
+                List<Kit> res = new ArrayList<>();
+                data.getOwnedKits().forEach(kit -> res.add(APIConversion.fromInstanceKit(kit)));
+
+                return res;
+            }
+
+            @Override
+            public boolean ownsKit(Kit kit) {
+                return this.getOwnedKits().contains(kit);
+            }
+
+            @Override
+            public List<Kit> purchaseKit(Kit kit) {
+                List<wtf.nucker.kitpvpplus.objects.Kit> kits = data.purchaseKit(APIConversion.toInstanceKit(kit));
+                List<Kit> res = new ArrayList<>();
+
+                kits.forEach(k -> res.add(APIConversion.fromInstanceKit(k)));
+
+                return res;
+            }
+
+            @Override
+            public void setState(PlayerState state) {
+                data.setState(APIConversion.toInstanceState(state));
+            }
+
+            @Override
+            public void updateLevel() {
+                data.updateLevel();
+            }
+
+            @Override
+            public void addExp(int newAmount) {
+                data.updateExp(newAmount);
+            }
+
+            @Override
+            public double getBal() {
+                return new PlayerBank(data.getPlayer()).getBal();
+            }
+        };
+    }
+
+    private static wtf.nucker.kitpvpplus.objects.Kit toInstanceKit(Kit kit) {
+        return KitPvPPlus.getInstance().getKitManager().getKit(kit.getId());
     }
 }

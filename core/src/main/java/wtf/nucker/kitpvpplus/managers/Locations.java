@@ -13,8 +13,8 @@ import wtf.nucker.kitpvpplus.utils.Config;
  */
 public enum Locations {
 
-    SPAWN("spawn", new Location(Bukkit.getWorld("world"), 0, 0, 0)),
-    ARENA("arena", new Location(Bukkit.getWorld("world"), 0, 0, 0));
+    SPAWN("spawn", Bukkit.getWorld("world").getSpawnLocation()),
+    ARENA("arena", Bukkit.getWorld("world").getSpawnLocation().add(0, 5, 0));
 
     private Location location;
     private final String path;

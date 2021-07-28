@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
@@ -28,6 +29,7 @@ public class Menu {
     protected boolean canceledClicks;
 
     protected ArrayList<Consumer<InventoryClickEvent>> listeners;
+    protected Consumer<InventoryCloseEvent> closeEvent = inventoryCloseEvent -> {};
 
     public Menu(int rows, String name) {
         this(rows, name, true);
@@ -46,12 +48,20 @@ public class Menu {
         KitPvPPlus.getInstance().getMenuManager().getOpenMenus().put(p, this);
     }
 
+    public void onClose(Consumer<InventoryCloseEvent> consumer) {
+        this.closeEvent = consumer;
+    }
+
     public void fillMenu() {
         for (int i = 0; i < inventory.getSize(); i++) {
             if (inventory.getItem(i) == null || inventory.getItem(i).getType().equals(XMaterial.AIR.parseMaterial())) {
                 inventory.setItem(i, ItemUtils.buildItem("", Material.valueOf(KitPvPPlus.getInstance().getConfig().getString("filler-item")), 1));
             }
         }
+    }
+
+    public void setContents(ItemStack[] items) {
+        this.inventory.setContents(items);
     }
 
     public void fillMenu(Material material) {

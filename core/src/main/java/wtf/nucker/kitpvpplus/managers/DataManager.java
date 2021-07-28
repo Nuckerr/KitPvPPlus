@@ -77,18 +77,36 @@ public class DataManager {
     }
 
     public PlayerData getPlayerData(Player player) {
+        
+        FlatFilePlayerData flatFile = null;
+        MongoPlayerData mongo = null;
+        SQLPlayerData sql = null;
+        
+        switch (storageType) {
+            case FLAT:
+                flatFile = new FlatFilePlayerData(player);
+                break;
+            case MONGO:
+                mongo = new MongoPlayerData(player);
+            case SQL:
+                sql = new SQLPlayerData(player);
+        }
+
+        FlatFilePlayerData finalFlatFile = flatFile;
+        MongoPlayerData finalMongo = mongo;
+        SQLPlayerData finalSql = sql;
         return new PlayerData() {
             @Override
             public void updateExp(int newAmount) {
                 switch (storageType) {
                     case FLAT:
-                        new FlatFilePlayerData(player).setExp(new FlatFilePlayerData(player).getExp() + newAmount);
+                        finalFlatFile.setExp(finalFlatFile.getExp() + newAmount);
                         break;
                     case MONGO:
-                        new MongoPlayerData(player).setExp(new MongoPlayerData(player).getExp() + newAmount);
+                        finalMongo.setExp(finalMongo.getExp() + newAmount);
                         break;
                     case SQL:
-                        new SQLPlayerData(player).setExp(new SQLPlayerData(player).getExp() + newAmount);
+                        finalSql.setExp(finalSql.getExp() + newAmount);
                         break;
                 }
                 this.updateLevel();
@@ -99,13 +117,13 @@ public class DataManager {
             public void incrementDeaths() {
                 switch (storageType) {
                     case FLAT:
-                        new FlatFilePlayerData(player).setDeaths(new FlatFilePlayerData(player).getDeaths() + 1);
+                        finalFlatFile.setDeaths(finalFlatFile.getDeaths() + 1);
                         break;
                     case MONGO:
-                        new MongoPlayerData(player).setDeaths(new MongoPlayerData(player).getDeaths() + 1);
+                        finalMongo.setDeaths(finalMongo.getDeaths() + 1);
                         break;
                     case SQL:
-                        new SQLPlayerData(player).setDeaths(new SQLPlayerData(player).getDeaths() + 1);
+                        finalSql.setDeaths(finalSql.getDeaths() + 1);
                         break;
                 }
             }
@@ -114,13 +132,13 @@ public class DataManager {
             public void incrementKills() {
                 switch (storageType) {
                     case FLAT:
-                        new FlatFilePlayerData(player).setKills(new FlatFilePlayerData(player).getKills() + 1);
+                        finalFlatFile.setKills(finalFlatFile.getKills() + 1);
                         break;
                     case MONGO:
-                        new MongoPlayerData(player).setKills(new MongoPlayerData(player).getKills() + 1);
+                        finalMongo.setKills(finalMongo.getKills() + 1);
                         break;
                     case SQL:
-                        new SQLPlayerData(player).setKills(new SQLPlayerData(player).getKills() + 1);
+                        finalSql.setKills(finalSql.getKills() + 1);
                         break;
                 }
             }
@@ -129,48 +147,75 @@ public class DataManager {
             public void updateLevel() {
                 int exp = this.getExp();
                 String levelAsString = String.valueOf(exp);
-                if(!levelAsString.equals("0")) {
+                if(levelAsString.length() > 2) {
                     levelAsString = levelAsString.substring(0, levelAsString.length() - 2);
+                }else {
+                    levelAsString = "";
                 }
                 if(levelAsString.equals("")) levelAsString = "0";
                 int level = Integer.parseInt(levelAsString);
                 switch (storageType) {
                     case FLAT:
-                        new FlatFilePlayerData(player).setLevel(level);
+                        finalFlatFile.setLevel(level);
                         break;
                     case MONGO:
-                        new MongoPlayerData(player).setLevel(level);
+                        finalMongo.setLevel(level);
                         break;
                     case SQL:
-                        new SQLPlayerData(player).setLevel(level);
+                        finalSql.setLevel(level);
                         break;
                 }
                 this.updateExpBar();
             }
 
             @Override
+            public void incrementKillStreak() {
+                  switch (storageType) {
+                      case FLAT:
+                          finalFlatFile.setKillStreak(finalFlatFile.getKillStreak() + 1);
+                          break;
+                      case MONGO:
+                          finalMongo.setKillStreak(finalMongo.getKillStreak() + 1);
+                          break;
+                      case SQL:
+                          finalSql.setKillStreak(finalSql.getKillStreak() + 1);
+                  }
+            }
+
+            @Override
+            public void resetKillStreak() {
+                switch (storageType) {
+                    case FLAT:
+                        finalFlatFile.setKillStreak(0);
+                        break;
+                    case MONGO:
+                        finalMongo.setKillStreak(0);
+                        break;
+                    case SQL:
+                        finalSql.setKillStreak(0);
+                }
+            }
+
+            @Override
             public void resetData() {
                 switch (storageType) {
                     case FLAT:
-                        FlatFilePlayerData flatFile = new FlatFilePlayerData(player);
-                        flatFile.setKills(0);
-                        flatFile.setDeaths(0);
-                        flatFile.setExp(0);
-                        flatFile.setLevel(0);
+                        finalFlatFile.setKills(0);
+                        finalFlatFile.setDeaths(0);
+                        finalFlatFile.setExp(0);
+                        finalFlatFile.setLevel(0);
                         break;
                     case MONGO:
-                        MongoPlayerData data = new MongoPlayerData(player);
-                        data.setKills(0);
-                        data.setDeaths(0);
-                        data.setExp(0);
-                        data.setLevel(0);
+                        finalMongo.setKills(0);
+                        finalMongo.setDeaths(0);
+                        finalMongo.setExp(0);
+                        finalMongo.setLevel(0);
                         break;
                     case SQL:
-                        SQLPlayerData sql = new SQLPlayerData(player);
-                        sql.setKills(0);
-                        sql.setDeaths(0);
-                        sql.setExp(0);
-                        sql.setLevel(0);
+                        finalSql.setKills(0);
+                        finalSql.setDeaths(0);
+                        finalSql.setExp(0);
+                        finalSql.setLevel(0);
                         break;
                 }
                 this.updateLevel();
@@ -208,11 +253,11 @@ public class DataManager {
             public int getExp() {
                 switch (storageType) {
                     case FLAT:
-                        return new FlatFilePlayerData(player).getExp();
+                        return finalFlatFile.getExp();
                     case MONGO:
-                        return new MongoPlayerData(player).getExp();
+                        return finalMongo.getExp();
                     case SQL:
-                        return new SQLPlayerData(player).getExp();
+                        return finalSql.getExp();
                 }
                 return 0;
             }
@@ -221,11 +266,11 @@ public class DataManager {
             public int getDeaths() {
                 switch (storageType) {
                     case FLAT:
-                        return new FlatFilePlayerData(player).getDeaths();
+                        return finalFlatFile.getDeaths();
                     case MONGO:
-                        return new MongoPlayerData(player).getDeaths();
+                        return finalMongo.getDeaths();
                     case SQL:
-                        return new SQLPlayerData(player).getDeaths();
+                        return finalSql.getDeaths();
                 }
                 return 0;
             }
@@ -234,11 +279,11 @@ public class DataManager {
             public int getKills() {
                 switch (storageType) {
                     case FLAT:
-                        return new FlatFilePlayerData(player).getKills();
+                        return finalFlatFile.getKills();
                     case MONGO:
-                        return new MongoPlayerData(player).getKills();
+                        return finalMongo.getKills();
                     case SQL:
-                        return new SQLPlayerData(player).getKills();
+                        return finalSql.getKills();
                 }
                 return 0;
             }
@@ -247,13 +292,46 @@ public class DataManager {
             public int getLevel() {
                 switch (storageType) {
                     case FLAT:
-                        return new FlatFilePlayerData(player).getLevel();
+                        return finalFlatFile.getLevel();
                     case MONGO:
-                        return new MongoPlayerData(player).getLevel();
+                        return finalMongo.getLevel();
                     case SQL:
-                        return new SQLPlayerData(player).getLevel();
+                        return finalSql.getLevel();
                 }
                 return 0;
+            }
+
+            @Override
+            public int getKillStreak() {
+                switch (storageType) {
+                    case FLAT:
+                        return finalFlatFile.getKillStreak();
+                    case MONGO:
+                        return finalMongo.getKillStreak();
+                    case SQL:
+                        return finalSql.getKillStreak();
+                }
+
+                return 0;
+            }
+
+            @Override
+            public int getTopKillStreak() {
+                switch (storageType) {
+                    case FLAT:
+                        return finalFlatFile.getHighestKillStreak();
+                    case MONGO:
+                        finalMongo.getHighestKillStreak();
+                    case SQL:
+                        return finalSql.getHighestKillStreak();
+                }
+                return 0;
+            }
+
+            @Override
+            public double getKDR() {
+                if(this.getDeaths() <= 0 || this.getKills() <= 0) return 0;
+                return ((double) this.getKills()) / ((double) this.getDeaths());
             }
 
             @Override
@@ -297,6 +375,11 @@ public class DataManager {
                 dataYaml.set("playerdata." + player.getUniqueId() + ".owned-kits", res);
                 dataConfig.save();
                 return this.getOwnedKits();
+            }
+
+            @Override
+            public Player getPlayer() {
+                return player;
             }
         };
     }

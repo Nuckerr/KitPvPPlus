@@ -18,6 +18,11 @@ import wtf.nucker.kitpvpplus.utils.Language;
 @Description("Commands for economy")
 public class EconomyCommands extends BaseCommand {
 
+    @Override
+    public String getExecCommandLabel() {
+        return "balance";
+    }
+
     @CommandAlias("bal|balance")
     @Description("Sends your balance")
     public void onBal(Player p) {
