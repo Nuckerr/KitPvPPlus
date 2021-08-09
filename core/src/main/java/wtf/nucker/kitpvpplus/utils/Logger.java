@@ -29,6 +29,12 @@ public class Logger {
         Logger.log(Logger.buildMessage("WARNING", message, ChatColor.GOLD));
     }
 
+    public static void warn(String[] message) {
+        for (String line : message) {
+            Logger.warn(line);
+        }
+    }
+
     public static void error(String message) {
         Logger.log(Logger.buildMessage("ERROR", message, ChatColor.RED));
     }

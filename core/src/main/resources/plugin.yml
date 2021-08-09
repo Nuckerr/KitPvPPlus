@@ -1,11 +1,9 @@
 name: KitPvPPlus
-version: ${parent.version}
-#version: 0.2.2
+version: ${project.version}
 main: wtf.nucker.kitpvpplus.KitPvPPlus
 load: POSTWORLD
 authors: [Nucker]
 description: ${project.description}
-#description: A customisable KitPvP Core for 1.8 - 1.17
 website: nucker.me
 api-version: 1.13
 loadbefore:

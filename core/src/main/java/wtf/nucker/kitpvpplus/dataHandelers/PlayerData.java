@@ -1,6 +1,6 @@
-package wtf.nucker.kitpvpplus.player;
+package wtf.nucker.kitpvpplus.dataHandelers;
 
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.objects.Kit;
 
 import java.util.List;
@@ -55,5 +55,5 @@ public interface PlayerData {
 
 
 
-    Player getPlayer();
+    OfflinePlayer getPlayer();
 }

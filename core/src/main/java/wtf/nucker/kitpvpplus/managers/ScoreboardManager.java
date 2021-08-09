@@ -8,7 +8,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.player.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
 

@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * A class for easily creating custom config files
- *
  * @author Nucker
  */
 public class Config {

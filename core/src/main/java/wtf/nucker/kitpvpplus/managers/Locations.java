@@ -20,13 +20,12 @@ public enum Locations {
     private final String path;
     private final Location def;
 
-    private static Config configInstance;
-    private static YamlConfiguration config;
+    private static Config config;
 
     Locations(String path, Location def) {
         this.path = path;
         this.def = def;
-        if(Locations.getConfig() == null || Locations.getConfig().get(path) == null) {
+        if(Locations.getConfig() == null || Locations.getConfig().getConfig().get(path) == null) {
             Locations.serialize(def, path);
         }
         this.location = Locations.deserialize(path);
@@ -47,14 +46,12 @@ public enum Locations {
     public void set(Location newLocation) {
         this.location = newLocation;
         Locations.serialize(newLocation, this.path);
-        Locations.getConfigInstance().save();
     }
 
     public static Location deserialize(String path) {
         if(Locations.getConfig() == null) return new Location(Bukkit.getWorld("world"), 0, 65, 0);
-        if(Locations.getConfig().getConfigurationSection(path) == null) Locations.getConfig().set(path, "");
-        Locations.getConfigInstance().save();
-        ConfigurationSection section = Locations.getConfig().getConfigurationSection(path);
+        if(Locations.getConfig().getConfig().getConfigurationSection(path) == null) Locations.getConfig().getConfig().set(path, "");
+        ConfigurationSection section = Locations.getConfig().getConfig().getConfigurationSection(path);
         return new Location(
                 Bukkit.getWorld(section.getString("world")),
                 section.getDouble("x"),
@@ -67,29 +64,27 @@ public enum Locations {
 
     public static void serialize(Location location, String path) {
         if(Locations.getConfig() == null) return;
-        ConfigurationSection section = Locations.getConfig().getConfigurationSection(path);
+        ConfigurationSection section = Locations.getConfig().getConfig().getConfigurationSection(path);
         section.set("world", location.getWorld().getName());
         section.set("x", location.getX());
         section.set("y", location.getY());
         section.set("z", location.getZ());
         section.set("yaw", location.getYaw());
         section.set("pitch", location.getPitch());
-        Locations.getConfigInstance().save();
     }
 
     public static void setup() {
-        Locations.configInstance = new Config("locations.yml");
-        Locations.config = Locations.configInstance.getConfig();
+        Locations.config = new Config("locations.yml");
         for (Locations location : Locations.values()) {
             location.location = Locations.deserialize(location.getPath());
         }
     }
 
-    public static YamlConfiguration getConfig() {
+    public static Config getConfig() {
         return config;
     }
 
-    public static Config getConfigInstance() {
-        return configInstance;
+    public static YamlConfiguration getConfigInstance() {
+        return config.getConfig();
     }
 }

@@ -1,8 +1,10 @@
 package wtf.nucker.kitpvpplus.objects;
 
 import org.bukkit.OfflinePlayer;
+import wtf.nucker.kitpvpplus.KitPvPPlus;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -22,9 +24,22 @@ public abstract class Leaderboard {
         this.collumName = collumName;
 
         this.leaderboard = new ArrayList<>();
+
+        this.addValues();
+        this.sort();
     }
 
-    public void updateValues() {
+    private void addValues() {
+        KitPvPPlus.getInstance().getDataManager().getAllPlayerData().forEach(data -> {
+            this.addValue(data.getPlayer());
+        });
+    }
+
+    private void addValue(OfflinePlayer player) {
+        this.leaderboard.add(new LeaderboardValue(player.getPlayer(), this.getValue(player)));
+    }
+
+    private void updateValues() {
         this.leaderboard.forEach(sub -> {
             this.leaderboard.remove(sub);
             this.leaderboard.add(new LeaderboardValue(sub.getPlayer(), this.getValue(sub.getPlayer())));
@@ -32,18 +47,32 @@ public abstract class Leaderboard {
     }
 
     public void sort() {
-        //TODO: sort the list with highest value at 0 and lowest at array.size()
+        this.updateValues();
+        this.leaderboard.sort(Comparator.comparingInt(LeaderboardValue::getValue));
     }
 
-    public String getTop(int amount) {
-        String res = "&e&lLeaderboard - " + this.collumName + "\n";
+    public List<LeaderboardValue> getTop(int amount) {
+        List<LeaderboardValue> res = new ArrayList<>();
 
+        this.sort();
+        for (int i = 0; i < amount; i++) {
+            if(this.leaderboard.get(i) == null) continue;
+            res.add(this.leaderboard.get(i));
+        }
 
         return res;
     }
 
+    public int getPlace(OfflinePlayer player) {
+        for (int i = 0; i < this.leaderboard.size(); i++) {
+            if(this.leaderboard.get(i).getPlayer().equals(player.getPlayer())) return i;
+        }
 
-    public List<LeaderboardValue> getMap() {
+        return -1;
+    }
+
+
+    public List<LeaderboardValue> getList() {
         return leaderboard;
     }
 
@@ -56,4 +85,5 @@ public abstract class Leaderboard {
     }
 
     public abstract int getValue(OfflinePlayer player);
+
 }

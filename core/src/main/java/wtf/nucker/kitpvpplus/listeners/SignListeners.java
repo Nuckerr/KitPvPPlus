@@ -9,8 +9,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
-import wtf.nucker.kitpvpplus.player.PlayerState;
 import wtf.nucker.kitpvpplus.utils.Language;
 import wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders.KitMenus;
 
@@ -71,7 +71,7 @@ public class SignListeners implements Listener {
         if(e.getClickedBlock() == null) return;
         if(e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
         if(e.getClickedBlock().getType().name().contains("SIGN")) {
-            if(e.getClickedBlock().getMetadata("kpvp") == null || e.getClickedBlock().getMetadata("kpvp").isEmpty()) return;
+            if(e.getClickedBlock().getMetadata("kpvp").isEmpty()) return;
             switch (e.getClickedBlock().getMetadata("kpvp").get(0).asString()) {
                 case "spawn":
                     e.getPlayer().teleport(Locations.SPAWN.get());
@@ -91,8 +91,8 @@ public class SignListeners implements Listener {
 
     @EventHandler
     public void onSignBreak(BlockBreakEvent e) {
-        if(e.getBlock() == null || !e.getBlock().getType().name().contains("SIGN")) return;
-        if(e.getBlock().getMetadata("kpvp") == null || e.getBlock().getMetadata("kpvp").isEmpty()) return;
+        if(!e.getBlock().getType().name().contains("SIGN")) return;
+        if(e.getBlock().getMetadata("kpvp").isEmpty()) return;
 
         if(!e.getPlayer().hasPermission("kitpvpplus.signs.remove")) {
             e.getPlayer().sendMessage(Language.PERMISSION_MESSAGE.get(e.getPlayer()));

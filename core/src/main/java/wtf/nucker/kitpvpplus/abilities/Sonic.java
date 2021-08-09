@@ -27,7 +27,7 @@ public class Sonic extends Ability {
         ConfigurationSection section = KitPvPPlus.getInstance().getConfig().getConfigurationSection("abilities.sonic");
 
         this.setItem(ItemUtils.buildItem(section.getString("displayname"), Material.valueOf(section.getString("material")),
-                section.getInt("amount"), section.getStringList("lore").toArray(new String[section.getStringList("lore").size()])));
+                section.getInt("amount"), section.getStringList("lore").toArray(new String[0])));
     }
 
     @Override

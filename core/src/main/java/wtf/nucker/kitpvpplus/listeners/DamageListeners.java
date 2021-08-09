@@ -8,8 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
-import wtf.nucker.kitpvpplus.player.PlayerState;
 import wtf.nucker.kitpvpplus.utils.Language;
 
 /**

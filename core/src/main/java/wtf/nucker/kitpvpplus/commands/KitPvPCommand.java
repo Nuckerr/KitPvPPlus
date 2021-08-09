@@ -95,6 +95,7 @@ public class KitPvPCommand extends BaseCommand {
                     "&eStorage system: &b" + KitPvPPlus.getInstance().getDataManager().getStorageType(),
                     "&eBank Storage type: &b" + PlayerBank.getStorageType(),
                     "&eDebug mode: &b" + KitPvPPlus.DEBUG,
+                    "&eLegacy Version: &b" + KitPvPPlus.getInstance().getVerManager().needsUpdating(),
                     "&e" + ChatUtils.CHAT_BAR
             }));
         }else {
@@ -103,7 +104,7 @@ public class KitPvPCommand extends BaseCommand {
 
                 message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
                 message = ChatUtils.replaceInList(message, "%player%", player.getName());
-                player.sendMessage(message.toArray(new String[message.size()]));
+                player.sendMessage(message.toArray(new String[0]));
             } else {
                 player.sendMessage(ChatUtils.translate(new String[]{
                         ChatColor.AQUA + ChatUtils.CHAT_BAR,
@@ -124,7 +125,7 @@ public class KitPvPCommand extends BaseCommand {
 
             message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
             message = ChatUtils.replaceInList(message, "%player%", p.getName());
-            p.sendMessage(message.toArray(new String[message.size()]));
+            p.sendMessage(message.toArray(new String[0]));
         } else {
             p.sendMessage(ChatUtils.translate(new String[]{
                     ChatColor.AQUA + ChatUtils.CHAT_BAR,

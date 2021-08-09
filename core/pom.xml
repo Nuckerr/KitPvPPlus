@@ -5,7 +5,7 @@
     <parent>
         <artifactId>KitPvPCore</artifactId>
         <groupId>wtf.nucker</groupId>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -241,6 +241,12 @@
             <version>7.0.5</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-http</artifactId>
+            <version>6.0.6</version>
+        </dependency>
+
         <dependency>
             <groupId>wtf.nucker</groupId>
             <artifactId>KitPvPPlus-API</artifactId>

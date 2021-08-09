@@ -10,8 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.player.PlayerData;
-import wtf.nucker.kitpvpplus.player.PlayerState;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 
 /**
  * @author Nucker
@@ -28,7 +28,7 @@ public class WorldGuardListener implements Listener {
         RegionQuery query = container.createQuery();
         ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(e.getPlayer().getLocation()));
         if(set.getRegions().size() <= 0) return;
-        ProtectedRegion region = set.getRegions().toArray(new ProtectedRegion[set.getRegions().size()])[0];
+        ProtectedRegion region = set.getRegions().toArray(new ProtectedRegion[0])[0];
             region.getFlags().forEach((flag, o) -> {
                 PlayerData data = KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer());
                 switch (flag.getName()) {

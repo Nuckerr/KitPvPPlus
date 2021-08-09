@@ -97,7 +97,7 @@ public class APIConversion {
         };
     }
 
-    public static PlayerState fromInstanceState(wtf.nucker.kitpvpplus.player.PlayerState state) {
+    public static PlayerState fromInstanceState(wtf.nucker.kitpvpplus.dataHandelers.PlayerState state) {
         switch (state) {
             case SPAWN:
                 return PlayerState.SPAWN;
@@ -110,20 +110,20 @@ public class APIConversion {
         }
     }
 
-    public static wtf.nucker.kitpvpplus.player.PlayerState toInstanceState(PlayerState state) {
+    public static wtf.nucker.kitpvpplus.dataHandelers.PlayerState toInstanceState(PlayerState state) {
         switch (state) {
             case SPAWN:
-                return wtf.nucker.kitpvpplus.player.PlayerState.SPAWN;
+                return wtf.nucker.kitpvpplus.dataHandelers.PlayerState.SPAWN;
             case ARENA:
-                return wtf.nucker.kitpvpplus.player.PlayerState.ARENA;
+                return wtf.nucker.kitpvpplus.dataHandelers.PlayerState.ARENA;
             case PROTECTED:
-                return wtf.nucker.kitpvpplus.player.PlayerState.PROTECTED;
+                return wtf.nucker.kitpvpplus.dataHandelers.PlayerState.PROTECTED;
             default:
                 return null;
         }
     }
 
-    public static PlayerData fromInstanceData(wtf.nucker.kitpvpplus.player.PlayerData data) {
+    public static PlayerData fromInstanceData(wtf.nucker.kitpvpplus.dataHandelers.PlayerData data) {
         return new PlayerData() {
             @Override
             public int getExp() {

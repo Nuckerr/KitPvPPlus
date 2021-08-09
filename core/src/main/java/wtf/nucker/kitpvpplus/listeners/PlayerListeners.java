@@ -12,13 +12,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.AbilityActivateEvent;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Ability;
-import wtf.nucker.kitpvpplus.player.PlayerData;
-import wtf.nucker.kitpvpplus.player.PlayerState;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.Logger;
@@ -116,6 +116,7 @@ public class PlayerListeners implements Listener {
                     "&eStorage system: &b" + KitPvPPlus.getInstance().getDataManager().getStorageType(),
                     "&eBank Storage type: &b" + PlayerBank.getStorageType(),
                     "&eDebug mode: &b" + KitPvPPlus.DEBUG,
+                    "&eLegacy Version: &b" + KitPvPPlus.getInstance().getVerManager().needsUpdating(),
                     "&e" + ChatUtils.CHAT_BAR
             }));
         }

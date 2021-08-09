@@ -14,4 +14,6 @@ public interface KitManager {
     public Kit getKitById(String id);
 
     public List<Kit> getKits();
+
+    public Kit createKit(String id);
 }

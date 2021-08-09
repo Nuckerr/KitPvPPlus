@@ -25,7 +25,7 @@ public class Fireman extends Ability {
         super("fireman", ItemUtils.buildItem("&aFireman", XMaterial.PAPER.parseMaterial(), 1, "&7If your on fire, put your self out by right clicking this"));
         ConfigurationSection section = KitPvPPlus.getInstance().getConfig().getConfigurationSection("abilities.fireman");
         this.setItem(ItemUtils.buildItem(section.getString("displayname"), Material.valueOf(section.getString("material")),
-                section.getInt("amount"), section.getStringList("lore").toArray(new String[section.getStringList("lore").size()])));
+                section.getInt("amount"), section.getStringList("lore").toArray(new String[0])));
     }
 
     @Override

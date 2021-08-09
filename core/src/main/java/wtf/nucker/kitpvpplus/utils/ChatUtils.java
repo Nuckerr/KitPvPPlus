@@ -75,7 +75,7 @@ public class ChatUtils {
         for (String line : lines) {
             resAsList.add(ChatUtils.translate(line));
         }
-        return resAsList.toArray(new String[resAsList.size()]);
+        return resAsList.toArray(new String[0]);
     }
 
     public static List<String> replaceInList(List<String> list, String beforeChar, String afterChar) {

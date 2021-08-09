@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.player.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
 
@@ -46,6 +46,6 @@ public class StatsCommand extends BaseCommand {
         message = ChatUtils.replaceInList(message, "%killstreak%", String.valueOf(data.getKillStreak()));
         message = ChatUtils.replaceInList(message, "%kdr%", String.valueOf(data.getKDR()));
         message = ChatUtils.replaceInList(message, "%top_killstreak%", String.valueOf(data.getTopKillStreak()));
-        p.sendMessage(message.toArray(new String[message.size()]));
+        p.sendMessage(message.toArray(new String[0]));
     }
 }

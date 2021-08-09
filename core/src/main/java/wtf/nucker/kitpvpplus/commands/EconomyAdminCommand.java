@@ -60,6 +60,6 @@ public class EconomyAdminCommand extends BaseCommand {
         message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
         message = ChatUtils.replaceInList(message, "%player%", p.getName());
 
-        p.sendMessage(message.toArray(new String[message.size()]));
+        p.sendMessage(message.toArray(new String[0]));
     }
 }

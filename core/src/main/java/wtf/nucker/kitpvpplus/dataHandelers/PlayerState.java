@@ -1,4 +1,4 @@
-package wtf.nucker.kitpvpplus.player;
+package wtf.nucker.kitpvpplus.dataHandelers;
 
 /**
  * @author Nucker

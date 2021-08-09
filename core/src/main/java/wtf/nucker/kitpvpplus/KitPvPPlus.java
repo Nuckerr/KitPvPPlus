@@ -25,16 +25,17 @@ import wtf.nucker.kitpvpplus.api.objects.ConfigValue;
 import wtf.nucker.kitpvpplus.api.objects.PlayerData;
 import wtf.nucker.kitpvpplus.commands.*;
 import wtf.nucker.kitpvpplus.commands.custom.CustomCMDManager;
+import wtf.nucker.kitpvpplus.dataHandelers.Mongo;
+import wtf.nucker.kitpvpplus.dataHandelers.SQL;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.listeners.*;
 import wtf.nucker.kitpvpplus.managers.*;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.objects.Kit;
-import wtf.nucker.kitpvpplus.player.MongoPlayerData;
-import wtf.nucker.kitpvpplus.player.SQLPlayerData;
 import wtf.nucker.kitpvpplus.utils.*;
 import wtf.nucker.kitpvpplus.utils.menuUtils.MenuManager;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.*;
@@ -63,6 +64,8 @@ public final class KitPvPPlus extends JavaPlugin {
     - Hex colors (done)
 
     TODO:
+    - Make data manager in oop
+    - Use simplix storage
     - Kit gui signs (DONE)
     - Soup (DONE)
     - On death exp (DONE)
@@ -80,13 +83,13 @@ public final class KitPvPPlus extends JavaPlugin {
     - Kill tag thingy
     - Kill commands
     - Fix death teleports
-    - Playerdata in api
+    - Playerdata in api (DONE)
     - World guard for 1.12 and lower
      */
 
     private static KitPvPPlus instance;
 
-    public final static boolean DEBUG = false; /* TURN THIS OFF FOR PRODUCTION */
+    public final static boolean DEBUG = true; /* TURN THIS OFF FOR PRODUCTION */
 
     private Config messages;
     private DataManager dataManager;
@@ -100,6 +103,8 @@ public final class KitPvPPlus extends JavaPlugin {
     private WorldGuardManager worldGuardManager;
     private KitPvPPlusAPI api;
     private PlayerVaultManager pvManager;
+    private LeaderBoardManager leaderBoardManager;
+    private VersionManager verManager;
 
     @Override
     public void onLoad() {
@@ -157,6 +162,7 @@ public final class KitPvPPlus extends JavaPlugin {
         Logger.success("Configs have been loaded");
 
         this.pvManager = new PlayerVaultManager();
+        //this.leaderBoardManager = new LeaderBoardManager();
 
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             PlayerBank.setStorageType(StorageType.BankStorageType.FLAT);
@@ -221,7 +227,13 @@ public final class KitPvPPlus extends JavaPlugin {
         api = this.setupAPI();
 
         Logger.debug("Successfully loaded KitPvPPlus");
-        Logger.debug(KitPvPPlusAPI.getInstance() == null);
+
+        Logger.info("Running version tasks");
+        try {
+            this.verManager = new VersionManager();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -361,6 +373,12 @@ public final class KitPvPPlus extends JavaPlugin {
                         });
                         return res;
                     }
+
+                    @Override
+                    public wtf.nucker.kitpvpplus.api.objects.Kit createKit(String id) {
+                        KitPvPPlus.this.getKitManager().createKit(id);
+                        return APIConversion.fromInstanceKit(KitPvPPlus.this.getKitManager().getKit(id));
+                    }
                 },
                 new LocationsManager() {
                     @Override
@@ -386,7 +404,7 @@ public final class KitPvPPlus extends JavaPlugin {
 
                     @Override
                     public ConfigValue getDataRaw(String path) {
-                        return new ConfigValue(KitPvPPlus.this.getDataManager().getDataYaml(), path);
+                        return new ConfigValue(KitPvPPlus.this.dataManager.getDataYaml(), path);
                     }
 
                     @Override
@@ -468,6 +486,14 @@ public final class KitPvPPlus extends JavaPlugin {
         return api;
     }
 
+    public VersionManager getVerManager() {
+        return verManager;
+    }
+
+    public LeaderBoardManager getLeaderBoardManager() {
+        return leaderBoardManager;
+    }
+
     public PlayerVaultManager getPvManager() {
         return pvManager;
     }
@@ -485,7 +511,7 @@ public final class KitPvPPlus extends JavaPlugin {
         if (this.getDataManager().getStorageType().equals(StorageType.FLAT)) {
             this.getDataManager().getDataConfig().reload();
         }
-        Locations.getConfigInstance().reload();
+        Locations.getConfig();
         this.reloadConfig();
         this.dataManager = new DataManager(this);
     }
@@ -496,12 +522,12 @@ public final class KitPvPPlus extends JavaPlugin {
                 this.getDataManager().getDataConfig().reload();
                 break;
             case MONGO:
-                MongoPlayerData.getClient().getClient().close();
+                Mongo.getClient().getClient().close();
                 this.dataManager = new DataManager(this);
                 break;
             case SQL:
                 try {
-                    SQLPlayerData.getConnection().close();
+                    SQL.getConnection().close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

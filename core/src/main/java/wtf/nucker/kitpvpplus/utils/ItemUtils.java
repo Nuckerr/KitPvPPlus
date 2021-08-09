@@ -44,9 +44,7 @@ public class ItemUtils {
         }
 
         if (item.getItemMeta() != null) {
-            if (item.getItemMeta().getDisplayName() != null) {
-                config.set(path + ".meta.displayname", item.getItemMeta().getDisplayName());
-            }
+            config.set(path + ".meta.displayname", item.getItemMeta().getDisplayName());
             if (item.getItemMeta().getLore() != null) {
                 config.set(path + ".meta.lore", item.getItemMeta().getLore());
             }

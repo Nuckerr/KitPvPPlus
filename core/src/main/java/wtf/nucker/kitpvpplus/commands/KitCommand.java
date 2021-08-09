@@ -10,12 +10,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.exceptions.KitAlreadyExistException;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
 import wtf.nucker.kitpvpplus.objects.Kit;
-import wtf.nucker.kitpvpplus.player.PlayerData;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
@@ -87,7 +87,7 @@ public class KitCommand extends BaseCommand {
             p.sendMessage(Language.KIT_ALREADY_OWNED.get(p).replace("%kitname%", kit.getId()));
             return;
         }
-        if (!kit.getPermission().equals("")) {
+        if (!kit.getPermission().isEmpty()) {
             p.sendMessage(Language.PERMISSION_MESSAGE.get(p));
             return;
         }
@@ -134,7 +134,7 @@ public class KitCommand extends BaseCommand {
     public void onEdit(Player p) {
         List<String> message = Language.KIT_ADMIN_HELP.getAsStringList();
         message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
-        p.sendMessage(message.toArray(new String[message.size()]));
+        p.sendMessage(message.toArray(new String[0]));
     }
 
 
@@ -293,7 +293,7 @@ public class KitCommand extends BaseCommand {
             message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
             message = ChatUtils.replaceInList(message, "%player%", p.getName());
 
-            p.sendMessage(message.toArray(new String[message.size()]));
+            p.sendMessage(message.toArray(new String[0]));
         } else {
             p.sendMessage(ChatUtils.translate("&c/kit <kitId> [target]"));
         }

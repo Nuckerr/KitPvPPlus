@@ -34,6 +34,11 @@ public class DebugCommand extends BaseCommand {
         });
     }
 
+    @Subcommand("leaderboard")
+    public void onLeaderboard(Player p) {
+        p.sendMessage("&b#"+KitPvPPlus.getInstance().getLeaderBoardManager().getDeathsLeaderboard().getPlace(p));
+    }
+
     @Subcommand("state")
     @CommandCompletion("@players")
     public void onState(Player p, OnlinePlayer target) {

@@ -9,6 +9,13 @@
 # KitPvP Plus
 # config.yml
 
+update:
+  alert: true
+  # Coming soon
+  auto-download: false
+  # In minutes
+  re-check-alert: 10
+
 data-storage:
   # mysql, mongo, flat
   type: flat

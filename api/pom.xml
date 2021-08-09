@@ -6,11 +6,11 @@
 
     <groupId>wtf.nucker</groupId>
     <artifactId>KitPvPPlus-API</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <packaging>jar</packaging>
 
     <name>api</name>
-    <description>THe plugin API for KitPVPPlus</description>
+    <description>The plugin API for KitPVPPlus</description>
     <url>https://jdocs.nucker.me</url>
     <developers>
         <developer>

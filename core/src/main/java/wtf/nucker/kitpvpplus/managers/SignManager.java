@@ -18,10 +18,10 @@ public class SignManager {
     private final YamlConfiguration config;
 
     public SignManager() {
-        this.configInstance = new Config("signs.yml");
+        this.configInstance = new Config( "signs.yml");
         this.config = this.configInstance.getConfig();
         if(config.getConfigurationSection("signs") == null) return;
-        for (String key : config.getConfigurationSection("signs").getKeys(false)) {
+        for (String key : config.getConfigurationSection("signs").getKeys(true)) {
             Block block = ((Location) config.get("signs."+key+".block", Location.class)).getBlock();
             if(block.getType().name().contains("SIGN")) {
                 block.setMetadata("kpvp", new FixedMetadataValue(KitPvPPlus.getInstance(), config.getString("signs."+key+".type")));
