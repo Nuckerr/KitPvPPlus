@@ -2,7 +2,7 @@
 ![Banner](https://i.imgur.com/AccloGO.png)
 A customizable KitPvP Core for 1.8 - 1.7.
 
-SpigotMC Page: *Coming soon*  
+SpigotMC Page: [http://nckr.link/kpp](http://nckr.link/kpp)
 Wiki: [wiki.nucker.me](https://wiki.nucker.me)  
 JavaDocs: [jdocs.nucker.me](https://jdocs.nucker.me)  
 
@@ -22,6 +22,14 @@ JavaDocs: [jdocs.nucker.me](https://jdocs.nucker.me)
 - Full tab completion
 - PlaceholderAPI support
 - PlaceholderAPI placeholders
+- Leaderboards
+- Playervaultws
+- Signs
+- Full developer api (allowing you to add custom abilities & integrate statistics
+and leaderboards easily into your plugin)
+- Extremely customisable
+- 100% customisable messages
+- Fully documented
 
 ## Contributing
 Currently not accepting pull-requests until v1.0 comes out

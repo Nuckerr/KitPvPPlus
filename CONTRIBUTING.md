@@ -1,6 +1,4 @@
 # Contributing
-**I will not be accepting pull-requests that add new features to the plugin until `v1.0` is out**
-
 Since KitPvPPlus is an open-source project, you are welcome to help fix bugs, optimise and improve the plugin. This guide will cover
 how the codebase works, how to compile the plugin and good code-readability rules you should follow.
 
