@@ -24,7 +24,7 @@ import java.util.List;
 public class SignListeners implements Listener {
 
     @EventHandler
-    public void onSignChange(SignChangeEvent e) {
+    public void onSignChange(final SignChangeEvent e) {
         if(KitPvPPlus.getInstance().getConfig().getBoolean("enable-signs")) {
             if(!e.getPlayer().hasPermission("kitpvpplus.signs.create")) {
                 e.getPlayer().sendMessage(Language.PERMISSION_MESSAGE.get(e.getPlayer()));
@@ -67,7 +67,7 @@ public class SignListeners implements Listener {
     }
 
     @EventHandler
-    public void onSignClick(PlayerInteractEvent e) {
+    public void onSignClick(final PlayerInteractEvent e) {
         if(e.getClickedBlock() == null) return;
         if(e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
         if(e.getClickedBlock().getType().name().contains("SIGN")) {
@@ -90,7 +90,7 @@ public class SignListeners implements Listener {
     }
 
     @EventHandler
-    public void onSignBreak(BlockBreakEvent e) {
+    public void onSignBreak(final BlockBreakEvent e) {
         if(!e.getBlock().getType().name().contains("SIGN")) return;
         if(e.getBlock().getMetadata("kpvp").isEmpty()) return;
 

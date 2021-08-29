@@ -6,11 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.api.events.PlayerDataCreationEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Kit;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.Config;
 import wtf.nucker.kitpvpplus.utils.MongoDatabase;
 
@@ -31,7 +33,7 @@ public class Mongo implements PlayerData {
     private Document doc;
 
     //Don't do IO from the constructor, also it's clever to keep this closable.
-    public Mongo(OfflinePlayer player) {
+    public Mongo(final OfflinePlayer player) {
         this.p = player;
         this.collection = database.getCollection("data");
         if (collection.find(new Document("uuid", p.getUniqueId())).first() == null) {
@@ -42,6 +44,7 @@ public class Mongo implements PlayerData {
                     .append("level", 0)
                     .append("killstreak", 0)
                     .append("highest-killstreak", 0));
+            Bukkit.getPluginManager().callEvent(new PlayerDataCreationEvent(APIConversion.fromInstanceData(this)));
         }
         this.doc = collection.find(new Document("uuid", p.getUniqueId())).first();
     }

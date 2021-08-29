@@ -11,6 +11,7 @@ import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
+import wtf.nucker.kitpvpplus.utils.Logger;
 
 /**
  * @author Nucker
@@ -36,6 +37,10 @@ public class DebugCommand extends BaseCommand {
 
     @Subcommand("leaderboard")
     public void onLeaderboard(Player p) {
+        KitPvPPlus.getInstance().getLeaderBoardManager().getDeathsLeaderboard().getTop(10).forEach(place -> {
+            Logger.debug("#" + KitPvPPlus.getInstance().getLeaderBoardManager().getDeathsLeaderboard().getPlace(place.getPlayer()) + " " + place.getValue() + "("
+            + place.getPlayer().getName() + ")");
+        });
         p.sendMessage("&b#"+KitPvPPlus.getInstance().getLeaderBoardManager().getDeathsLeaderboard().getPlace(p));
     }
 
@@ -48,9 +53,7 @@ public class DebugCommand extends BaseCommand {
     @Subcommand("abilities")
     public void getAbilities(Player p) {
         Inventory inv = Bukkit.createInventory(p, 9, "Abilities");
-        AbilityManager.getAbilities().forEach((id, ability) -> {
-            inv.addItem(ability.getItem());
-        });
+        AbilityManager.getAbilities().forEach((id, ability) -> inv.addItem(ability.getItem()));
         p.openInventory(inv);
     }
 

@@ -20,7 +20,7 @@ import wtf.nucker.kitpvpplus.utils.Language;
 public class DamageListeners implements Listener {
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
+    public void onDeath(final PlayerDeathEvent e) {
         KitPvPPlus instance = KitPvPPlus.getInstance();
 
         instance.getDataManager().getPlayerData(e.getEntity()).incrementDeaths();
@@ -42,7 +42,7 @@ public class DamageListeners implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onRespawn(PlayerRespawnEvent e) {
+    public void onRespawn(final PlayerRespawnEvent e) {
         e.setRespawnLocation(Locations.SPAWN.get());
         e.getPlayer().teleport(Locations.SPAWN.get());
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).setState(PlayerState.SPAWN);

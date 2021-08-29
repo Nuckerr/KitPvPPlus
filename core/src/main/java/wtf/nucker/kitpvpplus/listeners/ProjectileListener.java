@@ -18,14 +18,14 @@ import wtf.nucker.kitpvpplus.utils.Language;
 public class ProjectileListener implements Listener {
 
     @EventHandler
-    public void onExpChange(PlayerExpChangeEvent e) {
+    public void onExpChange(final PlayerExpChangeEvent e) {
         if (e.getAmount() != KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).getExp()) {
             KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).updateExpBar();
         }
     }
 
     @EventHandler
-    public void onLevelChange(PlayerLevelChangeEvent e) {
+    public void onLevelChange(final PlayerLevelChangeEvent e) {
         if (e.getNewLevel() != KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).getLevel()) {
             KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).updateExpBar();
         }

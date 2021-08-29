@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
+import wtf.nucker.kitpvpplus.managers.LeaderBoardManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 
 import java.util.Collections;
@@ -66,6 +67,13 @@ public enum Language {
     DEATH_BROADCAST("events.broadcast-death", "&a&l%victim% was killed by %killer%"),
     ARROW_HIT("events.arrow-hit", "&aYou hit %victim%"),
     NO_NEXT_PAGE("general.no-next-page", "&cNo next page"),
+    DEATH_LEADERBOARD("leaderboards.death-leaderboard", "&e&lDeath leaderboard"),
+    KILLS_LEADERBOARD("leaderboards.kills-leaderboard", "&e&lKills leaderboard"),
+    EXP_LEADERBOARD("leaderboards.exp-leaderboard", "&e&lExp leaderboard"),
+    LEVEL_LEADERBOARD("leaderboards.level-leaderboard", "&e&lLevel leaderboard"),
+    BAL_LEADERBOARD("leaderboards.balance-leaderboard", "&e&lBalance leaderboard"),
+    KILLSTREAK_LEADERBOARD("leaderboards.killstreak-leaderboard", "&e&lKillstreak leaderboard"),
+    KDR_LEADERBOARD("leaderboards.kdr-leaderboard", "&e&lKDR leaderboard"),
     CORE_HELP("help-commands.core-command", "null"),
     NOT_CONSOLE_COMMAND("general.console-command", "&cConsole cannot run this command"),
     PLUGIN_RELOADED("admin.plugin-reloaded", "&aPlugin has been reloaded"),
@@ -140,6 +148,7 @@ public enum Language {
 
     public static String formatPlaceholders(Player p, String params) {
         PlayerData data = KitPvPPlus.getInstance().getDataManager().getPlayerData(p.getPlayer());
+        LeaderBoardManager lbManager = KitPvPPlus.getInstance().getLeaderBoardManager();
 
         switch (params) {
             // Statistics
@@ -157,6 +166,21 @@ public enum Language {
                 return String.valueOf(data.getKillStreak());
             case "kpvp_kdr":
                 return String.valueOf(data.getKDR());
+            // Leaderboards
+            case "kpvp_leaderboard_deaths":
+                return String.valueOf(lbManager.getDeathsLeaderboard().getPlace(p));
+            case "kpvp_leaderboard_kills":
+                return String.valueOf(lbManager.getKillsLeaderboard().getPlace(p));
+            case "kpvp_leaderboard_exp":
+                return String.valueOf(lbManager.getExpLeaderboard().getPlace(p));
+            case "kpvp_leaderboard_balance":
+                return String.valueOf(lbManager.getBalLeaderboard().getPlace(p));
+            case "kpvp_leaderboard_killstreak":
+                return String.valueOf(lbManager.getKsLeaderboard().getPlace(p));
+            case "kpvp_leaderboard_kdr":
+                return String.valueOf(lbManager.getKdrLeaderboard().getPlace(p));
+            case "kpvp_leaderboard_level":
+                return String.valueOf(lbManager.getLevelLeaderboard().getPlace(p));
             default:
                 return null;
         }

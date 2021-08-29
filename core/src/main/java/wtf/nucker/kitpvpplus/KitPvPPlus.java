@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.nucker.kitpvpplus.abilities.Fireball;
@@ -20,8 +19,10 @@ import wtf.nucker.kitpvpplus.abilities.Sonic;
 import wtf.nucker.kitpvpplus.abilities.TNTShooter;
 import wtf.nucker.kitpvpplus.api.KitPvPPlusAPI;
 import wtf.nucker.kitpvpplus.api.managers.ConfigManager;
+import wtf.nucker.kitpvpplus.api.managers.LeaderboardManager;
 import wtf.nucker.kitpvpplus.api.managers.LocationsManager;
 import wtf.nucker.kitpvpplus.api.objects.ConfigValue;
+import wtf.nucker.kitpvpplus.api.objects.Leaderboard;
 import wtf.nucker.kitpvpplus.api.objects.PlayerData;
 import wtf.nucker.kitpvpplus.commands.*;
 import wtf.nucker.kitpvpplus.commands.custom.CustomCMDManager;
@@ -89,7 +90,7 @@ public final class KitPvPPlus extends JavaPlugin {
 
     private static KitPvPPlus instance;
 
-    public final static boolean DEBUG = true; /* TURN THIS OFF FOR PRODUCTION */
+    public final static boolean DEBUG = false; /* TURN THIS OFF FOR PRODUCTION */
 
     private Config messages;
     private DataManager dataManager;
@@ -162,7 +163,6 @@ public final class KitPvPPlus extends JavaPlugin {
         Logger.success("Configs have been loaded");
 
         this.pvManager = new PlayerVaultManager();
-        //this.leaderBoardManager = new LeaderBoardManager();
 
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             PlayerBank.setStorageType(StorageType.BankStorageType.FLAT);
@@ -175,6 +175,7 @@ public final class KitPvPPlus extends JavaPlugin {
                 PlayerBank.setStorageType(StorageType.BankStorageType.FLAT);
             }
         }
+        this.leaderBoardManager = new LeaderBoardManager();
 
         this.abilityManager = new AbilityManager();
         KitManager.setup();
@@ -416,7 +417,45 @@ public final class KitPvPPlus extends JavaPlugin {
                     public ConfigValue getKitDataRaw(String path) {
                         return new ConfigValue(KitManager.getConfig(), path);
                     }
-                }) {
+                }, new LeaderboardManager() {
+
+                    LeaderBoardManager manager = KitPvPPlus.this.getLeaderBoardManager();
+
+            @Override
+            public Leaderboard getDeathsLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getDeathsLeaderboard());
+            }
+
+            @Override
+            public Leaderboard getBalLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getBalLeaderboard());
+            }
+
+            @Override
+            public Leaderboard getExpLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getExpLeaderboard());
+            }
+
+            @Override
+            public Leaderboard getKdrLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getKdrLeaderboard());
+            }
+
+            @Override
+            public Leaderboard getKillsLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getKillsLeaderboard());
+            }
+
+            @Override
+            public Leaderboard getKillStreakLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getKsLeaderboard());
+            }
+
+            @Override
+            public Leaderboard getLevelLeaderboard() {
+                return APIConversion.fromInstanceLeaderboard(manager.getLevelLeaderboard());
+            }
+        }) {
             @Override
             public void registerAbility(wtf.nucker.kitpvpplus.api.objects.Ability ability) {
                 getAbilityManager().registerAbility(APIConversion.toInstanceAbility(ability));
@@ -428,7 +467,15 @@ public final class KitPvPPlus extends JavaPlugin {
             }
 
             @Override
-            public PlayerData getPlayerData(Player player) {
+            public List<PlayerData> getAllPlayerData() {
+                List<PlayerData> playerData = new ArrayList<>();
+                KitPvPPlus.this.getDataManager().getAllPlayerData().forEach(data -> playerData.add(APIConversion.fromInstanceData(data)));
+
+                return playerData;
+            }
+
+            @Override
+            public PlayerData getPlayerData(OfflinePlayer player) {
                 return APIConversion.fromInstanceData(KitPvPPlus.this.getDataManager().getPlayerData(player));
             }
         };

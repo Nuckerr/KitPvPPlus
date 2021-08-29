@@ -2,6 +2,7 @@ package wtf.nucker.kitpvpplus.objects;
 
 import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,25 +31,34 @@ public abstract class Leaderboard {
     }
 
     private void addValues() {
+        List<PlayerData> data = KitPvPPlus.getInstance().getDataManager().getAllPlayerData();
+
+        for (PlayerData datum : data) {
+            this.addValue(datum.getPlayer());
+        }
+
+        /*
         KitPvPPlus.getInstance().getDataManager().getAllPlayerData().forEach(data -> {
             this.addValue(data.getPlayer());
         });
+         */
     }
 
-    private void addValue(OfflinePlayer player) {
-        this.leaderboard.add(new LeaderboardValue(player.getPlayer(), this.getValue(player)));
+    public void addValue(OfflinePlayer player) {
+        this.leaderboard.add(new LeaderboardValue(player, this.getValue(player)));
     }
 
     private void updateValues() {
-        this.leaderboard.forEach(sub -> {
-            this.leaderboard.remove(sub);
-            this.leaderboard.add(new LeaderboardValue(sub.getPlayer(), this.getValue(sub.getPlayer())));
-        });
+        for(int i = 0; i<leaderboard.size(); i++){
+            LeaderboardValue value = leaderboard.get(i);
+            leaderboard.remove(i);
+            leaderboard.add(new LeaderboardValue(value.getPlayer(), getValue(value.getPlayer())));
+        }
     }
 
     public void sort() {
         this.updateValues();
-        this.leaderboard.sort(Comparator.comparingInt(LeaderboardValue::getValue));
+        this.leaderboard.sort(Comparator.comparingDouble(LeaderboardValue::getValue));
     }
 
     public List<LeaderboardValue> getTop(int amount) {
@@ -56,7 +66,7 @@ public abstract class Leaderboard {
 
         this.sort();
         for (int i = 0; i < amount; i++) {
-            if(this.leaderboard.get(i) == null) continue;
+            if((this.leaderboard.size() - 1) < i) continue;
             res.add(this.leaderboard.get(i));
         }
 
@@ -65,7 +75,7 @@ public abstract class Leaderboard {
 
     public int getPlace(OfflinePlayer player) {
         for (int i = 0; i < this.leaderboard.size(); i++) {
-            if(this.leaderboard.get(i).getPlayer().equals(player.getPlayer())) return i;
+            if(this.leaderboard.get(i).equals(new LeaderboardValue(player, 0 /* Value dosent matter */))) return i + 1;
         }
 
         return -1;
@@ -84,6 +94,6 @@ public abstract class Leaderboard {
         return id;
     }
 
-    public abstract int getValue(OfflinePlayer player);
+    public abstract double getValue(OfflinePlayer player);
 
 }

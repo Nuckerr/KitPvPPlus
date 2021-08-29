@@ -21,8 +21,10 @@ public class VersionManager {
     private final GithubClient gh;
     private final GithubRepo repo;
     private final Version currentVer;
-    private final Version latestVer;
+    private Version latestVer;
     private final KitPvPPlus instance = KitPvPPlus.getInstance();
+
+    private boolean updating = false;
 
     public VersionManager() throws IOException {
         this.gh = new GithubClient();
@@ -33,6 +35,7 @@ public class VersionManager {
 
         ClockUtils.runInterval((int) TimeUnit.MINUTES.toSeconds(instance.getConfig().getLong("update.re-check-alert")), runnable -> {
             Logger.debug("Checking version...");
+            VersionManager.this.latestVer = Version.fromString(repo.getLatestRelease().getTagName());
             this.alertUpdate();
         });
         if(currentVer.equals(latestVer)) return;
@@ -45,20 +48,24 @@ public class VersionManager {
     public void alertUpdate() {
         if(!this.instance.getConfig().getBoolean("update.alert")) return;
         if(!Version.compare(currentVer, latestVer)) return;
+        if(this.updating) return;
 
+        this.updating = true;
         Logger.warn(new String[]{
                 ChatUtils.CONSOLE_BAR,
-                "Your plugin is out of date",
-                "running v" + this.currentVer.buildVer() + ".",
+                "Your plugin is out of date running v" + this.currentVer.buildVer() + ".",
                 "The latest version is v" + this.latestVer.buildVer() + ".",
                 "",
                 "You can download it here: https://github.com/" + this.repo.getOwnerName() + "/" + this.repo.getName() + "/releases/tag/" + this.latestVer.buildVer(),
                 ChatUtils.CONSOLE_BAR
         });
+        if(this.latestVer.isHotfix()) {
+            Logger.error("v" + latestVer.buildVer() + " is a hotfix. It is HIGHLY recommend that you update to this.");
+        }
     }
 
     public boolean needsUpdating() {
-        return Version.compare(currentVer, latestVer);
+        return this.updating;
     }
 
     public GithubRepo getRepo() {

@@ -14,7 +14,7 @@ import wtf.nucker.kitpvpplus.utils.Logger;
 public class InventoryListeners implements Listener {
 
     @EventHandler
-    public void onClickEvent(InventoryClickEvent e) {
+    public void onClickEvent(final InventoryClickEvent e) {
         if (KitPvPPlus.DEBUG) {
             Logger.debug(String.valueOf(e.getSlot()));
         }

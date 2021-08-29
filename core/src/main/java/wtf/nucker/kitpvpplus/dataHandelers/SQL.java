@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.api.events.PlayerDataCreationEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Kit;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.Config;
 
 import java.sql.Connection;
@@ -29,12 +31,13 @@ public class SQL implements PlayerData {
     private static Connection connection;
     private final String uuid;
 
-    public SQL(OfflinePlayer player) {
+    public SQL(final OfflinePlayer player) {
         this.player = player;
         this.uuid = player.getUniqueId().toString();
         try {
             if (!this.containsPlayer(uuid)) {
                 connection.prepareStatement("INSERT INTO player_data(UUID, KILLS, DEATHS, EXP, LEVEL) VALUE ('" + uuid + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT)").executeUpdate();
+                Bukkit.getPluginManager().callEvent(new PlayerDataCreationEvent(APIConversion.fromInstanceData(this)));
             }
         } catch (SQLException e) {
             e.printStackTrace();

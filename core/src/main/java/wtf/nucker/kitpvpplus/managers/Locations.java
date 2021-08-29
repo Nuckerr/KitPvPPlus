@@ -71,6 +71,7 @@ public enum Locations {
         section.set("z", location.getZ());
         section.set("yaw", location.getYaw());
         section.set("pitch", location.getPitch());
+        Locations.getConfig().save();
     }
 
     public static void setup() {

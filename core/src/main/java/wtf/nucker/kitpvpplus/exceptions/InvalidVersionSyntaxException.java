@@ -7,7 +7,7 @@ package wtf.nucker.kitpvpplus.exceptions;
  */
 public class InvalidVersionSyntaxException extends RuntimeException {
 
-    public InvalidVersionSyntaxException(String s) {
+    public InvalidVersionSyntaxException(final String s) {
         super(s);
     }
 }

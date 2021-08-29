@@ -69,11 +69,10 @@ public class DataManager {
     }
 
     public List<PlayerData> getAllPlayerData() {
-        //TODO: fix this returning null sometimes
         List<PlayerData> res = new ArrayList<>();
 
+        if(this.getDataYaml().getConfigurationSection("playerdata") == null) return res;
         this.getDataYaml().getConfigurationSection("playerdata").getKeys(false).forEach(key -> {
-            Logger.debug(key);
             res.add(this.getPlayerData(Bukkit.getOfflinePlayer(UUID.fromString(key))));
         });
 
@@ -83,8 +82,6 @@ public class DataManager {
     public PlayerData getPlayerData(OfflinePlayer player) {
         if(player == null) return null;
        switch (this.storageType) {
-           case FLAT:
-               return new FlatFile(player);
            case MONGO:
                return new Mongo(player);
            case SQL:

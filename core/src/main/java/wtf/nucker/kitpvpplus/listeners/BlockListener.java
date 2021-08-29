@@ -13,7 +13,7 @@ import wtf.nucker.kitpvpplus.managers.AbilityManager;
 public class BlockListener implements Listener {
 
     @EventHandler
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(final BlockPlaceEvent e) {
         if (e.getItemInHand() == null) return;
         if (AbilityManager.isAbilityItem(e.getItemInHand())) e.setCancelled(true);
     }

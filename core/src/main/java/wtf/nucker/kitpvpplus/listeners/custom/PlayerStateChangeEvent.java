@@ -24,7 +24,7 @@ public class PlayerStateChangeEvent extends Event implements Cancellable {
     private final PlayerState oldState;
     private final PlayerState newState;
 
-    public PlayerStateChangeEvent(Player player, PlayerState oldState, PlayerState newState) {
+    public PlayerStateChangeEvent(final Player player, final PlayerState oldState, final PlayerState newState) {
         this.player = player;
         this.oldState = oldState;
         this.newState = newState;

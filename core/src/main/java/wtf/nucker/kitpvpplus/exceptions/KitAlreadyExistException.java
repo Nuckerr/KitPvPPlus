@@ -11,7 +11,7 @@ public class KitAlreadyExistException extends RuntimeException {
         super();
     }
 
-    public KitAlreadyExistException(String s) {
+    public KitAlreadyExistException(final String s) {
         super(s);
     }
 }

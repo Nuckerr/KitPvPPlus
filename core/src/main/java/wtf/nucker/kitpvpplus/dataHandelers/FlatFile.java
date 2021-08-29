@@ -3,11 +3,13 @@ package wtf.nucker.kitpvpplus.dataHandelers;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.api.events.PlayerDataCreationEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Kit;
+import wtf.nucker.kitpvpplus.utils.APIConversion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class FlatFile implements PlayerData {
     private final OfflinePlayer p;
     private final KitPvPPlus core = KitPvPPlus.getInstance();
 
-    public FlatFile(OfflinePlayer player) {
+    public FlatFile(final OfflinePlayer player) {
         this.p = player;
         if (!(core.getDataManager().getDataYaml().contains("playerdata." + p.getUniqueId()))) {
             this.reset("kills");
@@ -33,6 +35,7 @@ public class FlatFile implements PlayerData {
             this.reset("highest-killstreak");
 
             core.getDataManager().getDataConfig().save();
+            Bukkit.getPluginManager().callEvent(new PlayerDataCreationEvent(APIConversion.fromInstanceData(this)));
         }
     }
 

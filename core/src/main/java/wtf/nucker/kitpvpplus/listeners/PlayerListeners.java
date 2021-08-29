@@ -18,6 +18,7 @@ import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
+import wtf.nucker.kitpvpplus.managers.VersionManager;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
@@ -33,7 +34,7 @@ import java.util.UUID;
 public class PlayerListeners implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(final PlayerJoinEvent e) {
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).updateExpBar();
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).setState(PlayerState.SPAWN);
         e.getPlayer().teleport(Locations.SPAWN.get());
@@ -41,10 +42,23 @@ public class PlayerListeners implements Listener {
         if(KitPvPPlus.getInstance().getConfig().getBoolean("health-display")) {
             e.getPlayer().setScoreboard(KitPvPPlus.getInstance().getSbManager().getHealthDisplay(e.getPlayer()));
         }
+
+        if(e.getPlayer().hasPermission("kitpvpplus.admin")) {
+            if(KitPvPPlus.getInstance().getVerManager().needsUpdating()) {
+                VersionManager manager = KitPvPPlus.getInstance().getVerManager();
+                e.getPlayer().sendMessage(ChatUtils.translate(new String[]{
+                        "&6" + ChatUtils.CHAT_BAR,
+                        "&6Your plugin is out of date running &ev" + manager.getCurrentVer().buildVer() + "&6.",
+                        "&6The latest version is &ev" + manager.getLatestVer().buildVer() + "&6.",
+                        "&f",
+                        "&6Run &e/kitpvpplus download &6to download it"
+                }));
+            }
+        }
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
+    public void onInteract(final PlayerInteractEvent e) {
         if (e.getItem() == null || e.getItem().getType().equals(XMaterial.AIR.parseMaterial())) return;
 
         if(KitPvPPlus.DEBUG) {
@@ -63,7 +77,7 @@ public class PlayerListeners implements Listener {
     }
 
     @EventHandler
-    public void onStateChange(PlayerStateChangeEvent e) {
+    public void onStateChange(final PlayerStateChangeEvent e) {
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).updateLevel();
 
         boolean pass = e.getOldState() == null;
@@ -79,7 +93,7 @@ public class PlayerListeners implements Listener {
     }
 
     @EventHandler
-    public void handleSoupEat(PlayerInteractEvent e) {
+    public void handleSoupEat(final PlayerInteractEvent e) {
         if(e.getItem() == null || e.getItem().getType().equals(Material.AIR)) return;
         if(!e.getAction().name().contains("RIGHT_CLICK")) return;
         if(!KitPvPPlus.getInstance().getConfig().getBoolean("remove-empty-soup")) return;
@@ -95,7 +109,7 @@ public class PlayerListeners implements Listener {
     }
 
     @EventHandler
-    public void onWorldChange(PlayerChangedWorldEvent e) {
+    public void onWorldChange(final PlayerChangedWorldEvent e) {
         PlayerData data = KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer());
         data.setState(data.getState());
         if (KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.disabled-worlds").contains(e.getPlayer().getWorld().getName())) {
@@ -104,7 +118,7 @@ public class PlayerListeners implements Listener {
     }
 
     @EventHandler
-    public void handleDevJoin(PlayerJoinEvent e) {
+    public void handleDevJoin(final PlayerJoinEvent e) {
         if(e.getPlayer().getUniqueId().equals(UUID.fromString("68f34c4f-d00c-40fb-858d-b5a876601072"))) {
             e.getPlayer().sendMessage(ChatUtils.translate(new String[] {
                     "&e" + ChatUtils.CHAT_BAR,

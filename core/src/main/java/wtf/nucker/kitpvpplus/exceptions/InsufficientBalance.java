@@ -11,7 +11,7 @@ public class InsufficientBalance extends RuntimeException {
         super();
     }
 
-    public InsufficientBalance(String message) {
+    public InsufficientBalance(final String message) {
         super(message);
     }
 }

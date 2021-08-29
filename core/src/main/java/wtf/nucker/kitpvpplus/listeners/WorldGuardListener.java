@@ -21,7 +21,7 @@ import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 public class WorldGuardListener implements Listener {
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e) {
+    public void onMove(final PlayerMoveEvent e) {
         if(!KitPvPPlus.getInstance().isWGEnabled()) return;
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();

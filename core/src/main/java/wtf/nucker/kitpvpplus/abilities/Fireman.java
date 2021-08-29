@@ -29,7 +29,7 @@ public class Fireman extends Ability {
     }
 
     @Override
-    public void onActivate(Ability ability, ItemStack item, PlayerInteractEvent event) {
+    public void onActivate(final Ability ability, final ItemStack item, final PlayerInteractEvent event) {
         if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
             return;
         if (CooldownManager.abilityCooldown(event.getPlayer(), ability)) {

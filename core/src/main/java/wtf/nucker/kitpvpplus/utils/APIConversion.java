@@ -2,14 +2,13 @@ package wtf.nucker.kitpvpplus.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
-import wtf.nucker.kitpvpplus.api.objects.Kit;
-import wtf.nucker.kitpvpplus.api.objects.PlayerData;
-import wtf.nucker.kitpvpplus.api.objects.PlayerState;
+import wtf.nucker.kitpvpplus.api.objects.*;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Ability;
 
@@ -204,8 +203,52 @@ public class APIConversion {
             }
 
             @Override
+            public OfflinePlayer getPlayer() {
+                return data.getPlayer();
+            }
+
+            @Override
             public double getBal() {
                 return new PlayerBank(data.getPlayer()).getBal();
+            }
+        };
+    }
+
+    public static Leaderboard fromInstanceLeaderboard(wtf.nucker.kitpvpplus.objects.Leaderboard leaderboard) {
+        return new Leaderboard() {
+            @Override
+            public List<LeaderboardValue> getTop(int amount) {
+                List<LeaderboardValue> res = new ArrayList<>();
+                leaderboard.getTop(amount).forEach(value -> {
+                    res.add(new LeaderboardValue(value.getPlayer(), value.getValue()));
+                });
+
+                return res;
+            }
+
+            @Override
+            public int getPlace(OfflinePlayer player) {
+                return leaderboard.getPlace(player);
+            }
+
+            @Override
+            public List<LeaderboardValue> getList() {
+                List<LeaderboardValue> res = new ArrayList<>();
+                leaderboard.getList().forEach(value -> {
+                    res.add(new LeaderboardValue(value.getPlayer(), value.getValue()));
+                });
+
+                return res;
+            }
+
+            @Override
+            public String getDisplayname() {
+                return leaderboard.getCollumName();
+            }
+
+            @Override
+            public String getId() {
+                return leaderboard.getId();
             }
         };
     }

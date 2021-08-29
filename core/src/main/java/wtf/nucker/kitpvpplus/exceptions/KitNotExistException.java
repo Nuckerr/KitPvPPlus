@@ -11,7 +11,7 @@ public class KitNotExistException extends RuntimeException {
         super();
     }
 
-    public KitNotExistException(String s) {
+    public KitNotExistException(final String s) {
         super(s);
     }
 }

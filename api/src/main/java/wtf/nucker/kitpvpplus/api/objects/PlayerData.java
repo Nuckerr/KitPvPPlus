@@ -1,5 +1,7 @@
 package wtf.nucker.kitpvpplus.api.objects;
 
+import org.bukkit.OfflinePlayer;
+
 import java.util.List;
 
 /**
@@ -87,4 +89,6 @@ public interface PlayerData {
      * @param newAmount The exp to be added to the player's current exp
      */
     void addExp(int newAmount);
+
+    OfflinePlayer getPlayer();
 }

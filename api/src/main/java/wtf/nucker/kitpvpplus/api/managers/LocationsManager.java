@@ -9,6 +9,13 @@ import org.bukkit.Location;
  */
 public interface LocationsManager {
 
-    public Location getSpawn();
-    public Location getArena();
+    /**
+     * @return The bukkit location of spawn
+     */
+    Location getSpawn();
+
+    /**
+     * @return The bukkit location of the arena
+     */
+    Location getArena();
 }

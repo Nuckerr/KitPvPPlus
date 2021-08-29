@@ -31,7 +31,7 @@ public class Sonic extends Ability {
     }
 
     @Override
-    public void onActivate(Ability ability, ItemStack item, PlayerInteractEvent event) {
+    public void onActivate(final Ability ability, final ItemStack item, final PlayerInteractEvent event) {
         if (CooldownManager.abilityCooldown(event.getPlayer(), ability)) {
             event.getPlayer().sendMessage(Language.ON_COOLDOWN.get());
             return;

@@ -1,12 +1,20 @@
 package wtf.nucker.kitpvpplus.utils.github;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
+import jodd.io.FileUtil;
+import org.bukkit.Bukkit;
+import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.managers.VersionManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Nucker
@@ -33,7 +41,49 @@ public class GithubClient {
             @Override
             public GithubRelease getLatestRelease() {
                 JsonElement releaseEl = GithubClient.this.get(url + "/" + "releases");
-                return () -> releaseEl.getAsJsonArray().get(0).getAsJsonObject().get("tag_name").getAsString();
+                JsonObject releaseObj = releaseEl.getAsJsonArray().get(0).getAsJsonObject();
+                return new GithubRelease() {
+                    @Override
+                    public String getTagName() {
+                        return releaseObj.get("tag_name").getAsString();
+                    }
+
+                    @Override
+                    public GithubReleaseAsset getAssetByName(String name) {
+                        AtomicReference<GithubReleaseAsset> res = new AtomicReference<>();
+                        releaseObj.getAsJsonArray("assets").forEach(el -> {
+                            if(el.getAsJsonObject().get("name").getAsString().equalsIgnoreCase(name)) {
+                                GithubReleaseAsset asset = new GithubReleaseAsset() {
+                                    @Override
+                                    public String getName() {
+                                        return el.getAsJsonObject().get("name").getAsString();
+                                    }
+
+                                    @Override
+                                    public void download(File path) throws IOException {
+                                        VersionManager manager = KitPvPPlus.getInstance().getVerManager();
+                                        GithubClient.this.download("https://github.com/Nuckerr/KitPvPPlus/releases/download/" +
+                                                manager.getLatestVer().buildVer() + "/KitPvPPlus-" + manager.getLatestVer().buildVer() + ".jar",
+                                                KitPvPPlus.getInstance().getDataFolder().getParentFile().getAbsoluteFile());
+                                        KitPvPPlus.getInstance().getDataManager().getDataYaml().set("old-ver", manager.getCurrentVer().buildVer());
+                                        KitPvPPlus.getInstance().getDataManager().getDataConfig().save();
+
+                                        Bukkit.getServer().shutdown();
+                                    }
+                                };
+
+                                res.set(asset);
+                            }
+                        });
+
+                        return res.get();
+                    }
+
+                    @Override
+                    public GithubReleaseAsset getAssetById(String id) {
+                        return null;
+                    }
+                };
             }
 
             @Override
@@ -53,33 +103,13 @@ public class GithubClient {
         JsonReader reader = new JsonReader(new StringReader(req.bodyText()));
         reader.setLenient(true);
         return new JsonParser().parse(reader);
+    }
 
-        /*
-        try {
+    private void download(String url, File path) throws IOException {
+        HttpResponse res = HttpRequest.get(url).send();
 
-            URLConnection url = new URL(stringUrl).openConnection();
-            HttpURLConnection con = (HttpURLConnection) url.
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
+        byte[] bytes = res.bodyBytes();
 
-
-            try(BufferedReader br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-
-                Logger.debug(response);
-                return (new JsonParser()).parse(response.toString());
-            }
-        }catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-             */
-
+        FileUtil.writeBytes(path, bytes);
     }
 }

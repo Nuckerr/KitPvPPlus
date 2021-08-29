@@ -8,4 +8,7 @@ package wtf.nucker.kitpvpplus.utils.github;
 public interface GithubRelease {
 
     String getTagName();
+
+    GithubReleaseAsset getAssetByName(String name);
+    GithubReleaseAsset getAssetById(String id);
 }
