@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.objects.Leaderboard;
+import wtf.nucker.kitpvpplus.utils.ClockUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
 
 /**
@@ -24,8 +25,15 @@ public class LeaderBoardManager {
 
     public LeaderBoardManager() {
         this.registerLeaderboards();
-        Bukkit.getScheduler().runTaskTimerAsynchronously(KitPvPPlus.getInstance(), task -> this.getDeathsLeaderboard().sort(), 0L, 120L);
-    }
+        ClockUtils.runInterval(120, runnable -> {
+            this.getDeathsLeaderboard().sort();
+            this.getKdrLeaderboard().sort();
+            this.getKillsLeaderboard().sort();
+            this.getExpLeaderboard().sort();
+            this.getBalLeaderboard().sort();
+            this.getKsLeaderboard().sort();
+            this.getLevelLeaderboard().sort();
+        });    }
 
     private void registerLeaderboards() {
         DataManager manager = KitPvPPlus.getInstance().getDataManager();
