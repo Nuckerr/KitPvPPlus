@@ -33,7 +33,8 @@ public class LeaderBoardManager {
             this.getBalLeaderboard().sort();
             this.getKsLeaderboard().sort();
             this.getLevelLeaderboard().sort();
-        });    }
+        });
+    }
 
     private void registerLeaderboards() {
         DataManager manager = KitPvPPlus.getInstance().getDataManager();

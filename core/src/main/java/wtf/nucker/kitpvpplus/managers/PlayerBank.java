@@ -14,11 +14,9 @@ public class PlayerBank {
 
     private final OfflinePlayer player;
     private static StorageType.BankStorageType storageType;
-    private FlatFile playerData;
 
     public PlayerBank(OfflinePlayer player) {
         this.player = player;
-        this.playerData = new FlatFile(player);
     }
 
     public double getBal() {

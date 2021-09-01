@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import wtf.nucker.kitpvpplus.exceptions.KitAlreadyExistException;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.objects.Kit;
@@ -49,7 +50,7 @@ public class KitManager {
         config = configInstance.getConfig();
     }
 
-    public Kit createKit(String id) {
+    public void createKit(String id) {
         String nameId = id;
         id = id.toLowerCase();
         if (KitManager.getConfig().contains(id)) throw new KitAlreadyExistException("This kit already exists");
@@ -66,7 +67,6 @@ public class KitManager {
         kit.setCooldown(0);
 
         kitCache.add(kit);
-        return kit;
     }
 
     public void deleteKit(String id) {
@@ -201,8 +201,20 @@ public class KitManager {
             public void setInventory(Inventory inv) {
                 section.set("inventory", null);
                 for (int i = 0; i < inv.getContents().length; i++) {
-                    ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory." + i, inv.getItem(i));
+                    ItemUtils.deserialize(KitManager.getConfig(), configId + ".inventory." + i, inv.getItem(i));
                 }
+                KitManager.getConfigInstance().save();
+            }
+
+            @Override
+            public void setInventory(PlayerInventory inv) {
+                this.setInventory((Inventory) inv);
+
+                ItemUtils.deserialize(KitManager.getConfig(), configId + ".inventory-armor.helmet", inv.getHelmet());
+                ItemUtils.deserialize(KitManager.getConfig(), configId + ".inventory-armor.chestplate", inv.getChestplate());
+                ItemUtils.deserialize(KitManager.getConfig(), configId + ".inventory-armor.leggings", inv.getLeggings());
+                ItemUtils.deserialize(KitManager.getConfig(), configId + ".inventory-armor.boots", inv.getBoots());
+
                 KitManager.getConfigInstance().save();
             }
 
@@ -213,6 +225,21 @@ public class KitManager {
                 for (String key : section.getConfigurationSection("inventory").getKeys(false)) {
                     int index = Integer.parseInt(key);
                     inv.setItem(index, ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory." + key));
+                }
+
+                if(section.contains("inventory-armor")) {
+                    if(section.contains("inventory-armor.helmet")) {
+                        player.getInventory().setHelmet(ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory-armor.helmet"));
+                    }
+                    if(section.contains("inventory-armor.chestplate")) {
+                        player.getInventory().setChestplate(ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory-armor.chestplate"));
+                    }
+                    if(section.contains("inventory-armor.leggings")) {
+                        player.getInventory().setLeggings(ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory-armor.leggings"));
+                    }
+                    if(section.contains("inventory-armor.boots")) {
+                        player.getInventory().setBoots(ItemUtils.serialize(KitManager.getConfig(), configId + ".inventory-armor.boots"));
+                    }
                 }
             }
 

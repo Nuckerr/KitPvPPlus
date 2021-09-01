@@ -29,7 +29,7 @@ public class ItemUtils {
         return res;
     }
 
-    public static void serialize(YamlConfiguration config, String path, ItemStack item) {
+    public static void deserialize(YamlConfiguration config, String path, ItemStack item) {
         if (item == null || item.getType().equals(XMaterial.AIR.parseMaterial())) return;
         config.set(path + ".type", item.getType().name());
         config.set(path + ".amount", item.getAmount());
@@ -76,6 +76,7 @@ public class ItemUtils {
     }
 
     public static ItemStack serialize(YamlConfiguration config, String path) {
+        Logger.debug(path);
         ItemStack item = new ItemStack(Material.valueOf(config.getString(path + ".type")), config.getInt(path + ".amount"), Short.parseShort(String.valueOf(config.getInt(path + ".durability"))));
         if (config.contains(path + ".enchantments")) {
             for (String key : config.getConfigurationSection(path + ".enchantments").getKeys(false)) {
