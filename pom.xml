@@ -6,7 +6,7 @@
 
     <groupId>wtf.nucker</groupId>
     <artifactId>KitPvPCore</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <url>https://wiki.nucker.me</url>
     <description>A customizable KitPvP core for 1.8 - 1.17</description>
     <name>KitPvPPlus</name>

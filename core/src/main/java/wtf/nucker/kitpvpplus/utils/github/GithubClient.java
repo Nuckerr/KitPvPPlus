@@ -40,8 +40,14 @@ public class GithubClient {
         return new GithubRepo() {
             @Override
             public GithubRelease getLatestRelease() {
-                JsonElement releaseEl = GithubClient.this.get(url + "/" + "releases");
-                JsonObject releaseObj = releaseEl.getAsJsonArray().get(0).getAsJsonObject();
+                JsonObject releaseObj;
+                if(KitPvPPlus.getInstance().getConfig().getBoolean("update.notify-beta")) {
+                    JsonElement releaseEl = GithubClient.this.get(url + "/" + "releases/");
+                    releaseObj = releaseEl.getAsJsonArray().get(0).getAsJsonObject();
+                }else {
+                    JsonElement releaseEl = GithubClient.this.get(url + "/" + "releases/latest");
+                    releaseObj = releaseEl.getAsJsonObject();
+                }
                 return new GithubRelease() {
                     @Override
                     public String getTagName() {

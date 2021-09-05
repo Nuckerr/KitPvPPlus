@@ -65,25 +65,25 @@ public final class KitPvPPlus extends JavaPlugin {
     - Hex colors (done)
 
     TODO:
-    - Make data manager in oop
-    - Use simplix storage
+    - Make data manager in oop (DONE)
+    - Use simplix storage (Not doing)
     - Kit gui signs (DONE)
     - Soup (DONE)
     - On death exp (DONE)
     - Kill streaks & kill:death ratio (kdr) stats (done)
-    - Current kit placeholder
-    - Leaderboard rankings placeholder
+    - Current kit placeholder (Not doing)
+    - Leaderboard rankings placeholder (DONE)
     - Placeholderapi placeholders in all messages (DONE)
     - Death messages and arrow hit messages (DONE)
     - Arrow and death sounds (DONE)
     - Custom death screen
-    - CUstomise menus
-    - Leaderboards
+    - CUstomise menus (Not doing)
+    - Leaderboards (DONE)
     - Health above name (Done)
-    - Player vaults
+    - Player vaults (DONE)
     - Kill tag thingy
-    - Kill commands
-    - Fix death teleports
+    - Kill commands (DONE)
+    - Fix death teleports (DONE)
     - Playerdata in api (DONE)
     - World guard for 1.12 and lower
      */
@@ -369,9 +369,7 @@ public final class KitPvPPlus extends JavaPlugin {
                     @Override
                     public List<wtf.nucker.kitpvpplus.api.objects.Kit> getKits() {
                         List<wtf.nucker.kitpvpplus.api.objects.Kit> res = new ArrayList<>();
-                        KitPvPPlus.this.getKitManager().getKits().forEach(k -> {
-                            res.add(APIConversion.fromInstanceKit(k));
-                        });
+                        KitPvPPlus.this.getKitManager().getKits().forEach(k -> res.add(APIConversion.fromInstanceKit(k)));
                         return res;
                     }
 
@@ -558,7 +556,6 @@ public final class KitPvPPlus extends JavaPlugin {
         if (this.getDataManager().getStorageType().equals(StorageType.FLAT)) {
             this.getDataManager().getDataConfig().reload();
         }
-        Locations.getConfig();
         this.reloadConfig();
         this.dataManager = new DataManager(this);
     }
@@ -584,9 +581,7 @@ public final class KitPvPPlus extends JavaPlugin {
 
     public void reloadSB() {
         if (Bukkit.getServer().getOnlinePlayers().size() > 0) {
-            Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-                this.getSbManager().updateBoard(player);
-            });
+            Bukkit.getServer().getOnlinePlayers().forEach(player -> this.getSbManager().updateBoard(player));
         }
         ScoreboardManager.ENABLED = KitPvPPlus.getInstance().getConfig().getBoolean("scoreboard.enabled");
     }
