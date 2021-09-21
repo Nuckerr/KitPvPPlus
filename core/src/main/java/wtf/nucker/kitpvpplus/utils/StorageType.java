@@ -13,6 +13,8 @@ public enum StorageType {
 
     public enum BankStorageType {
         VAULT,
-        FLAT;
+        FLAT,
+        MONGO,
+        SQL
     }
 }

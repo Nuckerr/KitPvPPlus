@@ -13,26 +13,21 @@ import java.util.UUID;
 
 /**
  * @author Nucker
- * @project KitPvpCore  
- * @date 21/07/2021
+ * @project KitPvPPlus
+ * @date 20/09/2021
  */
 public abstract class KitPvPPlusAPI {
 
     private static KitPvPPlusAPI instance;
 
-    private final KitManager kitManager;
-    private final LocationsManager locationsManager;
-    private final ConfigManager configManager;
-    private final LeaderboardManager leaderboardManager;
-
-    public KitPvPPlusAPI(KitManager kitManager, LocationsManager locationsManager, ConfigManager configManager, LeaderboardManager leaderboardManager) {
-        instance = this;
-
-        this.kitManager = kitManager;
-        this.locationsManager = locationsManager;
-        this.configManager = configManager;
-        this.leaderboardManager = leaderboardManager;
+    protected void setInstance(KitPvPPlusAPI instance) {
+        KitPvPPlusAPI.instance = instance;
     }
+
+    /**
+     * @return instance of the API
+     */
+    public static KitPvPPlusAPI getInstance() { return  instance; }
 
     /**
      * Registers a custom ability to the server
@@ -44,37 +39,22 @@ public abstract class KitPvPPlusAPI {
     /**
      * @return the servers kit manager
      */
-    public KitManager getKitManager() {
-        return this.kitManager;
-    }
+    public abstract KitManager getKitManager();
 
     /**
      * @return the servers locations manager
      */
-    public LocationsManager getLocationsManager() {
-        return this.locationsManager;
-    }
+    public abstract LocationsManager getLocationsManager();
 
     /**
      * @return the server's leaderboard manager
      */
-    public LeaderboardManager getLeaderboardManager() {
-        return leaderboardManager;
-    }
+    public abstract LeaderboardManager getLeaderboardManager();
 
     /**
      * @return the servers config manager
      */
-    public ConfigManager getConfigManager() {
-        return this.configManager;
-    }
-
-    /**
-     * @return instance of the API
-     */
-    public static KitPvPPlusAPI getInstance() {
-        return instance;
-    }
+    public abstract ConfigManager getConfigManager();
 
     /**
      * @param uuid the uuid of the player your trying to get an instance of
@@ -86,6 +66,7 @@ public abstract class KitPvPPlusAPI {
      * @return all the playerdata on the server
      */
     public abstract List<PlayerData> getAllPlayerData();
+
     /**
      * @param player the name of the player your trying to get an instance of
      * @return that player's playerdata instance

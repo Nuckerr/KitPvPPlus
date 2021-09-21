@@ -53,7 +53,5 @@ public interface PlayerData {
 
     List<Kit> purchaseKit(Kit kit);
 
-
-
     OfflinePlayer getPlayer();
 }

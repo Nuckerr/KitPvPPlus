@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableList;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,17 +17,12 @@ import wtf.nucker.kitpvpplus.abilities.Fireman;
 import wtf.nucker.kitpvpplus.abilities.Sonic;
 import wtf.nucker.kitpvpplus.abilities.TNTShooter;
 import wtf.nucker.kitpvpplus.api.KitPvPPlusAPI;
-import wtf.nucker.kitpvpplus.api.managers.ConfigManager;
-import wtf.nucker.kitpvpplus.api.managers.LeaderboardManager;
-import wtf.nucker.kitpvpplus.api.managers.LocationsManager;
-import wtf.nucker.kitpvpplus.api.objects.ConfigValue;
-import wtf.nucker.kitpvpplus.api.objects.Leaderboard;
-import wtf.nucker.kitpvpplus.api.objects.PlayerData;
 import wtf.nucker.kitpvpplus.commands.*;
 import wtf.nucker.kitpvpplus.commands.custom.CustomCMDManager;
 import wtf.nucker.kitpvpplus.dataHandelers.Mongo;
 import wtf.nucker.kitpvpplus.dataHandelers.SQL;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
+import wtf.nucker.kitpvpplus.intergrations.api.APIMain;
 import wtf.nucker.kitpvpplus.listeners.*;
 import wtf.nucker.kitpvpplus.managers.*;
 import wtf.nucker.kitpvpplus.objects.Ability;
@@ -101,22 +95,16 @@ public final class KitPvPPlus extends JavaPlugin {
     private ScoreboardManager sbManager;
     private SignManager signManager;
     private MetricsLite metrics;
-    private WorldGuardManager worldGuardManager;
     private KitPvPPlusAPI api;
     private PlayerVaultManager pvManager;
     private LeaderBoardManager leaderBoardManager;
     private VersionManager verManager;
+    private IntegrationsManager integrationsManager;
 
     @Override
     public void onLoad() {
         KitPvPPlus.instance = this;
-
-        if(this.getSubVersion() > 12) {
-            if(getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-                this.worldGuardManager = new WorldGuardManager();
-                this.getWorldGuardManager().registerFlags();
-            }
-        }
+        integrationsManager = new IntegrationsManager();
     }
 
     @Override
@@ -172,7 +160,8 @@ public final class KitPvPPlus extends JavaPlugin {
                 PlayerBank.setStorageType(StorageType.BankStorageType.VAULT);
                 this.econ = rsp.getProvider();
             } else {
-                PlayerBank.setStorageType(StorageType.BankStorageType.FLAT);
+                //PlayerBank.setStorageType(StorageType.BankStorageType.FLAT);
+
             }
         }
         this.leaderBoardManager = new LeaderBoardManager();
@@ -215,7 +204,7 @@ public final class KitPvPPlus extends JavaPlugin {
             new KitPvPPlaceholderExpansion().register();
         }
 
-        if(this.isWGEnabled()) {
+        if(this.getIntegrationsManager().isWorldGuardEnabled()) {
             Logger.success("Intergrated with world guard");
         }
 
@@ -266,10 +255,6 @@ public final class KitPvPPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryListeners(), this);
         getServer().getPluginManager().registerEvents(new SignListeners(), this);
-
-        if(this.isWGEnabled()) {
-            getServer().getPluginManager().registerEvents(new WorldGuardListener(), this);
-        }
     }
 
     private void registerCommands(CustomCMDManager manager) {
@@ -359,124 +344,7 @@ public final class KitPvPPlus extends JavaPlugin {
     }
 
     private KitPvPPlusAPI setupAPI() {
-        return new KitPvPPlusAPI(
-                new wtf.nucker.kitpvpplus.api.managers.KitManager() {
-                    @Override
-                    public wtf.nucker.kitpvpplus.api.objects.Kit getKitById(String id) {
-                        return APIConversion.fromInstanceKit(KitPvPPlus.this.getKitManager().getKit(id));
-                    }
-
-                    @Override
-                    public List<wtf.nucker.kitpvpplus.api.objects.Kit> getKits() {
-                        List<wtf.nucker.kitpvpplus.api.objects.Kit> res = new ArrayList<>();
-                        KitPvPPlus.this.getKitManager().getKits().forEach(k -> res.add(APIConversion.fromInstanceKit(k)));
-                        return res;
-                    }
-
-                    @Override
-                    public wtf.nucker.kitpvpplus.api.objects.Kit createKit(String id) {
-                        KitPvPPlus.this.getKitManager().createKit(id);
-                        return APIConversion.fromInstanceKit(KitPvPPlus.this.getKitManager().getKit(id));
-                    }
-                },
-                new LocationsManager() {
-                    @Override
-                    public Location getSpawn() {
-                        return Locations.SPAWN.get();
-                    }
-
-                    @Override
-                    public Location getArena() {
-                        return Locations.ARENA.get();
-                    }
-                },
-                new ConfigManager() {
-                    @Override
-                    public ConfigValue getMessage(String path) {
-                        return new ConfigValue(KitPvPPlus.this.getMessages(), path);
-                    }
-
-                    @Override
-                    public ConfigValue getFromConfig(String path) {
-                        return new ConfigValue(KitPvPPlus.this.getConfig(), path);
-                    }
-
-                    @Override
-                    public ConfigValue getDataRaw(String path) {
-                        return new ConfigValue(KitPvPPlus.this.dataManager.getDataYaml(), path);
-                    }
-
-                    @Override
-                    public ConfigValue getSignDataRaw(String path) {
-                        return new ConfigValue(KitPvPPlus.this.getSignManager().getConfig(), path);
-                    }
-
-                    @Override
-                    public ConfigValue getKitDataRaw(String path) {
-                        return new ConfigValue(KitManager.getConfig(), path);
-                    }
-                }, new LeaderboardManager() {
-
-                    LeaderBoardManager manager = KitPvPPlus.this.getLeaderBoardManager();
-
-            @Override
-            public Leaderboard getDeathsLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getDeathsLeaderboard());
-            }
-
-            @Override
-            public Leaderboard getBalLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getBalLeaderboard());
-            }
-
-            @Override
-            public Leaderboard getExpLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getExpLeaderboard());
-            }
-
-            @Override
-            public Leaderboard getKdrLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getKdrLeaderboard());
-            }
-
-            @Override
-            public Leaderboard getKillsLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getKillsLeaderboard());
-            }
-
-            @Override
-            public Leaderboard getKillStreakLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getKsLeaderboard());
-            }
-
-            @Override
-            public Leaderboard getLevelLeaderboard() {
-                return APIConversion.fromInstanceLeaderboard(manager.getLevelLeaderboard());
-            }
-        }) {
-            @Override
-            public void registerAbility(wtf.nucker.kitpvpplus.api.objects.Ability ability) {
-                getAbilityManager().registerAbility(APIConversion.toInstanceAbility(ability));
-            }
-
-            @Override
-            public PlayerData getPlayerData(UUID uuid) {
-                return APIConversion.fromInstanceData(KitPvPPlus.this.getDataManager().getPlayerData(Bukkit.getPlayer(uuid)));
-            }
-
-            @Override
-            public List<PlayerData> getAllPlayerData() {
-                List<PlayerData> playerData = new ArrayList<>();
-                KitPvPPlus.this.getDataManager().getAllPlayerData().forEach(data -> playerData.add(APIConversion.fromInstanceData(data)));
-
-                return playerData;
-            }
-
-            @Override
-            public PlayerData getPlayerData(OfflinePlayer player) {
-                return APIConversion.fromInstanceData(KitPvPPlus.this.getDataManager().getPlayerData(player));
-            }
-        };
+        return new APIMain(this);
     }
 
     public YamlConfiguration getMessages() {
@@ -485,6 +353,10 @@ public final class KitPvPPlus extends JavaPlugin {
 
     public Config getMessagesConfig() {
         return messages;
+    }
+
+    public IntegrationsManager getIntegrationsManager() {
+        return this.integrationsManager;
     }
 
     public DataManager getDataManager() {
@@ -523,9 +395,6 @@ public final class KitPvPPlus extends JavaPlugin {
         return metrics;
     }
 
-    public WorldGuardManager getWorldGuardManager() {
-        return worldGuardManager;
-    }
 
     public KitPvPPlusAPI getApi() {
         return api;
@@ -543,9 +412,6 @@ public final class KitPvPPlus extends JavaPlugin {
         return pvManager;
     }
 
-    public boolean isWGEnabled() {
-        return this.worldGuardManager != null;
-    }
 
     public boolean isHexEnabled() {
         return this.getSubVersion() >= 16;
