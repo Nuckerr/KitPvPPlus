@@ -1,7 +1,8 @@
-package wtf.nucker.kitpvpplus;
+package wtf.nucker.kitpvpplus.integrations.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.utils.Language;
 
 /**

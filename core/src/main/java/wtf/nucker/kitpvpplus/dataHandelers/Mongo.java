@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.PlayerDataCreationEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
+import wtf.nucker.kitpvpplus.exceptions.PermissionException;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
@@ -15,6 +16,7 @@ import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.Config;
 import wtf.nucker.kitpvpplus.utils.MongoDatabase;
+import wtf.nucker.kitpvpplus.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,15 +176,23 @@ public class Mongo implements PlayerData {
 
     @Override
     public boolean ownsKit(Kit kit) {
-        if(!p.isOnline()) return false;
         YamlConfiguration dataYaml = KitPvPPlus.getInstance().getDataManager().getDataYaml();
-        if (p.isOp()) return true;
-        if (p.getPlayer().hasPermission(kit.getPermission())) return true;
-        return dataYaml.getStringList("playerdata." + p.getUniqueId() + ".owned-kits").contains(kit.getId());
+        if(!kit.getPermission().equals("")) {
+            if(PlayerUtils.checkOfflinePermission(p, kit.getPermission())) {
+                if(kit.isFree()) return true;
+                return dataYaml.getStringList("owned-kits").contains(kit.getId());
+            }
+            return false;
+        }
+        if(kit.isFree()) return true;
+        return dataYaml.getStringList("owned-kits").contains(kit.getId());
     }
 
     @Override
     public List<Kit> purchaseKit(Kit kit) {
+        if(!kit.getPermission().equals("")) {
+            if(!PlayerUtils.checkOfflinePermission(p, kit.getPermission())) throw new PermissionException(p.getName() + " is missing permission " + kit.getPermission());
+        }
         Config dataConfig = KitPvPPlus.getInstance().getDataManager().getDataConfig();
         PlayerBank bank = new PlayerBank(p);
         if (bank.getBal() < kit.getPrice()) {

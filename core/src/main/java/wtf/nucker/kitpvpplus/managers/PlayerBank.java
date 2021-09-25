@@ -14,6 +14,7 @@ public class PlayerBank {
 
     private final OfflinePlayer player;
     private static StorageType.BankStorageType storageType;
+    private static boolean providingVault = false;
 
     public PlayerBank(OfflinePlayer player) {
         this.player = player;
@@ -33,7 +34,7 @@ public class PlayerBank {
     public void setBal(double newAmount) {
         switch (storageType) {
             case FLAT:
-                KitPvPPlus.getInstance().getDataManager().getDataYaml().getDouble("playerdata." + player.getUniqueId() + ".balance");
+                KitPvPPlus.getInstance().getDataManager().getDataYaml().set("playerdata." + player.getUniqueId() + ".balance", newAmount);
                 KitPvPPlus.getInstance().getDataManager().getDataConfig().save();
                 break;
             case VAULT:
@@ -57,6 +58,14 @@ public class PlayerBank {
 
     public static StorageType.BankStorageType getStorageType() {
         return PlayerBank.storageType;
+    }
+
+    public static boolean providingVault() {
+        return providingVault;
+    }
+
+    public static void setProvidingVault(boolean providingVault) {
+        PlayerBank.providingVault = providingVault;
     }
 
     public static void setStorageType(StorageType.BankStorageType storageType) {

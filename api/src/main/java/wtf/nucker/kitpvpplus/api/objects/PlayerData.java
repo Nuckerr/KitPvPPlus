@@ -36,6 +36,9 @@ public interface PlayerData {
      */
     int getKillStreak();
 
+    /**
+     * @return the player's top kill streak
+     */
     int getTopKillStreak();
 
     /**
@@ -90,5 +93,8 @@ public interface PlayerData {
      */
     void addExp(int newAmount);
 
+    /**
+     * @return the owner of the playerdata
+     */
     OfflinePlayer getPlayer();
 }

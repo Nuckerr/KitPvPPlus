@@ -12,3 +12,41 @@ softdepend:
   - PlaceholderAPI
   - Vault
   - WorldGuard
+
+permissions:
+  kitpvpplus.admin:
+    description: Gives you access to admin commands in the /kitpvpplus command
+    default: op
+  kitpvpplus.balance.other:
+    description: Allows you to view the balance of other players
+    default: op
+  kitpvpplus.setlocations:
+    description: Allows you to set spawn and arena locations
+    default: op
+  kitpvpplus.economy.admin:
+    description: Access to admin manegment for economy
+    default: op
+  kitpvpplus.kits.create:
+    description: Allows you to create kits
+    default: op
+  kitpvpplus.kits.delete:
+    description: Allows you to delete kits
+    default: op
+  kitpvpplus.kits.edit:
+    description: Allows you to edit kits
+    default: op
+  kitpvpplus.pv:
+    description: kitpvpplus.pv.5 gives you access to 5 playervaults
+    default: true
+  kitpvpplus.stats.other:
+    description: Allows you to view the stats of other people
+    default: op
+  kitpvpplus.givekits:
+    description: Allows you to give kits to other players
+    default: op
+  kitpvpplus.signs.create:
+    description: Allows you to create kitpvpplus signs
+    default: op
+  kitpvpplus.signs.remove:
+    description: Allows you to delete kitpvpplus signs
+    default: op

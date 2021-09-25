@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.utils.Language;
@@ -33,8 +34,8 @@ public class EconomyCommands extends BaseCommand {
     @Description("Sends other persons balance")
     @CommandPermission("kitpvpplus.balance.other")
     @CommandCompletion("@players")
-    public void onOtherBal(Player p, OnlinePlayer target) {
-        p.sendMessage(Language.OTHER_BAL_MESSAGE.get(p).replace("%target%", target.getPlayer().getName())
+    public void onOtherBal(CommandSender p, OnlinePlayer target) {
+        p.sendMessage(Language.OTHER_BAL_MESSAGE.get().replace("%target%", target.getPlayer().getName())
                 .replace("%balance%", String.valueOf(new PlayerBank(target.getPlayer()).getBal())));
     }
 

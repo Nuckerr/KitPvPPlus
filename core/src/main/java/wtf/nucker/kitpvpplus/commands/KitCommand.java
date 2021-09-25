@@ -14,6 +14,7 @@ import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.exceptions.KitAlreadyExistException;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
+import wtf.nucker.kitpvpplus.exceptions.PermissionException;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
 import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
@@ -98,6 +99,8 @@ public class KitCommand extends BaseCommand {
             try {
                 KitPvPPlus.getInstance().getDataManager().getPlayerData(p).purchaseKit(kit);
                 p.sendMessage(Language.KIT_PURCHASED.get(p).replace("%kit%", kit.getId()));
+            }catch (PermissionException e) {
+                p.sendMessage(Language.PERMISSION_MESSAGE.get(p));
             } catch (InsufficientBalance e) {
                 p.playSound(p.getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1f, 1f);
                 p.sendMessage(Language.INSUFFICIENT_BAL.get(p).replace("%kitname%", kit.getId()));
@@ -108,12 +111,12 @@ public class KitCommand extends BaseCommand {
     @Subcommand("create")
     @Description("Creates a kit")
     @CommandPermission("kitspvp.kits.create")
-    public void createKit(Player p, String id) {
+    public void createKit(CommandSender p, String id) {
         try {
             KitPvPPlus.getInstance().getKitManager().createKit(id);
-            p.sendMessage(Language.KIT_CREATED.get(p).replace("%kitname%", id));
+            p.sendMessage(Language.KIT_CREATED.get().replace("%kitname%", id));
         } catch (KitAlreadyExistException e) {
-            p.sendMessage(Language.KIT_ALREADY_EXISTS.get(p).replace("%kitname%", id));
+            p.sendMessage(Language.KIT_ALREADY_EXISTS.get().replace("%kitname%", id));
             e.printStackTrace();
         }
     }
@@ -122,16 +125,16 @@ public class KitCommand extends BaseCommand {
     @Description("Delete a kit")
     @CommandCompletion("@kits")
     @CommandPermission("kitspvpplus.kits.delete")
-    public void deleteKit(Player p, Kit kit) {
+    public void deleteKit(CommandSender p, Kit kit) {
         String id = kit.getId();
         KitPvPPlus.getInstance().getKitManager().deleteKit(id);
-        p.sendMessage(Language.KIT_DELETED.get(p).replace("%kitname%", id));
+        p.sendMessage(Language.KIT_DELETED.get().replace("%kitname%", id));
     }
 
     @Subcommand("edit")
     @Description("Edit help command")
     @CommandPermission("kitpvpplus.kits.edit")
-    public void onEdit(Player p) {
+    public void onEdit(CommandSender p) {
         List<String> message = Language.KIT_ADMIN_HELP.getAsStringList();
         message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
         p.sendMessage(message.toArray(new String[0]));
@@ -142,12 +145,12 @@ public class KitCommand extends BaseCommand {
     @Description("Edits the displayname of a kit")
     @CommandCompletion("@kits")
     @CommandPermission("kitspvp.kits.edit")
-    public void editDisplayname(Player p, Kit kit, String newdisplayname) {
+    public void editDisplayname(CommandSender p, Kit kit, String newdisplayname) {
         try {
             kit.setDisplayname(newdisplayname);
-            p.sendMessage(Language.KIT_EDIT_DISPLAYNAME.get(p).replace("%kitname%", kit.getId()).replace("%newname%", newdisplayname));
+            p.sendMessage(Language.KIT_EDIT_DISPLAYNAME.get().replace("%kitname%", kit.getId()).replace("%newname%", newdisplayname));
         } catch (KitNotExistException e) {
-            p.sendMessage(Language.KIT_DOESNT_EXIST.get(p));
+            p.sendMessage(Language.KIT_DOESNT_EXIST.get());
         }
     }
 
@@ -184,18 +187,18 @@ public class KitCommand extends BaseCommand {
     @Description("Edits the permission of a kit")
     @CommandCompletion("@kits @nothing")
     @CommandPermission("kitpvpplus.kits.edit")
-    public void editPerm(Player p, Kit kit, @Optional String permission) {
+    public void editPerm(CommandSender p, Kit kit, @Optional String permission) {
         try {
             if(permission == null) {
                 kit.setPermission("");
-                p.sendMessage(Language.KIT_EDIT_PERMISSION.get(p).replace("%permission%", "\"\"").replace("%kitname%", kit.getId()));
+                p.sendMessage(Language.KIT_EDIT_PERMISSION.get().replace("%permission%", "\"\"").replace("%kitname%", kit.getId()));
                 return;
             }
 
             kit.setPermission(permission);
-            p.sendMessage(Language.KIT_EDIT_PERMISSION.get(p).replace("%kitname%", kit.getId()).replace("%permission%", permission));
+            p.sendMessage(Language.KIT_EDIT_PERMISSION.get().replace("%kitname%", kit.getId()).replace("%permission%", permission));
         } catch (KitNotExistException e) {
-            p.sendMessage(Language.KIT_DOESNT_EXIST.get(p).replace("%kitname%", kit.getId()));
+            p.sendMessage(Language.KIT_DOESNT_EXIST.get().replace("%kitname%", kit.getId()));
         }
     }
 
@@ -204,12 +207,12 @@ public class KitCommand extends BaseCommand {
     @Description("Edits the price of a kit")
     @CommandCompletion("@kits")
     @CommandPermission("kitpvpplus.kits.edit")
-    public void editPrice(Player p, Kit kit, int price) {
+    public void editPrice(CommandSender p, Kit kit, int price) {
         try {
             kit.setPrice(price);
-            p.sendMessage(Language.KIT_EDIT_PRICE.get(p).replace("%kitname%", kit.getId()).replace("%price%", String.valueOf(price)));
+            p.sendMessage(Language.KIT_EDIT_PRICE.get().replace("%kitname%", kit.getId()).replace("%price%", String.valueOf(price)));
         } catch (KitNotExistException e) {
-            p.sendMessage(Language.KIT_DOESNT_EXIST.get(p).replace("%kitname%", kit.getId()));
+            p.sendMessage(Language.KIT_DOESNT_EXIST.get().replace("%kitname%", kit.getId()));
         }
     }
 
@@ -217,12 +220,12 @@ public class KitCommand extends BaseCommand {
     @Description("Edits the cooldown of a kit")
     @CommandCompletion("@kits")
     @CommandPermission("kitpvpplus.kits.edit")
-    public void editCooldown(Player p, Kit kit, int cooldown) {
+    public void editCooldown(CommandSender p, Kit kit, int cooldown) {
         try {
             kit.setCooldown(cooldown);
-            p.sendMessage(Language.KIT_EDIT_COOLDOWN.get(p).replace("%kitname%", kit.getId()).replace("%cooldown%", String.valueOf(cooldown)));
+            p.sendMessage(Language.KIT_EDIT_COOLDOWN.get().replace("%kitname%", kit.getId()).replace("%cooldown%", String.valueOf(cooldown)));
         } catch (KitNotExistException e) {
-            p.sendMessage(Language.KIT_DOESNT_EXIST.get(p).replace("%kitname%", kit.getId()));
+            p.sendMessage(Language.KIT_DOESNT_EXIST.get().replace("%kitname%", kit.getId()));
         }
     }
 
@@ -230,14 +233,14 @@ public class KitCommand extends BaseCommand {
 
     @Subcommand("set")
     @CommandPermission("kitpvpplus.kits.edit")
-    public void onSet(Player p) {
+    public void onSet(CommandSender p) {
         this.onEdit(p);
     }
 
     @Subcommand("set displayname")
     @CommandPermission("kitpvpplus.kits.edit")
     @CommandCompletion("@kits")
-    public void onSetDisplayname(Player p, Kit kit, String name) {
+    public void onSetDisplayname(CommandSender p, Kit kit, String name) {
         this.editDisplayname(p, kit, name);
     }
 
@@ -258,28 +261,28 @@ public class KitCommand extends BaseCommand {
     @Subcommand("set permission")
     @CommandPermission("kitpvpplus.kits.edit")
     @CommandCompletion("@kits")
-    public void setPerm(Player p, Kit kit, @Optional String permission) {
+    public void setPerm(CommandSender p, Kit kit, @Optional String permission) {
         this.editPerm(p, kit, permission);
     }
 
     @Subcommand("set price")
     @CommandPermission("kitpvpplus.kits.edit")
     @CommandCompletion("@kits")
-    public void onSetPrice(Player p, Kit kit, int price) {
+    public void onSetPrice(CommandSender p, Kit kit, int price) {
         this.editPrice(p, kit, price);
     }
 
     @Subcommand("set cooldown")
     @CommandPermission("kitpvpplus.kits.edit")
     @CommandCompletion("@kits")
-    public void setCooldown(Player p, Kit kit, int cooldown) {
+    public void setCooldown(CommandSender p, Kit kit, int cooldown) {
         this.editCooldown(p, kit, cooldown);
     }
 
     @Subcommand("remove")
     @CommandPermission("kitpvpplus.kits.delete")
     @CommandCompletion("@kits")
-    public void onRemove(Player p, Kit kit) {
+    public void onRemove(CommandSender p, Kit kit) {
         this.deleteKit(p, kit);
     }
 

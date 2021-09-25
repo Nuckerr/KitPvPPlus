@@ -28,28 +28,28 @@ public class EconomyAdminCommand extends BaseCommand {
     @Subcommand("set")
     @CommandPermission("kitpvpplus.economy.admin")
     @CommandCompletion("@players")
-    public void onSet(Player p, OnlinePlayer target, double newAmount) {
+    public void onSet(CommandSender p, OnlinePlayer target, double newAmount) {
         PlayerBank bank = new PlayerBank(target.getPlayer());
         bank.setBal(newAmount);
-        p.sendMessage(Language.BALANCE_SET.get(p).replace("%balance%", String.valueOf(bank.getBal())).replace("%target%", target.getPlayer().getName()));
+        p.sendMessage(Language.BALANCE_SET.get(p instanceof Player ? (Player) p : target.getPlayer()).replace("%balance%", String.valueOf(bank.getBal())).replace("%target%", target.getPlayer().getName()));
     }
 
     @Subcommand("reset")
     @CommandPermission("kitpvpplus.economy.admin")
     @CommandCompletion("@players")
-    public void onReset(Player p, OnlinePlayer target) {
+    public void onReset(CommandSender p, OnlinePlayer target) {
         PlayerBank bank = new PlayerBank(target.getPlayer());
         bank.setBal(0.0);
-        p.sendMessage(Language.RESET_BALANCE.get(p).replace("%target%", target.getPlayer().getName()).replace("%balance%", String.valueOf(0.0)));
+        p.sendMessage(Language.RESET_BALANCE.get(p instanceof Player ? (Player) p : target.getPlayer()).replace("%target%", target.getPlayer().getName()).replace("%balance%", String.valueOf(0.0)));
     }
 
     @Subcommand("give")
     @CommandPermission("kitpvpplus.economy.admin")
     @CommandCompletion("@players")
-    public void onGive(Player p, OnlinePlayer target, double amount) {
+    public void onGive(CommandSender p, OnlinePlayer target, double amount) {
         PlayerBank bank = new PlayerBank(target.getPlayer());
         bank.setBal(bank.getBal() + amount);
-        p.sendMessage(Language.BALANCE_GIVEN.get(p).replace("%target%", target.getPlayer().getName()).replace("%givenAmount%", String.valueOf(amount)).replace("%balance%", String.valueOf(bank.getBal())));
+        p.sendMessage(Language.BALANCE_GIVEN.get(p instanceof Player ? (Player) p : target.getPlayer()).replace("%target%", target.getPlayer().getName()).replace("%givenAmount%", String.valueOf(amount)).replace("%balance%", String.valueOf(bank.getBal())));
     }
 
     @HelpCommand

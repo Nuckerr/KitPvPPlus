@@ -12,12 +12,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
+import wtf.nucker.kitpvpplus.exceptions.PermissionException;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
 import wtf.nucker.kitpvpplus.objects.Kit;
-import wtf.nucker.kitpvpplus.utils.APIConversion;
-import wtf.nucker.kitpvpplus.utils.ChatUtils;
-import wtf.nucker.kitpvpplus.utils.ItemUtils;
-import wtf.nucker.kitpvpplus.utils.Language;
+import wtf.nucker.kitpvpplus.utils.*;
 import wtf.nucker.kitpvpplus.utils.menuUtils.Button;
 import wtf.nucker.kitpvpplus.utils.menuUtils.Menu;
 import wtf.nucker.kitpvpplus.utils.menuUtils.PaginatedMenu;
@@ -67,6 +65,8 @@ public class KitMenus {
                     ((Player) event.getWhoClicked()).playSound(event.getWhoClicked().getLocation(), XSound.ENTITY_VILLAGER_NO.parseSound(), 1f, 1f);
                     event.getWhoClicked().sendMessage(Language.INSUFFICIENT_BAL.get((Player) event.getWhoClicked()).replace("%kitname%", kit.getId()));
                     event.getWhoClicked().closeInventory();
+                }catch (PermissionException e) {
+                    player.sendMessage(Language.PERMISSION_MESSAGE.get(player));
                 }
             }
         }, 32);
@@ -109,6 +109,7 @@ public class KitMenus {
 
         PaginatedMenu menu = MenuUtils.buildPaginatedGUI("&0Kits", items, event -> {
             ItemStack item = event.getCurrentItem();
+            if(!(event.getWhoClicked() instanceof Player)) return;
             Player p = (Player) event.getWhoClicked();
             if(!new NBTItem(item).hasKey("kit")) {
                 p.sendMessage(ChatUtils.translate("&cUnable to find kit"));
@@ -116,6 +117,14 @@ public class KitMenus {
             }
 
             Kit kit = KitPvPPlus.getInstance().getKitManager().getKit(new NBTItem(item).getString("kit").replace("\"", ""));
+            if (!KitPvPPlus.getInstance().getDataManager().getPlayerData(p).ownsKit(kit)) {
+                p.sendMessage(Language.KIT_NOT_OWNED.get(p).replace("%kitname%", kit.getId()).replace("%permission%", kit.getPermission()));
+                return;
+            }
+            if (CooldownManager.kitCooldown(p, kit)) {
+                p.sendMessage(Language.KIT_ON_COOLDOWN.get(p).replace("%kitname%", kit.getId()).replace("%time%", ClockUtils.formatSeconds(kit.getCooldownRunnable().getAmount())));
+                return;
+            }
             kit.fillInventory(p);
             p.sendMessage(Language.KIT_LOADED.get(p).replace("%kitname%", kit.getId()));
             player.closeInventory();

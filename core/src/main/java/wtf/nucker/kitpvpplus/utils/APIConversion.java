@@ -5,7 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
 import wtf.nucker.kitpvpplus.api.objects.*;
@@ -83,6 +85,46 @@ public class APIConversion {
             public void loadKit(Player player) {
                 kit.fillInventory(player);
                 Bukkit.getServer().getPluginManager().callEvent(new KitLoadEvent(this, player, player));
+            }
+
+            @Override
+            public void setDisplayname(String name) {
+                kit.setDisplayname(name);
+            }
+
+            @Override
+            public void setLore(List<String> lore) {
+                kit.setLore(lore);
+            }
+
+            @Override
+            public void setPermission(String permission) {
+                kit.setPermission(permission);
+            }
+
+            @Override
+            public void setCooldown(int cooldown) {
+                kit.setCooldown(cooldown);
+            }
+
+            @Override
+            public void setPrice(int price) {
+                kit.setPrice(price);
+            }
+
+            @Override
+            public void setIcon(Material material) {
+                kit.setIcon(material);
+            }
+
+            @Override
+            public void setContents(Inventory inventory) {
+                kit.setInventory(inventory);
+            }
+
+            @Override
+            public void setContents(PlayerInventory inventory) {
+                kit.setInventory(inventory);
             }
         };
     }

@@ -15,6 +15,11 @@ public abstract class Ability {
     private final String id;
     private final ItemStack abilityItem;
 
+    /**
+     * Used to create a custom ability
+     * @param id The id of your ability (MUST BE UNIQUE)
+     * @param abilityItem the item your ability is based off of
+     */
     public Ability(String id, ItemStack abilityItem) {
         this.id = id;
         this.abilityItem = abilityItem;

@@ -5,11 +5,13 @@ import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.PlayerDataCreationEvent;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
+import wtf.nucker.kitpvpplus.exceptions.PermissionException;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
+import wtf.nucker.kitpvpplus.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,6 +176,14 @@ public class FlatFile implements PlayerData {
         if(!p.isOnline()) return false;
         if (p.isOp()) return true;
         if (p.getPlayer().hasPermission(kit.getPermission())) return true;
+        if(!kit.getPermission().equals("")) {
+            if(PlayerUtils.checkOfflinePermission(p, kit.getPermission())) {
+                if(kit.isFree()) return true;
+                return this.getStringList("owned-kits").contains(kit.getId());
+            }
+            return false;
+        }
+        if(kit.isFree()) return true;
         return this.getStringList("owned-kits").contains(kit.getId());
     }
 
@@ -181,6 +191,9 @@ public class FlatFile implements PlayerData {
 
     @Override
     public List<Kit> purchaseKit(Kit kit) {
+        if(!kit.getPermission().equals("")) {
+            if(!PlayerUtils.checkOfflinePermission(p, kit.getPermission())) throw new PermissionException(p.getName() + " is missing permission " + kit.getPermission());
+        }
         PlayerBank bank = new PlayerBank(p);
         if (bank.getBal() < kit.getPrice()) {
             throw new InsufficientBalance();

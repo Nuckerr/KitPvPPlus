@@ -6,7 +6,19 @@ package wtf.nucker.kitpvpplus.api.objects;
  */
 public enum PlayerState {
 
+    /**
+     * The player is at spawn
+     */
     SPAWN,
+
+    /**
+     * The player is in the arena
+     */
     ARENA,
+
+    /**
+     * @deprecated NOT FULLY IMPLEMENTED
+     * The player is in a protected region
+     */
     PROTECTED
 }

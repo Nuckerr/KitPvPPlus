@@ -14,6 +14,7 @@ import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.AbilityActivateEvent;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
+import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.managers.Locations;
@@ -129,6 +130,7 @@ public class PlayerListeners implements Listener {
                     "&ePlaceholder intergration: &b" + (Bukkit.getServer().getPluginManager().getPlugin("PlaceHolderAPI") != null),
                     "&eStorage system: &b" + KitPvPPlus.getInstance().getDataManager().getStorageType(),
                     "&eBank Storage type: &b" + PlayerBank.getStorageType(),
+                    "&eProviding vault: &b" + PlayerBank.providingVault(),
                     "&eDebug mode: &b" + KitPvPPlus.DEBUG,
                     "&eLegacy Version: &b" + KitPvPPlus.getInstance().getVerManager().needsUpdating(),
                     "&e" + ChatUtils.CHAT_BAR

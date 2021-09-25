@@ -60,7 +60,7 @@ public class SignListeners implements Listener {
                     }
                     e.getBlock().setMetadata("kpvp", new FixedMetadataValue(KitPvPPlus.getInstance(), "kit-gui"));
                     KitPvPPlus.getInstance().getSignManager().addSign(e.getBlock(), "kit-gui");
-                    e.getPlayer().sendMessage(Language.SIGN_SET.get(e.getPlayer()).replace("%sign_type%", "arena"));
+                    e.getPlayer().sendMessage(Language.SIGN_SET.get(e.getPlayer()).replace("%sign_type%", "gui"));
                     e.getPlayer().playSound(e.getPlayer().getLocation(), XSound.BLOCK_NOTE_BLOCK_PLING.parseSound(), 1f, 250f);
             }
         }

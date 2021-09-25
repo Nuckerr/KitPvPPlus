@@ -21,8 +21,8 @@ public class SignManager {
         this.configInstance = new Config( "signs.yml");
         this.config = this.configInstance.getConfig();
         if(config.getConfigurationSection("signs") == null) return;
-        for (String key : config.getConfigurationSection("signs").getKeys(true)) {
-            Block block = ((Location) config.get("signs."+key+".block", Location.class)).getBlock();
+        for (String key : config.getConfigurationSection("signs").getKeys(false)) {
+            Block block = config.getLocation("signs."+key+".block").getBlock();
             if(block.getType().name().contains("SIGN")) {
                 block.setMetadata("kpvp", new FixedMetadataValue(KitPvPPlus.getInstance(), config.getString("signs."+key+".type")));
             }else {
@@ -44,7 +44,7 @@ public class SignManager {
     public void removeSign(Block block) {
         if(config.getConfigurationSection("signs") == null) return;
         for (String key : config.getConfigurationSection("signs").getKeys(false)) {
-            if(((Location) config.get("signs."+key+".block", Location.class)).getBlock().equals(block)) {
+            if(config.getLocation("signs."+key+".block").getBlock().equals(block)) {
                 config.set("signs."+key, null);
             }
         }

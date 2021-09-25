@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
+import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
@@ -94,32 +95,18 @@ public class KitPvPCommand extends BaseCommand {
                     "&ePlaceholder intergration: &b" + (Bukkit.getServer().getPluginManager().getPlugin("PlaceHolderAPI") != null),
                     "&eStorage system: &b" + KitPvPPlus.getInstance().getDataManager().getStorageType(),
                     "&eBank Storage type: &b" + PlayerBank.getStorageType(),
+                    "&eProviding vault: &b" + PlayerBank.providingVault(),
                     "&eDebug mode: &b" + KitPvPPlus.DEBUG,
                     "&eLegacy Version: &b" + KitPvPPlus.getInstance().getVerManager().needsUpdating(),
                     "&e" + ChatUtils.CHAT_BAR
             }));
         }else {
-            if (player.hasPermission("kitpvpplus.admin")) {
-                List<String> message = Language.CORE_HELP.getAsStringList();
-
-                message = ChatUtils.replaceInList(message, "%bar%", ChatUtils.CHAT_BAR);
-                message = ChatUtils.replaceInList(message, "%player%", player.getName());
-                player.sendMessage(message.toArray(new String[0]));
-            } else {
-                player.sendMessage(ChatUtils.translate(new String[]{
-                        ChatColor.AQUA + ChatUtils.CHAT_BAR,
-                        "&7KitPvP Core developed by Nucker",
-                        "&eSpigot: https://spigotmc.org/resource/id",
-                        "&8Github: https://github.com/Nuckerr/KitPvPPlus",
-                        "&9Support server: http://nckr.link/support",
-                        ChatColor.AQUA + ChatUtils.CHAT_BAR
-                }));
-            }
+            this.onHelp(player);
         }
     }
 
     @HelpCommand
-    public void onHelp(Player p) {
+    public void onHelp(CommandSender p) {
         if (p.hasPermission("kitpvpplus.admin")) {
             List<String> message = Language.CORE_HELP.getAsStringList();
 
