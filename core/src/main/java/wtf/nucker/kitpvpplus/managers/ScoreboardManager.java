@@ -28,7 +28,7 @@ public class ScoreboardManager {
     public ScoreboardManager() {
         if(!ScoreboardManager.ENABLED) return;
         boards = new HashMap<>();
-        ClockUtils.runInterval(5, runnable -> {
+        ClockUtils.runIntervalAsync(5, runnable -> {
             if (Bukkit.getServer().getOnlinePlayers().size() > 0) {
                 Bukkit.getServer().getOnlinePlayers().forEach(this::updateBoard);
             }

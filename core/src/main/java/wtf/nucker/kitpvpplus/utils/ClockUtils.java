@@ -149,6 +149,27 @@ public class ClockUtils {
         return runnable;
     }
 
+    public static BukkitRunnable runIntervalAsync(int delay, Consumer<CountingRunnable> runCode) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            int i = delay;
+            final  CountingRunnable countingRunnable = new CountingRunnable(i, this);
+
+
+            @Override
+            public void run() {
+                if (i <= 0) {
+                    this.i = delay;
+                    runCode.accept(countingRunnable);
+                }
+                i--;
+                countingRunnable.setAmount(i);
+            }
+        };
+
+        runnable.runTaskTimerAsynchronously(plugin, 0L, 20L);
+        return runnable;
+    }
+
 
     /**
      * A class to get the amount a runnable is on as well as the runnable instance

@@ -25,7 +25,7 @@ public class LeaderBoardManager {
 
     public LeaderBoardManager() {
         this.registerLeaderboards();
-        ClockUtils.runInterval(120, runnable -> {
+        ClockUtils.runIntervalAsync(120, runnable -> {
             this.getDeathsLeaderboard().sort();
             this.getKdrLeaderboard().sort();
             this.getKillsLeaderboard().sort();

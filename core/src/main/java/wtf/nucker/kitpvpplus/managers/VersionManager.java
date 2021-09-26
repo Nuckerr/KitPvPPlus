@@ -33,7 +33,7 @@ public class VersionManager {
         this.currentVer = Version.fromString(KitPvPPlus.getInstance().getDescription().getVersion());
         this.latestVer = Version.fromString(repo.getLatestRelease().getTagName());
 
-        ClockUtils.runInterval((int) TimeUnit.MINUTES.toSeconds(instance.getConfig().getLong("update.re-check-alert")), runnable -> {
+        ClockUtils.runIntervalAsync((int) TimeUnit.MINUTES.toSeconds(instance.getConfig().getLong("update.re-check-alert")), runnable -> {
             Logger.debug("Checking version...");
             VersionManager.this.latestVer = Version.fromString(repo.getLatestRelease().getTagName());
             this.alertUpdate();
