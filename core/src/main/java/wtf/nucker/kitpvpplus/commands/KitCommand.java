@@ -111,7 +111,7 @@ public class KitCommand extends BaseCommand {
     @Subcommand("create")
     @Description("Creates a kit")
     @CommandPermission("kitspvp.kits.create")
-    public void createKit(CommandSender p, String id) {
+    public void createKit(CommandSender p, @Single String id) {
         try {
             KitPvPPlus.getInstance().getKitManager().createKit(id);
             p.sendMessage(Language.KIT_CREATED.get().replace("%kitname%", id));
