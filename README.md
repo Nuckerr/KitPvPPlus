@@ -23,7 +23,7 @@ A customizable KitPvP Core for 1.8 - 1.7.
 - PlaceholderAPI support
 - PlaceholderAPI placeholders
 - Leaderboards
-- Playervaultws
+- Playervaults
 - Signs
 - Full developer api (allowing you to add custom abilities & integrate statistics
 and leaderboards easily into your plugin)

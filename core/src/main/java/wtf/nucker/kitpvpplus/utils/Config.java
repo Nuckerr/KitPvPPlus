@@ -48,6 +48,7 @@ public class Config {
             e.printStackTrace();
         }
         yaml.options().copyDefaults(true);
+
     }
 
     /**
@@ -89,5 +90,13 @@ public class Config {
      */
     public YamlConfiguration getConfig() {
         return yaml;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public File getFile() {
+        return file;
     }
 }

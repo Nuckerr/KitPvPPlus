@@ -2,6 +2,8 @@ package wtf.nucker.kitpvpplus.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import jodd.http.HttpBrowser;
+import jodd.http.HttpRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -11,12 +13,20 @@ import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
+import wtf.nucker.kitpvpplus.utils.Debugger;
 import wtf.nucker.kitpvpplus.utils.ItemUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
 import wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders.AbilityMenus;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author Nucker
@@ -80,6 +90,16 @@ public class KitPvPCommand extends BaseCommand {
             return;
         }
         player.getInventory().addItem(ItemUtils.copyItem(ability.getItem()));
+    }
+
+    @Subcommand("dump")
+    @Description("Dumps all debug information into a pastebin")
+    @CommandPermission("kitpvpplus.admin")
+    public void onDump(CommandSender player) {
+        player.sendMessage(ChatColor.GOLD + "WARNING: Hastebin currently has a bug, as such you wont be able to follow the pastebin link.");
+        player.sendMessage(ChatColor.GOLD + "An issue has been posted: https://github.com/toptal/haste-server/issues/390");
+        String link = KitPvPPlus.getInstance().getDebugger().dumpToPasteServer();
+        player.sendMessage(ChatUtils.translate("&bDump link: &e" + link));
     }
 
     @Subcommand("debug")

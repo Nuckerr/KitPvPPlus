@@ -1,7 +1,9 @@
 package wtf.nucker.kitpvpplus.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.metadata.FixedMetadataValue;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
@@ -22,7 +24,7 @@ public class SignManager {
         this.config = this.configInstance.getConfig();
         if(config.getConfigurationSection("signs") == null) return;
         for (String key : config.getConfigurationSection("signs").getKeys(false)) {
-            Block block = config.getLocation("signs."+key+".block").getBlock();
+            Block block = this.deserialize("signs."+key+".block").getBlock();
             if(block.getType().name().contains("SIGN")) {
                 block.setMetadata("kpvp", new FixedMetadataValue(KitPvPPlus.getInstance(), config.getString("signs."+key+".type")));
             }else {
@@ -36,7 +38,7 @@ public class SignManager {
         int i;
         if(config.getConfigurationSection("signs") == null) i = 0; else i = config.getConfigurationSection("signs").getKeys(false).size() +1;
         config.set("signs."+i+".type", type);
-        config.set("signs."+i+".block", block.getLocation());
+        this.serialize(block.getLocation(), "signs."+i+".block");
 
         configInstance.save();
     }
@@ -44,7 +46,7 @@ public class SignManager {
     public void removeSign(Block block) {
         if(config.getConfigurationSection("signs") == null) return;
         for (String key : config.getConfigurationSection("signs").getKeys(false)) {
-            if(config.getLocation("signs."+key+".block").getBlock().equals(block)) {
+            if(this.deserialize("signs." + key + ".block").getBlock().equals(block)) {
                 config.set("signs."+key, null);
             }
         }
@@ -59,5 +61,33 @@ public class SignManager {
 
     public YamlConfiguration getConfig() {
         return config;
+    }
+
+    private Location deserialize(String path) {
+        if(this.config == null) return new Location(Bukkit.getWorld("world"), 0, 65, 0);
+        if(Locations.getConfig().getConfig().getConfigurationSection(path) == null) Locations.getConfig().getConfig().set(path, "");
+        ConfigurationSection section = Locations.getConfig().getConfig().getConfigurationSection(path);
+        if(section == null) throw new NullPointerException("Unable to load " + section.getCurrentPath());
+        return new Location(
+                Bukkit.getWorld(section.getString("world")),
+                section.getDouble("x"),
+                section.getDouble("y"),
+                section.getDouble("z"),
+                Float.parseFloat(section.getString("yaw")),
+                Float.parseFloat(section.getString("pitch"))
+        );
+    }
+
+    private void serialize(Location location, String path) {
+        if(this.config == null) return;
+        ConfigurationSection section = this.configInstance.getConfig().getConfigurationSection(path);
+        if(section == null) throw new NullPointerException("Unable to load " + section.getCurrentPath());
+        section.set("world", location.getWorld().getName());
+        section.set("x", location.getX());
+        section.set("y", location.getY());
+        section.set("z", location.getZ());
+        section.set("yaw", location.getYaw());
+        section.set("pitch", location.getPitch());
+        this.configInstance.save();
     }
 }

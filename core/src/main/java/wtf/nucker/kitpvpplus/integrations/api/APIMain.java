@@ -165,4 +165,9 @@ public class APIMain extends wtf.nucker.kitpvpplus.api.KitPvPPlusAPI {
         return APIConversion.fromInstanceData(plugin.getDataManager().getPlayerData(player));
     }
 
+    @Override
+    public String getDumpInformation() {
+        return plugin.getDebugger().dumpContents();
+    }
+
 }

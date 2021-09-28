@@ -72,4 +72,9 @@ public abstract class KitPvPPlusAPI {
      * @return that player's playerdata instance
      */
     public abstract PlayerData getPlayerData(OfflinePlayer player);
+
+    /**
+     * @return the dump debug information (Same as what you get when you run /kitpvpplus dump)
+     */
+    public abstract String getDumpInformation();
 }

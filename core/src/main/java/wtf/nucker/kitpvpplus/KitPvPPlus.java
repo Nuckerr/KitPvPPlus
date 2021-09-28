@@ -103,10 +103,12 @@ public final class KitPvPPlus extends JavaPlugin {
     private PlayerVaultManager pvManager;
     private LeaderBoardManager leaderBoardManager;
     private VersionManager verManager;
+    private Debugger debugger;
 
     @Override
     public void onLoad() {
         KitPvPPlus.instance = this;
+        this.debugger = new Debugger();
 
         if(this.getSubVersion() > 12) {
             if(getServer().getPluginManager().getPlugin("WorldGuard") != null) {
@@ -424,6 +426,10 @@ public final class KitPvPPlus extends JavaPlugin {
         return pvManager;
     }
 
+    public Debugger getDebugger() {
+        return debugger;
+    }
+
     public boolean isWGEnabled() {
         return this.worldGuardManager != null;
     }
@@ -457,6 +463,7 @@ public final class KitPvPPlus extends JavaPlugin {
                     e.printStackTrace();
                 }
                 this.dataManager = new DataManager(this);
+                break;
         }
     }
 
