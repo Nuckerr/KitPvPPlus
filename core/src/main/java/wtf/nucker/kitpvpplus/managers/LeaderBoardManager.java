@@ -1,7 +1,6 @@
 package wtf.nucker.kitpvpplus.managers;
 
 
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.objects.Leaderboard;

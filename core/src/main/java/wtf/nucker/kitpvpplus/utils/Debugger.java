@@ -1,6 +1,5 @@
 package wtf.nucker.kitpvpplus.utils;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -8,17 +7,15 @@ import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import org.bukkit.Bukkit;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.managers.*;
+import wtf.nucker.kitpvpplus.managers.KitManager;
+import wtf.nucker.kitpvpplus.managers.Locations;
+import wtf.nucker.kitpvpplus.managers.PlayerBank;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Nucker

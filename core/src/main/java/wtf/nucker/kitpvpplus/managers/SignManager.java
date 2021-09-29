@@ -50,7 +50,7 @@ public class SignManager {
                 config.set("signs."+key, null);
             }
         }
-        block.setMetadata("kpvp", null);
+        block.removeMetadata("kpvp", KitPvPPlus.getInstance());
 
         configInstance.save();
     }
@@ -66,8 +66,7 @@ public class SignManager {
     private Location deserialize(String path) {
         if(this.config == null) return new Location(Bukkit.getWorld("world"), 0, 65, 0);
         if(Locations.getConfig().getConfig().getConfigurationSection(path) == null) Locations.getConfig().getConfig().set(path, "");
-        ConfigurationSection section = Locations.getConfig().getConfig().getConfigurationSection(path);
-        if(section == null) throw new NullPointerException("Unable to load " + section.getCurrentPath());
+        ConfigurationSection section = this.config.contains(path) ? config.getConfigurationSection(path) : config.createSection(path);
         return new Location(
                 Bukkit.getWorld(section.getString("world")),
                 section.getDouble("x"),
@@ -80,8 +79,7 @@ public class SignManager {
 
     private void serialize(Location location, String path) {
         if(this.config == null) return;
-        ConfigurationSection section = this.configInstance.getConfig().getConfigurationSection(path);
-        if(section == null) throw new NullPointerException("Unable to load " + section.getCurrentPath());
+        ConfigurationSection section = this.config.contains(path) ? config.getConfigurationSection(path) : config.createSection(path);
         section.set("world", location.getWorld().getName());
         section.set("x", location.getX());
         section.set("y", location.getY());

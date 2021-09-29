@@ -27,11 +27,11 @@ public class DamageListeners implements Listener {
         instance.getDataManager().getPlayerData(e.getEntity()).updateExp(instance.getConfig().getInt("exp.deaths"));
         instance.getDataManager().getPlayerData(e.getEntity()).resetKillStreak();
 
-        if(KitPvPPlus.getInstance().getConfig().contains("kill-commands")) {
-            KitPvPPlus.getInstance().getConfig().getStringList("kill-commands").forEach(cmd -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd));
-        }
-
         if (e.getEntity().getKiller() == null) return;
+        if(KitPvPPlus.getInstance().getConfig().contains("kill-commands")) {
+            KitPvPPlus.getInstance().getConfig().getStringList("kill-commands").forEach(cmd -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd
+                    .replace("%player%", e.getEntity().getName()).replace("%killer%", e.getEntity().getKiller().getName())));
+        }
         instance.getDataManager().getPlayerData(e.getEntity().getKiller()).incrementKills();
         instance.getDataManager().getPlayerData(e.getEntity().getKiller()).incrementKillStreak();
         instance.getDataManager().getPlayerData(e.getEntity().getKiller()).updateExp(instance.getConfig().getInt("exp.kills"));

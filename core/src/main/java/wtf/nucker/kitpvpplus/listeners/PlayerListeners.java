@@ -14,7 +14,6 @@ import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.AbilityActivateEvent;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
-import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.listeners.custom.PlayerStateChangeEvent;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.managers.Locations;

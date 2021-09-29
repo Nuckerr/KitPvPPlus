@@ -5,6 +5,7 @@ import com.cryptomorin.xseries.XSound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -41,8 +42,11 @@ public class KitMenus {
         icon.setItemMeta(meta);
         menu.setItem(13, icon);
 
-        menu.setButton(new Button(ItemUtils.buildItem("&cNo thanks", XMaterial.RED_CONCRETE.parseMaterial(),
-                1, "&7Click here to cancel your purchase")) {
+        ItemStack purchaseItem = ItemUtils.buildItem("&cNo thanks", XMaterial.RED_WOOL.parseMaterial(),
+                1, "&7Click here to cancel your purchase");
+        purchaseItem.setDurability(DyeColor.RED.getWoolData());
+
+        menu.setButton(new Button(purchaseItem) {
             @Override
             public void onClick(InventoryClickEvent event) {
                 Player p = (Player) event.getWhoClicked();
@@ -52,8 +56,10 @@ public class KitMenus {
             }
         }, 30);
 
-        menu.setButton(new Button(ItemUtils.buildItem("&aPurchase", XMaterial.GREEN_CONCRETE.parseMaterial(),
-                1, "&7Click here to purchase this kit")) {
+        ItemStack item = ItemUtils.buildItem("&aPurchase", XMaterial.GREEN_WOOL.parseMaterial(),
+                1, "&7Click here to purchase this kit");
+        item.setDurability(DyeColor.GREEN.getWoolData());
+        menu.setButton(new Button(item) {
             @Override
             public void onClick(InventoryClickEvent event) {
                 try {

@@ -26,6 +26,7 @@ import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.integrations.api.APIMain;
 import wtf.nucker.kitpvpplus.integrations.placeholderapi.KitPvPPlaceholderExpansion;
+import wtf.nucker.kitpvpplus.integrations.worldguard.WorldGuardManager;
 import wtf.nucker.kitpvpplus.listeners.*;
 import wtf.nucker.kitpvpplus.managers.*;
 import wtf.nucker.kitpvpplus.objects.Ability;
@@ -34,6 +35,7 @@ import wtf.nucker.kitpvpplus.utils.*;
 import wtf.nucker.kitpvpplus.utils.menuUtils.MenuManager;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.*;
@@ -61,7 +63,11 @@ public final class KitPvPPlus extends JavaPlugin {
     - Version support (done)
     - Hex colors (done)
 
-    TODO:
+    (Going to) TODO:
+    - Kit editor guiu
+    - Duels
+
+    (Could) TODO:
     - Make data manager in oop (DONE)
     - Use simplix storage (Not doing)
     - Kit gui signs (DONE)
@@ -110,10 +116,12 @@ public final class KitPvPPlus extends JavaPlugin {
         KitPvPPlus.instance = this;
         this.debugger = new Debugger();
 
-        if(this.getSubVersion() > 12) {
-            if(getServer().getPluginManager().getPlugin("WorldGuard") != null) {
-                this.worldGuardManager = new WorldGuardManager();
-                this.getWorldGuardManager().registerFlags();
+        if(getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+            try {
+                this.worldGuardManager = new WorldGuardManager(this);
+                this.worldGuardManager.getWorldGuard().registerFlags();
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -268,7 +276,7 @@ public final class KitPvPPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SignListeners(), this);
 
         if(this.isWGEnabled()) {
-            getServer().getPluginManager().registerEvents(new WorldGuardListener(), this);
+            this.worldGuardManager.getWorldGuard().subscribeListeners();
         }
     }
 

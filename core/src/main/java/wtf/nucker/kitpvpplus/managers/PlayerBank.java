@@ -2,7 +2,6 @@ package wtf.nucker.kitpvpplus.managers;
 
 import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.FlatFile;
 import wtf.nucker.kitpvpplus.utils.StorageType;
 
 /**
