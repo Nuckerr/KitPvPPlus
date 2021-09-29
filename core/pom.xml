@@ -237,14 +237,15 @@
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-bukkit</artifactId>
-            <version>7.0.6</version>
+            <artifactId>worldguard-legacy</artifactId>
+            <version>6.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
-            <version>6.2</version>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.6</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jodd</groupId>

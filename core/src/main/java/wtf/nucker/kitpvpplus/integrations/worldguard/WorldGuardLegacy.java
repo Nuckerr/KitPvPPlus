@@ -32,12 +32,21 @@ public class WorldGuardLegacy implements BaseWorldGuard {
         Bukkit.getPluginManager().registerEvents(new Listener() {
 
             @EventHandler
-            public void onMove(final PlayerMoveEvent event) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            public void onMove(final PlayerMoveEvent event) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
+                /*
+                Object container = WorldGuardPlugin.class.getMethod("getRegionContainer").invoke(WorldGuardPlugin.inst());
+                Object query = container.getClass().getMethod("createQuery").invoke(container);
+
+                Class<?> debug = Class.forName("com.sk89q.worldguard.bukkit.RegionQuery");
+                for (Method method : debug.getMethods()) {
+                    System.out.println(method.getName()+"(" + Arrays.toString(method.getParameters()) + ") (Accessible: " + method.isAccessible() + ")");
+                }
+                ApplicableRegionSet set = (ApplicableRegionSet) Class.forName("com.sk89q.worldguard.bukkit.RegionQuery").getMethod("getApplicableRegions").invoke(query, event.getPlayer().getLocation());
+                */
                 RegionContainer container = (RegionContainer) WorldGuardPlugin.class.getMethod("getRegionContainer").invoke(WorldGuardPlugin.inst());
                 RegionQuery query = container.createQuery();
 
                 ApplicableRegionSet set = query.getApplicableRegions(event.getPlayer().getLocation());
-
                 if(set.getRegions().size() <= 0) return;
                 ProtectedRegion region = set.getRegions().toArray(new ProtectedRegion[0])[0];
 
