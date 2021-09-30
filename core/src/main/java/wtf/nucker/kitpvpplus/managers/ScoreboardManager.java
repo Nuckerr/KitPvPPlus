@@ -62,6 +62,7 @@ public class ScoreboardManager {
                 .replace("%killstreak%", String.valueOf(data.getKillStreak()))
                 .replace("%top_killstreak%", String.valueOf(data.getTopKillStreak()))
                 .replace("%kdr%", String.valueOf(data.getKDR()))
+                .replace("%bal%", String.valueOf(new PlayerBank(player).getBal()))
         );
 
         for (int i = 0; i < section.getStringList("board").size(); i++) {
@@ -75,6 +76,7 @@ public class ScoreboardManager {
                     .replace("%killstreak%", String.valueOf(data.getKillStreak()))
                     .replace("%top_killstreak%", String.valueOf(data.getTopKillStreak()))
                     .replace("%kdr%", String.valueOf(data.getKDR()))
+                    .replace("%bal%", String.valueOf(new PlayerBank(player).getBal()))
             );
         }
         this.getBoards().put(player, board);
@@ -83,6 +85,13 @@ public class ScoreboardManager {
 
     public FastBoard getArenaBoard(Player player) {
         if(!ScoreboardManager.ENABLED) return null;
+        if (KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.disabled-worlds").contains(player.getWorld().getName())) {
+            FastBoard board = new FastBoard(player);
+            board.updateTitle("null");
+            board.updateLine(0, "null");
+            board.delete();
+            return board;
+        }
         ConfigurationSection section = KitPvPPlus.getInstance().getConfig().getConfigurationSection("scoreboard.arena");
         return buildBoard(player, section);
     }

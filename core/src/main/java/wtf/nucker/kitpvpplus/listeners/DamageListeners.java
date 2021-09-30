@@ -23,6 +23,7 @@ public class DamageListeners implements Listener {
     public void onDeath(final PlayerDeathEvent e) {
         KitPvPPlus instance = KitPvPPlus.getInstance();
 
+        if(instance.getConfig().getBoolean("disable-pve-stats")) return;
         instance.getDataManager().getPlayerData(e.getEntity()).incrementDeaths();
         instance.getDataManager().getPlayerData(e.getEntity()).updateExp(instance.getConfig().getInt("exp.deaths"));
         instance.getDataManager().getPlayerData(e.getEntity()).resetKillStreak();

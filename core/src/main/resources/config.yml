@@ -35,6 +35,8 @@ data-storage:
 
 enable-signs: true
 enable-guis: true
+# If true, the player's statistics will not be altered when they get killed naturally/by a mob
+disable-pve-stats: false
 
 exp:
   kills: 25

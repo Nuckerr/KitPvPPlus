@@ -129,6 +129,7 @@ public final class KitPvPPlus extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        long time = System.currentTimeMillis();
         Logger.info(new String[]{
                 "&f" + ChatUtils.CONSOLE_BAR,
                 "&cKitPvP Plus",
@@ -147,9 +148,13 @@ public final class KitPvPPlus extends JavaPlugin {
         this.menuManager = new MenuManager(this);
 
         Logger.debug("Loading configs.");
+        getConfig().options().copyDefaults(true); // Used for saving comments
         saveDefaultConfig();
+        System.out.println(this.getSubVersion());
         if(this.getSubVersion() >= 13) {
+            System.out.println("Adjusting");
             if(getConfig().getString("filler-item").equals("STAINED_GLASS_PANE")) {
+                System.out.println("done glass pane");
                 getConfig().set("filler-item", "BLACK_STAINED_GLASS_PANE");
             }
             if(getConfig().getString("abilities.fireball.material").equals("FIREBALL")) {
@@ -224,7 +229,7 @@ public final class KitPvPPlus extends JavaPlugin {
         }
 
         if(this.isWGEnabled()) {
-            Logger.success("Intergrated with world guard");
+            Logger.success("Integrated with world guard");
         }
 
         ClockUtils.runCodeLater(10, runnable -> {
@@ -243,6 +248,9 @@ public final class KitPvPPlus extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        long timeTaken = time - System.currentTimeMillis();
+        Logger.success("KitPvPPlus has loaded up in " + timeTaken + " ms");
     }
 
     @Override
@@ -487,8 +495,11 @@ public final class KitPvPPlus extends JavaPlugin {
         return Integer.parseInt(version.replace("1_", "").replaceAll("_R\\d", ""));
     }
 
+    /*
+    TODO: Implement this so we can have comments in configs - https://docs.bentobox.world/en/latest/BentoBox/Config-API/
     @Override
     public void saveConfig() {
         this.saveDefaultConfig();
     }
+     */
 }
