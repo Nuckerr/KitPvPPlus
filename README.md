@@ -32,4 +32,4 @@ and leaderboards easily into your plugin)
 - Fully documented
 
 ## Contributing
-Currently not accepting pull-requests until v1.0 comes out
+Please view the [Contributing File](CONTRIBUTING.md).
