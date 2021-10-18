@@ -1,17 +1,17 @@
-package wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders;
+package wtf.nucker.kitpvpplus.menus;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import wtf.nucker.kitpvpplus.utils.menuUtils.Button;
-import wtf.nucker.kitpvpplus.utils.menuUtils.PaginatedMenu;
+import wtf.nucker.simplemenus.spigot.Button;
+import wtf.nucker.simplemenus.spigot.PaginatedMenu;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
  * @author Nucker
- * @project KitPvpCore
- * @date 01/07/2021
+ * @project KitPvPPlus
+ * @date 17/10/2021
  */
 public class MenuUtils {
 

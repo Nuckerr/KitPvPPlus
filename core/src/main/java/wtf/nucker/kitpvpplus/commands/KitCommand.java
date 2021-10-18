@@ -16,12 +16,12 @@ import wtf.nucker.kitpvpplus.exceptions.KitAlreadyExistException;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.exceptions.PermissionException;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
+import wtf.nucker.kitpvpplus.menus.KitMenus;
 import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ClockUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
-import wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders.KitMenus;
 
 import java.util.List;
 

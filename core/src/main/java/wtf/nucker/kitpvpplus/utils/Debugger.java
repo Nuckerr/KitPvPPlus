@@ -67,12 +67,21 @@ public class Debugger {
     }
 
     public String dumpToPasteServer() {
+        /*
         HttpRequest req = HttpRequest.post(HASTE_URL + "/documents").header("data", this.dumpContents());
-        HttpResponse response = req.send();
+        HttpResponse response = req.send()
+        */
+        HttpRequest req = HttpRequest.post(HASTE_URL + "/documents")
+                .contentType("text/plain")
+                .acceptJson()
+                .body(this.dumpContents());
+        HttpResponse res = req.send();
 
-        JsonReader reader = new JsonReader(new StringReader(response.bodyText()));
+        JsonReader reader = new JsonReader(new StringReader(res.bodyText()));
         reader.setLenient(true);
         JsonObject obj = new JsonParser().parse(reader).getAsJsonObject();
+
+
         return HASTE_URL + "/" + obj.get("key").getAsString();
     }
 

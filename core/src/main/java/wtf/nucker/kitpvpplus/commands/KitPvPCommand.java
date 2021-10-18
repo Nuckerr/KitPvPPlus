@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
+import wtf.nucker.kitpvpplus.menus.AbilityMenus;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.ItemUtils;
 import wtf.nucker.kitpvpplus.utils.Language;
-import wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders.AbilityMenus;
 
 import java.util.List;
 import java.util.UUID;
@@ -85,8 +85,10 @@ public class KitPvPCommand extends BaseCommand {
     @Description("Dumps all debug information into a pastebin")
     @CommandPermission("kitpvpplus.admin")
     public void onDump(CommandSender player) {
+        /*
         player.sendMessage(ChatColor.GOLD + "WARNING: Hastebin currently has a bug, as such you wont be able to follow the pastebin link.");
         player.sendMessage(ChatColor.GOLD + "An issue has been posted: https://github.com/toptal/haste-server/issues/390");
+         */
         String link = KitPvPPlus.getInstance().getDebugger().dumpToPasteServer();
         player.sendMessage(ChatUtils.translate("&bDump link: &e" + link));
     }

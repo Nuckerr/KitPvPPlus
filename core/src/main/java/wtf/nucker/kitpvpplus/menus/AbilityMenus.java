@@ -1,4 +1,4 @@
-package wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders;
+package wtf.nucker.kitpvpplus.menus;
 
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.entity.Player;
@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import wtf.nucker.kitpvpplus.managers.AbilityManager;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
-import wtf.nucker.kitpvpplus.utils.menuUtils.PaginatedMenu;
+import wtf.nucker.simplemenus.spigot.PaginatedMenu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +14,8 @@ import java.util.List;
 
 /**
  * @author Nucker
- * @project KitPvpCore
- * @date 01/07/2021
+ * @project KitPvPPlus
+ * @date 17/10/2021
  */
 public class AbilityMenus {
 

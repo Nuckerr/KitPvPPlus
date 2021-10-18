@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.utils.menuUtils.Menu;
+import wtf.nucker.simplemenus.spigot.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class PlayerVaultManager {
 
         Menu menu = new Menu(4, "&0PV - " + page, false);
         if(section.contains(player.getUniqueId() + "." + page)) {
-            ItemStack[] items = (ItemStack[]) section.get(player.getUniqueId() + "." + page + ".items");
+            ItemStack[] items = (ItemStack[]) section.get(player.getUniqueId() + "." + page + ".items", ItemStack[].class);
             menu.setContents(items);
         }
 

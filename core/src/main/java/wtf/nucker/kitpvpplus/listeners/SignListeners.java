@@ -11,8 +11,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
+import wtf.nucker.kitpvpplus.menus.KitMenus;
 import wtf.nucker.kitpvpplus.utils.Language;
-import wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders.KitMenus;
 
 import java.util.List;
 

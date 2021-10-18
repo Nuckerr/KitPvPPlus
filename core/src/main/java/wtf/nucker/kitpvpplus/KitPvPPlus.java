@@ -3,6 +3,7 @@ package wtf.nucker.kitpvpplus;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.MessageKeys;
 import co.aikar.locales.MessageKeyProvider;
+import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.ImmutableList;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -32,7 +33,8 @@ import wtf.nucker.kitpvpplus.managers.*;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.*;
-import wtf.nucker.kitpvpplus.utils.menuUtils.MenuManager;
+import wtf.nucker.simplemenus.spigot.MenuManager;
+import wtf.nucker.simplemenus.spigot.MenuSettings;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -146,15 +148,16 @@ public final class KitPvPPlus extends JavaPlugin {
         }
 
         this.menuManager = new MenuManager(this);
+        Logger.debug(menuManager.getOpenMenus() == null);
+        MenuSettings settings = new MenuSettings();
+        settings.setDefaultFillerItem(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem());
 
         Logger.debug("Loading configs.");
         getConfig().options().copyDefaults(true); // Used for saving comments
         saveDefaultConfig();
         System.out.println(this.getSubVersion());
         if(this.getSubVersion() >= 13) {
-            System.out.println("Adjusting");
             if(getConfig().getString("filler-item").equals("STAINED_GLASS_PANE")) {
-                System.out.println("done glass pane");
                 getConfig().set("filler-item", "BLACK_STAINED_GLASS_PANE");
             }
             if(getConfig().getString("abilities.fireball.material").equals("FIREBALL")) {

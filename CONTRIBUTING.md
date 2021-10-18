@@ -35,7 +35,17 @@ Though there is a basic api in here, it is 100% undocumented and not reccomended
 `objects` - Objects that allow to easily work with things in java  
 `player` - Player data type classes  
 `utils` - Utilities used for the plugin to make creating it easier. (A lot where borrowed from [here](https://github.com/Nuckerr/Utilities)  
-`utils/menuUtils` - The menu system as well as menu builder methods  
+
+## Dependencies
+KitPvPPlus uses multiple dependencies to keep lots of code simple and easy to understand. Here are some of the libraries used and what they should
+be used for.
+
+`item-nbt-api` - Used for interacting with nbt over multiple versions
+`acf-bukkit` - Command framework. See any of the classes in the `commands/` package for an example.
+`fastboard` - Used for scoreboards
+`XSeries` - Used for cross-platform materials, sounds and entities enums
+`jodd-http` - Used for making http requests (Eg version checker, debug dump information, etc.)
+`SimpleMenus-spigot` - Menu library made by yours truly (Me, Nucker)
 
 ## Compiling
 This is a short guide on how to build the plugin for testing.

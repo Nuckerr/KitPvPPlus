@@ -1,4 +1,4 @@
-package wtf.nucker.kitpvpplus.utils.menuUtils.menuBuilders;
+package wtf.nucker.kitpvpplus.menus;
 
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
@@ -17,9 +17,9 @@ import wtf.nucker.kitpvpplus.exceptions.PermissionException;
 import wtf.nucker.kitpvpplus.managers.CooldownManager;
 import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.*;
-import wtf.nucker.kitpvpplus.utils.menuUtils.Button;
-import wtf.nucker.kitpvpplus.utils.menuUtils.Menu;
-import wtf.nucker.kitpvpplus.utils.menuUtils.PaginatedMenu;
+import wtf.nucker.simplemenus.spigot.Button;
+import wtf.nucker.simplemenus.spigot.Menu;
+import wtf.nucker.simplemenus.spigot.PaginatedMenu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +27,8 @@ import java.util.List;
 
 /**
  * @author Nucker
- * @project KitPvpCore
- * @date 01/07/2021
+ * @project KitPvPPlus
+ * @date 17/10/2021
  */
 public class KitMenus {
 
