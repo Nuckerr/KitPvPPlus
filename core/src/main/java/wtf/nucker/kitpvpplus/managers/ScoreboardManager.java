@@ -116,8 +116,8 @@ public class ScoreboardManager {
                     );
                 }
 
-                if(KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.spawn.board").size() < board.getLines().size()) {
-                    for (int i = KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.spawn.board").size() - 1; i < board.getLines().size(); i++) {
+                if(KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.arena.board").size() < board.getLines().size()) {
+                    for (int i = KitPvPPlus.getInstance().getConfig().getStringList("scoreboard.arena.board").size() - 1; i < board.getLines().size(); i++) {
                         board.removeLine(i);
                     }
                 }
