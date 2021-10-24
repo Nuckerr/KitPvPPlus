@@ -10,7 +10,10 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
+import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.Language;
+
+import java.util.Objects;
 
 /**
  * @author Nucker
@@ -51,5 +54,12 @@ public class DamageListeners implements Listener {
         e.setRespawnLocation(Locations.SPAWN.get());
         e.getPlayer().teleport(Locations.SPAWN.get());
         KitPvPPlus.getInstance().getDataManager().getPlayerData(e.getPlayer()).setState(PlayerState.SPAWN);
+
+        if(!Objects.equals(KitPvPPlus.getInstance().getConfig().getString("on-respawn-kit"), "")) {
+            Kit kit = KitPvPPlus.getInstance().getKitManager().getKit(Objects.requireNonNull(KitPvPPlus.getInstance().getConfig().getString("on-respawn-kit")));
+            if(kit != null) {
+                kit.fillInventory(e.getPlayer());
+            }
+        }
     }
 }

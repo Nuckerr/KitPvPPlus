@@ -79,6 +79,10 @@ abilities:
 # When soup is used, should the empty bowl be removed from the inventory
 remove-empty-soup: true
 
+# Leave blank to have none
+on-join-kit: ""
+on-respawn-kit: ""
+
 kill-commands:
   - "tell %player% You died to %killer%"
   - "tell %killer% You killed %player%"

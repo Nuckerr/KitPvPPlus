@@ -20,10 +20,12 @@ import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 import wtf.nucker.kitpvpplus.managers.VersionManager;
 import wtf.nucker.kitpvpplus.objects.Ability;
+import wtf.nucker.kitpvpplus.objects.Kit;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 import wtf.nucker.kitpvpplus.utils.ChatUtils;
 import wtf.nucker.kitpvpplus.utils.Logger;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -53,6 +55,13 @@ public class PlayerListeners implements Listener {
                         "&f",
                         "&6Run &e/kitpvpplus download &6to download it"
                 }));
+            }
+        }
+
+        if(!Objects.equals(KitPvPPlus.getInstance().getConfig().getString("on-join-kit"), "")) {
+            Kit kit = KitPvPPlus.getInstance().getKitManager().getKit(Objects.requireNonNull(KitPvPPlus.getInstance().getConfig().getString("on-join-kit")));
+            if(kit != null) {
+                kit.fillInventory(e.getPlayer());
             }
         }
     }
