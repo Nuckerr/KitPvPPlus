@@ -9,7 +9,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.menus.KitMenus;
 import wtf.nucker.kitpvpplus.utils.Language;

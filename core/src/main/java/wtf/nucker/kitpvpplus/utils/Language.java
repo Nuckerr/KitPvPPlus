@@ -4,7 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerData;
 import wtf.nucker.kitpvpplus.managers.LeaderBoardManager;
 import wtf.nucker.kitpvpplus.managers.PlayerBank;
 

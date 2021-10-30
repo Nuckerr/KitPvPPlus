@@ -1,4 +1,4 @@
-package wtf.nucker.kitpvpplus.dataHandelers;
+package wtf.nucker.kitpvpplus.dataHandlers;
 
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;

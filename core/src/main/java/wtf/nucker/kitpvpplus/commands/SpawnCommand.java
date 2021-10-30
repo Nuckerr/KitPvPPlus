@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.utils.Language;
 

@@ -6,7 +6,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import wtf.nucker.kitpvpplus.api.events.StateChangeEvent;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.DataManager;
 import wtf.nucker.kitpvpplus.utils.APIConversion;
 

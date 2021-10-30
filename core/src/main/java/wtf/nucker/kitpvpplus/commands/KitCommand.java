@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
 import wtf.nucker.kitpvpplus.api.events.KitLoadEvent;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerData;
 import wtf.nucker.kitpvpplus.exceptions.InsufficientBalance;
 import wtf.nucker.kitpvpplus.exceptions.KitAlreadyExistException;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;

@@ -27,7 +27,7 @@ public class AbilityMenus {
             if(items.size() <= 0) {
                 ItemStack item = XMaterial.RED_STAINED_GLASS.parseItem();
                 ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(ChatUtils.translate("&cThis server doesent have any abilities"));
+                meta.setDisplayName(ChatUtils.translate("&cThis server doesn't have any abilities"));
                 meta.setLore(ChatUtils.translate(Arrays.asList("&7Use the &7&oabilities.yml &r&7file", "&7to add some")));
                 item.setItemMeta(meta);
                 for (int i = 0; i < 9; i++) {
