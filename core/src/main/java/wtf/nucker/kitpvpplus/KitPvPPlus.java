@@ -21,8 +21,8 @@ import wtf.nucker.kitpvpplus.abilities.TNTShooter;
 import wtf.nucker.kitpvpplus.api.KitPvPPlusAPI;
 import wtf.nucker.kitpvpplus.commands.*;
 import wtf.nucker.kitpvpplus.commands.custom.CustomCMDManager;
-import wtf.nucker.kitpvpplus.dataHandelers.Mongo;
-import wtf.nucker.kitpvpplus.dataHandelers.SQL;
+import wtf.nucker.kitpvpplus.dataHandlers.Mongo;
+import wtf.nucker.kitpvpplus.dataHandlers.SQL;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.integrations.api.APIMain;
@@ -259,7 +259,7 @@ public final class KitPvPPlus extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        Logger.info("KitPvP Plus is shutting down");
+        Logger.info("KitPvPPlus is shutting down");
         CooldownManager.getKitCooldowns().forEach((uuid, id) -> {
             Kit kit;
             try {

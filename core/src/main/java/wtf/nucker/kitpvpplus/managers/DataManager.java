@@ -6,7 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.*;
+import wtf.nucker.kitpvpplus.dataHandlers.*;
 import wtf.nucker.kitpvpplus.utils.Config;
 import wtf.nucker.kitpvpplus.utils.Logger;
 import wtf.nucker.kitpvpplus.utils.StorageType;
