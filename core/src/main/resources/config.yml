@@ -52,29 +52,25 @@ abilities:
     material: "TNT"
     amount: 10
     lore:
-      - "&7Shoot opponents with primed tnt"
-      - "&7Just right click"
+      - "&7[Right Click] An item to throw &ctnt &7at your opponents."
   fireball:
-    displayname: "&6Fireball"
+    displayname: "&fGhast"
     material: "FIREBALL"
     amount: 10
     lore:
-      - "&7Shoot it and fireballs appear!"
-      - "&7Just right click"
+      - "&7[Right Click] An item to shoot &6fireballs &7at your opponents."
   sonic:
-    displayname: "&9SONIC!!!"
+    displayname: "&9Sonic"
     material: "LAPIS_BLOCK"
     amount: 1
     lore:
-      - "&9I AM SPEEEEEEEEEED!!!"
-      - "&7Right click to give speed!"
+      - "&7[Right Click] An item you click to go the &9speed of light&7."
   fireman:
     displayname: "&aFireman"
     material: "BUCKET"
     amount: 1
     lore:
-      - "&7If your on fire, put your self out by right clicking this"
-      - "&7Right click to give speed!"
+      - "&7[Right Click] An item to put out yourself if you are &6fire&7."
 
 # When soup is used, should the empty bowl be removed from the inventory
 remove-empty-soup: true
@@ -90,26 +86,26 @@ kill-commands:
 scoreboard:
   enabled: true
   disabled-worlds:
-    - world_the_end
+    - EXAMPLE_WORLD
   spawn:
-    title: "&c&lSpawn"
+    title: "&b&lServer &7❘ &fKitPvP"
     board:
       - "&7%bar%"
-      - "&7Hello there %player%"
+      - "&eKills: &b%kills%"
+      - "&eDeaths: &b%deaths%"
+      - "&eKillstreak: &b%killstreak%"
+      - "&eKDR: &b%kdr%"
       - ""
-      - "&7Kills: &b%kills%"
-      - "&7Deaths: &b%deaths%"
-      - ""
-      - "play.example.com"
+      - "&b&oserver.com"
       - "&7%bar%"
   arena:
-    title: "&c&lArena"
+    title: "&b&lServer &7❘ &fKitPvP"
     board:
       - "&7%bar%"
-      - "&7Hello there %player%"
+      - "&eKills: &b%kills%"
+      - "&eDeaths: &b%deaths%"
+      - "&eKillstreak: &b%killstreak%"
+      - "&eKDR: &b%kdr%"
       - ""
-      - "&7Kills: &b%kills%"
-      - "&7Deaths: &b%deaths%"
-      - ""
-      - "play.example.com"
+      - "&b&oserver.com"
       - "&7%bar%"

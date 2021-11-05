@@ -31,7 +31,7 @@ import java.util.List;
  * @date 01/07/2021
  */
 @CommandAlias("kit|kits")
-@Description("Get a kit idiot, what do you think it does")
+@Description("Equip a kit.")
 public class KitCommand extends BaseCommand {
 
     @Override
@@ -40,7 +40,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Default
-    @Description("Get a kit")
+    @Description("Equip a kit.")
     @CommandCompletion("@ownedkits @players")
     public void onCommand(Player p, @Optional Kit kit, @Optional OnlinePlayer target) {
         if(kit == null) {
@@ -80,7 +80,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("purchase|buy")
-    @Description("Purchase a kit")
+    @Description("Purchase a kit.")
     @CommandCompletion("@notownedkits")
     public void onPurchase(Player p, Kit kit) {
         PlayerData data = KitPvPPlus.getInstance().getDataManager().getPlayerData(p);
@@ -109,7 +109,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("create")
-    @Description("Creates a kit")
+    @Description("Create a kit.")
     @CommandPermission("kitspvp.kits.create")
     public void createKit(CommandSender p, @Single String id) {
         try {
@@ -122,7 +122,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("delete")
-    @Description("Delete a kit")
+    @Description("Delete a kit.")
     @CommandCompletion("@kits")
     @CommandPermission("kitspvpplus.kits.delete")
     public void deleteKit(CommandSender p, Kit kit) {
@@ -132,7 +132,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("edit")
-    @Description("Edit help command")
+    @Description("Shows you how to use the edit command.")
     @CommandPermission("kitpvpplus.kits.edit")
     public void onEdit(CommandSender p) {
         List<String> message = Language.KIT_ADMIN_HELP.getAsStringList();
@@ -142,7 +142,7 @@ public class KitCommand extends BaseCommand {
 
 
     @Subcommand("edit displayname")
-    @Description("Edits the displayname of a kit")
+    @Description("Edits the displayname of a kit.")
     @CommandCompletion("@kits")
     @CommandPermission("kitspvp.kits.edit")
     public void editDisplayname(CommandSender p, Kit kit, String newdisplayname) {
@@ -155,7 +155,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("edit icon")
-    @Description("Edits the icon of a kit")
+    @Description("Edits the icon of a kit.")
     @CommandCompletion("@kits")
     @CommandPermission("kitspvp.kits.edit")
     public void setIcon(Player p, Kit kit) {
@@ -171,7 +171,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("edit contents")
-    @Description("Edits the displayname of a kit")
+    @Description("Edits the displayname of a kit.")
     @CommandCompletion("@kits")
     @CommandPermission("kitpvpplus.kits.edit")
     public void editContents(Player p, Kit kit) {
@@ -184,7 +184,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("edit permission")
-    @Description("Edits the permission of a kit")
+    @Description("Edits the permission of a kit.")
     @CommandCompletion("@kits @nothing")
     @CommandPermission("kitpvpplus.kits.edit")
     public void editPerm(CommandSender p, Kit kit, @Optional String permission) {
@@ -204,7 +204,7 @@ public class KitCommand extends BaseCommand {
 
 
     @Subcommand("edit price")
-    @Description("Edits the price of a kit")
+    @Description("Edits the price of a kit.")
     @CommandCompletion("@kits")
     @CommandPermission("kitpvpplus.kits.edit")
     public void editPrice(CommandSender p, Kit kit, int price) {
@@ -217,7 +217,7 @@ public class KitCommand extends BaseCommand {
     }
 
     @Subcommand("edit cooldown")
-    @Description("Edits the cooldown of a kit")
+    @Description("Edits the cooldown of a kit.")
     @CommandCompletion("@kits")
     @CommandPermission("kitpvpplus.kits.edit")
     public void editCooldown(CommandSender p, Kit kit, int cooldown) {

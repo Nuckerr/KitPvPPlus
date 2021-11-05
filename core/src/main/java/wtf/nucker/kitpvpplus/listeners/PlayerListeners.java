@@ -50,10 +50,12 @@ public class PlayerListeners implements Listener {
                 VersionManager manager = KitPvPPlus.getInstance().getVerManager();
                 e.getPlayer().sendMessage(ChatUtils.translate(new String[]{
                         "&6" + ChatUtils.CHAT_BAR,
-                        "&6Your plugin is out of date running &ev" + manager.getCurrentVer().buildVer() + "&6.",
-                        "&6The latest version is &ev" + manager.getLatestVer().buildVer() + "&6.",
+                        "&6&lKitPvP Plus is out of date!",
+                        "&6",
+                        "&6You're running version &ev" + manager.getCurrentVer().buildVer() + "&6.",
+                        "&6However, the latest version is &ev" + manager.getLatestVer().buildVer() + "&6.",
                         "&f",
-                        "&6Run &e/kitpvpplus download &6to download it"
+                        "&6Run the &e/kitpvpplus download &6command to automagically download it!"
                 }));
             }
         }
@@ -131,7 +133,7 @@ public class PlayerListeners implements Listener {
         if(e.getPlayer().getUniqueId().equals(UUID.fromString("68f34c4f-d00c-40fb-858d-b5a876601072"))) {
             e.getPlayer().sendMessage(ChatUtils.translate(new String[] {
                     "&e" + ChatUtils.CHAT_BAR,
-                    "&eThis server uses KitPvPPlus",
+                    "&eThis server uses KitPvP Plus",
                     "&eVersion: &b" + KitPvPPlus.getInstance().getDescription().getVersion(),
                     "&eSending metrics: &b" + KitPvPPlus.getInstance().getMetrics().isEnabled(),
                     "&eWorldguard integration: &b" + KitPvPPlus.getInstance().isWGEnabled(),
