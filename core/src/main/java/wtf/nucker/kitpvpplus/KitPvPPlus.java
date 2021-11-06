@@ -243,7 +243,7 @@ public final class KitPvPPlus extends JavaPlugin {
         });
         api = this.setupAPI();
 
-        Logger.debug("Successfully loaded KitPvPPlus");
+        Logger.debug("Successfully loaded KitPvP Plus");
 
         Logger.info("Running version tasks");
         try {
@@ -253,13 +253,13 @@ public final class KitPvPPlus extends JavaPlugin {
         }
 
         long timeTaken = time - System.currentTimeMillis();
-        Logger.success("KitPvPPlus has loaded up in " + timeTaken + " ms");
+        Logger.success("KitPvP Plus has loaded up in " + timeTaken + " ms");
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        Logger.info("KitPvPPlus is shutting down");
+        Logger.info("KitPvP Plus is shutting down");
         CooldownManager.getKitCooldowns().forEach((uuid, id) -> {
             Kit kit;
             try {

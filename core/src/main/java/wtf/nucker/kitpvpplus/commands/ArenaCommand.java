@@ -34,7 +34,7 @@ public class ArenaCommand extends BaseCommand {
 
     @CommandAlias("setarena")
     @CommandPermission("kitpvpplus.setlocations")
-    @Description("Set the location for the arena")
+    @Description("Set the location for the arena.")
     public void setArena(Player p) {
         Locations.ARENA.set(p.getLocation());
         p.sendMessage(Language.SET_ARENA.get(p));
