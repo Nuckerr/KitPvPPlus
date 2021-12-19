@@ -62,8 +62,10 @@ public class KitPvPCommand extends BaseCommand {
     public void onCredits(CommandSender p) {
         p.sendMessage(ChatUtils.translate(new String[]{
                 ChatColor.AQUA + ChatUtils.CHAT_BAR,
+                "&a&lKitPvP Plus",
+                "&7",
                 "&7KitPvP Core developed by Nucker",
-                "&eSpigot: https://spigotmc.org/resource/id",
+                "&eSpigot: http://nckr.link/kpp",
                 "&8Github: https://github.com/Nuckerr/KitPvPPlus",
                 "&9Support server: http://nckr.link/support",
                 ChatColor.AQUA + ChatUtils.CHAT_BAR
@@ -99,7 +101,7 @@ public class KitPvPCommand extends BaseCommand {
         if(player.getUniqueId().equals(UUID.fromString("68f34c4f-d00c-40fb-858d-b5a876601072"))) {
             player.sendMessage(ChatUtils.translate(new String[] {
                     "&e" + ChatUtils.CHAT_BAR,
-                    "&eThis server uses KitPvPPlus",
+                    "&eThis server uses KitPvP Plus",
                     "&eVersion: &b" + KitPvPPlus.getInstance().getDescription().getVersion(),
                     "&eSending metrics: &b" + KitPvPPlus.getInstance().getMetrics().isEnabled(),
                     "&eWorldguard integration: &b" + KitPvPPlus.getInstance().isWGEnabled(),
@@ -127,8 +129,10 @@ public class KitPvPCommand extends BaseCommand {
         } else {
             p.sendMessage(ChatUtils.translate(new String[]{
                     ChatColor.AQUA + ChatUtils.CHAT_BAR,
+                    "&a&lKitPvP Plus",
+                    "&7",
                     "&7KitPvP Core developed by Nucker",
-                    "&eSpigot: https://spigotmc.org/resource/id",
+                    "&eSpigot: http://nckr.link/kpp",
                     "&8Github: https://github.com/Nuckerr/KitPvPPlus",
                     "&9Support server: http://nckr.link/support",
                     ChatColor.AQUA + ChatUtils.CHAT_BAR

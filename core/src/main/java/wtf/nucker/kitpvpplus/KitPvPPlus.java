@@ -21,8 +21,8 @@ import wtf.nucker.kitpvpplus.abilities.TNTShooter;
 import wtf.nucker.kitpvpplus.api.KitPvPPlusAPI;
 import wtf.nucker.kitpvpplus.commands.*;
 import wtf.nucker.kitpvpplus.commands.custom.CustomCMDManager;
-import wtf.nucker.kitpvpplus.dataHandelers.Mongo;
-import wtf.nucker.kitpvpplus.dataHandelers.SQL;
+import wtf.nucker.kitpvpplus.dataHandlers.Mongo;
+import wtf.nucker.kitpvpplus.dataHandlers.SQL;
 import wtf.nucker.kitpvpplus.exceptions.KitNotExistException;
 import wtf.nucker.kitpvpplus.integrations.VaultEcoService;
 import wtf.nucker.kitpvpplus.integrations.api.APIMain;
@@ -241,7 +241,7 @@ public final class KitPvPPlus extends JavaPlugin {
         });
         api = this.setupAPI();
 
-        Logger.debug("Successfully loaded KitPvPPlus");
+        Logger.debug("Successfully loaded KitPvP Plus");
 
         Logger.info("Running version tasks");
         try {
@@ -251,7 +251,7 @@ public final class KitPvPPlus extends JavaPlugin {
         }
 
         long timeTaken = time - System.currentTimeMillis();
-        Logger.success("KitPvPPlus has loaded up in " + timeTaken + " ms");
+        Logger.success("KitPvP Plus has loaded up in " + timeTaken + " ms");
     }
 
     @Override

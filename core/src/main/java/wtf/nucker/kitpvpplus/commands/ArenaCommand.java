@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import org.bukkit.entity.Player;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerState;
 import wtf.nucker.kitpvpplus.managers.Locations;
 import wtf.nucker.kitpvpplus.utils.Language;
 
@@ -34,7 +34,7 @@ public class ArenaCommand extends BaseCommand {
 
     @CommandAlias("setarena")
     @CommandPermission("kitpvpplus.setlocations")
-    @Description("Set the location for the arena")
+    @Description("Set the location for the arena.")
     public void setArena(Player p) {
         Locations.ARENA.set(p.getLocation());
         p.sendMessage(Language.SET_ARENA.get(p));

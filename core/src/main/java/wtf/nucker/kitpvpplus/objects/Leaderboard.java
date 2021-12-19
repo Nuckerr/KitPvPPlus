@@ -2,7 +2,7 @@ package wtf.nucker.kitpvpplus.objects;
 
 import org.bukkit.OfflinePlayer;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerData;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerData;
 
 import java.util.ArrayList;
 import java.util.Comparator;

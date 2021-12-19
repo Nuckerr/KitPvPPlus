@@ -29,10 +29,10 @@ general:
   no-last-page: "&cNo last page"
   no-next-page: "&cNo next page"
 events:
-  death: "&cYou died to %killer%"
-  killed: "&aYou just killed %victim%"
-  broadcast-death: "&a&l%killer% just killed %victim%"
-  arrow-hit: "&aYou hit %victim%"
+  death: "&cYou were killed by &e%killer%&c."
+  killed: "&aYou have killed &e%victim%&a."
+  broadcast-death: "&e%victim% &cwas slain by &e%killer%&c."
+  arrow-hit: "&aYou have shot &e%victim%&a."
 health-display:
   enabled: true
   # Everything after the number
@@ -40,42 +40,42 @@ health-display:
 admin:
   spawn-set: '&aSpawn has been set'
   arena-set: '&aArena has been set'
-  plugin-reloaded: '&aPlugin has been reloaded'
+  plugin-reloaded: '&aKitPvP Plus has been reloaded'
 economy:
-  balance-message: '&eYour balance is %balance%'
-  other-balance-message: "&e%target%'s balance is %balance%"
-  balance-set: '&aYou have set %target%''s balance to %balance%$'
-  balance-reset: '&cYou have reset %target%''s balance'
-  balance-given: '&aYou have given %givenAmount%$ to %target%'
-  pay-message: '&aYou successfully paid %target% %amount%$'
-  insufficient-balance: '&cYou dont have enough money for this'
-  paid-message: '&aYou where paid %amount%$ by %payer%'
-  sent-to-self: '&cYou cant send money to yourself!'
+  balance-message: '&eYou have a balance of &a$%balance%&e.'
+  other-balance-message: "&a%target% has a balance of &a$%balance%&e."
+  balance-set: '&aYou have set &e%target%''s &abalance to &e$%balance%&a.'
+  balance-reset: '&e%target%''s &cbalance has been reset.'
+  balance-given: '&e%target% &ahas been given &e$%givenAmount%&a.'
+  pay-message: '&e%target% &ahas been paid &e$%amount%&a.'
+  insufficient-balance: '&cYou cannot afford this!'
+  paid-message: '&e%payer% &ahas paid you &e$%amount%&a. '
+  sent-to-self: '&cYou can''t send money to yourself!'
 abilities:
-  cooldown-message: '&cYour still on cooldown'
-  no-longer-on-cooldown: '&a%name% is no longer on cooldown'
-  sonic-activation-message: '&9Speed activated for 1 minute'
-  fire-man-activation-message: '&6Put you out!'
+  cooldown-message: '&cYou''re still on a cooldown!'
+  no-longer-on-cooldown: '&e%name% &ais no longer on cooldown&a.'
+  sonic-activation-message: '&9Speed activated for 1 minute.'
+  fire-man-activation-message: '&6You have been extinguished!'
 kits:
-  kit-loaded: '&aLoaded kit %kitname%'
-  kit-not-owned: '&cYou dont own this kit'
-  kit-already-owned: '&cYou already own this kit'
-  kit-given: '&aYou where given %kitname% by %player%'
-  kit-sent: '&aYou sent %target% %kitname%'
-  kit-created: '&aCreated %kitname%'
-  kit-deleted: '&cDeleted kit %kitname%'
-  kit-edit-displayname: '&aSet kit %kitname%''s displayname to %newname%'
-  kit-edit-icon: '&aSet kit %kitname%''s icon to %itemname%'
-  kit-edit-contents: '&aSet kit %kitname%''s contents to your inventory'
-  kit-edit-permission: '&aSet %kitname%''s permission to %permission%'
-  kit-edit-price: '&aSet %kitname%''s price to %price%'
-  kit-edit-cooldown: '&aSet %kitname%''s cooldown to %cooldown%'
-  kit-on-cooldown: '&cThis kit is on cooldown'
-  kit-dosent-exist: '&cThat kit dosent exist'
-  kit-already-exists: '&cThat kit already exists'
-  kit-menu-opening: "&aOpening menu"
-  kit-purchase-canceled: "&cPurchase canceled"
-  kit-purchase: "&aYou purchased %kit%"
+  kit-loaded: '&7You have equipped the &a%kitname% &7kit.'
+  kit-not-owned: '&cYou do not own this kit! Purchase it from the shop!'
+  kit-already-owned: '&cYou already own this kit!'
+  kit-given: '&7You were given &a%kitname% &7by &7%player%'
+  kit-sent: '&a%target% &7has been sent &a%kitname%&7.'
+  kit-created: '&aYou have created the kit &e%kitname%&a.'
+  kit-deleted: '&aYou have deleted kit &e%kitname%&a.'
+  kit-edit-displayname: '&aSet &e%kitname%''s &adisplayname to &e%newname%&a.'
+  kit-edit-icon: '&aSet kit &e%kitname%''s &aicon to &e%itemname%&a.'
+  kit-edit-contents: '&aSet kit &e%kitname%''s &acontents to your inventory.'
+  kit-edit-permission: '&aSet &e%kitname%''s &apermission to &e%permission%&a.'
+  kit-edit-price: '&aSet &e%kitname%''s &aprice to &e%price%&a.'
+  kit-edit-cooldown: '&aSet &e%kitname%''s &acooldown to &e%cooldown%&a.'
+  kit-on-cooldown: '&cThis kit is on cooldown. Try again later!'
+  kit-dosent-exist: '&cThat kit doesn''t exist.'
+  kit-already-exists: '&cThat kit already exists.'
+  kit-menu-opening: "&aOpening menu."
+  kit-purchase-canceled: "&cPurchase canceled."
+  kit-purchase: "&aYou have purchased &e%kit%&a."
 leaderboards:
   death-leaderboad: "&e&lDeath leaderboard"
   kills-leaderboad: "&e&lKills leaderboard"
@@ -87,23 +87,23 @@ leaderboards:
 help-commands:
   kit-command:
     - "&9%bar%"
-    - "&8- &b/kit <kitname> [player] &8- &7Loads given kit (to given player if provided)"
-    - "&8- &b/kit edit displayname <kitname> <newdisplayname> &8- &7Edits the displayname of given kit"
-    - "&8- &b/kit edit icon <kitname> &8- &7Edits the icon of given kit to the item in your hand"
-    - "&8- &b/kit contents <kitname> &8- &7Edits the contents of given kit to your inventory"
+    - "&8- &b/kit <kitname> [player] &8- &7Equips specified kit (to given player if provided)"
+    - "&8- &b/kit edit displayname <kitname> <newdisplayname> &8- &7Edits the displayname of specified kit"
+    - "&8- &b/kit edit icon <kitname> &8- &7Edits the icon of specified kit to the item in your hand"
+    - "&8- &b/kit contents <kitname> &8- &7Edits the contents of specified kit to your inventory"
     - "&9%bar%"
   core-command:
     - "&b%bar%"
-    - "&8- &9/kitpvp reload &8- &7Reloads the configs and database"
-    - "&8- &9/kitpvp reload config &8- &7Reloads just the configs"
+    - "&8- &9/kitpvp reload &8- &7Reloads the configuration files and database"
+    - "&8- &9/kitpvp reload config &8- &7Reloads just the configuration files"
     - "&8- &9/kitpvp reload database &8- &7Reloads just the database"
-    - "&8- &9/kitpvp credits &8- &7Sends the credits"
+    - "&8- &9/kitpvp credits &8- &7Sends the credits of the plugin"
     - "&b%bar%"
   eco-help:
     - "&d%bar%"
-    - "&8- &d/eco give [player] [amount] &8- &7Gives the player x amount of money"
-    - "&8- &d/eco set [player] [amount] &8- &7Sets the player's balance to x"
-    - "&8- &d/eco reset [player] [amount] &8- &7Sets the player's balance to 0"
+    - "&8- &d/eco give [player] [amount] &8- &7Gives specified amount of money to player"
+    - "&8- &d/eco set [player] [amount] &8- &7Sets specified amount of money to the player's balance"
+    - "&8- &d/eco reset [player] [amount] &8- &7Sets the player's balance to $0"
     - "&d%bar%"
   kit-admin:
     - "&c%bar%"
@@ -116,16 +116,16 @@ help-commands:
     - "&c%bar%"
   stats-admin:
     - "&9%bar%"
-    - "&b/kitpvp set exp [player] [exp] &8- &7Edit the exp of a player"
-    - "&b/kitpvp set kills [player] [kills] &8- &7Edit the kills of a player"
-    - "&b/kitpvp set deaths [player] [deaths] &8- &7Edit the deaths of a player"
-    - "&b/kitpvp clear deaths [player] &8- &7Clears the deaths of a player"
-    - "&b/kitpvp clear kills [player] &8- &7Clears the kills of a player"
-    - "&b/kitpvp clear exp [player] &8- &7Clears the exp of a player"
-    - "&b/kitpvp clear [player] &8- &7Clears all the stats of a player"
+    - "&b/kitpvp set exp [player] [exp] &8- &7Edit the experience of specified player"
+    - "&b/kitpvp set kills [player] [kills] &8- &7Edit the kill count of specified player"
+    - "&b/kitpvp set deaths [player] [deaths] &8- &7Edit the death count of specified player"
+    - "&b/kitpvp clear deaths [player] &8- &7Clears the death count of specified player"
+    - "&b/kitpvp clear kills [player] &8- &7Clears the kill count of specified player"
+    - "&b/kitpvp clear exp [player] &8- &7Clears the experience of specified player"
+    - "&b/kitpvp clear [player] &8- &7Clears every stat of specified player"
     - "&9%bar%"
 sign-contents:
-  sign-set: "&aSign was set to %sign_type%"
+  sign-set: "&aSign was set to &e%sign_type%&a."
   sign-deleted: "&cSign was deleted"
   arena-sign:
     - "&a[Right click]"

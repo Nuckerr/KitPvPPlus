@@ -10,7 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import wtf.nucker.kitpvpplus.KitPvPPlus;
-import wtf.nucker.kitpvpplus.dataHandelers.PlayerState;
+import wtf.nucker.kitpvpplus.dataHandlers.PlayerState;
 import wtf.nucker.kitpvpplus.objects.Ability;
 import wtf.nucker.kitpvpplus.utils.ItemUtils;
 
@@ -24,7 +24,7 @@ public class TNTShooter extends Ability {
     private final ConfigurationSection section = KitPvPPlus.getInstance().getConfig().getConfigurationSection("abilities.tnt-shooter");
 
     public TNTShooter() {
-        super("tnt_shooter", ItemUtils.buildItem("&cTNT Shooter", XMaterial.PAPER.parseMaterial(), 10, "&7Shoot oppenents with primed tnt", "&7Just right click"));
+        super("tnt_shooter", ItemUtils.buildItem("&cTNT Shooter", XMaterial.PAPER.parseMaterial(), 10, "&7Shoot opponents with primed tnt", "&7Just right click"));
         this.setItem(ItemUtils.buildItem(section.getString("displayname"), Material.valueOf(section.getString("material")),
                 section.getInt("amount"), section.getStringList("lore").toArray(new String[0])));
     }
