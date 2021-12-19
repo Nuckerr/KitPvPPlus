@@ -130,7 +130,6 @@ public final class KitPvPPlus extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         long time = System.currentTimeMillis();
         Logger.info(new String[]{
                 "&f" + ChatUtils.CONSOLE_BAR,
@@ -197,7 +196,6 @@ public final class KitPvPPlus extends JavaPlugin {
         KitManager.setup();
         this.kitManager = new KitManager();
         this.sbManager = new ScoreboardManager();
-
 
         this.registerEvents();
         this.registerCommands(new CustomCMDManager(this));
