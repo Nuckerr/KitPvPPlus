@@ -259,7 +259,7 @@
         <dependency>
             <groupId>wtf.nucker</groupId>
             <artifactId>SimpleMenus-spigot</artifactId>
-            <version>1.2</version>
+            <version>1.3.3</version>
         </dependency>
 
         <dependency>
