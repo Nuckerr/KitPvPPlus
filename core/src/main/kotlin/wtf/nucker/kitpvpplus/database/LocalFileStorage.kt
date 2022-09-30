@@ -1,9 +1,7 @@
 package wtf.nucker.kitpvpplus.database
 
 import org.spongepowered.configurate.BasicConfigurationNode
-import org.spongepowered.configurate.CommentedConfigurationNode
 import org.spongepowered.configurate.gson.GsonConfigurationLoader
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import wtf.nucker.kitpvpplus.manager.ConfigManager
 import wtf.nucker.kitpvpplus.`object`.PlayerData
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
@@ -19,7 +17,7 @@ class LocalFileStorage(override val configSettings: DatabaseConfigSettings) : Da
         logger.warn("YOU ARE USING THE LOCAL DATA STORAGE DRIVER FOR KITPVPPLUS.")
         logger.warn("IF YOU ARE USING THIS PLUGIN IN A PRODUCTION ENVIRONMENT, WE ADVISE YOU USE A DATABASE.")
         logger.warn("PAPER LIMITS THE MAX SIZE OF A FILE. SO ONLY USE THIS FOR TESTING AND SMALL SERVERS (IF THAT)")
-        logger.warn("YOU HAVE BEEN WARNED")
+        logger.warn("YOU HAVE BEEN WARNED...")
 
         logger.info("Loading data.json")
         loader = ConfigManager.retrieveLoaderJson("data.json").also { logger.debug("Loaded data.json") }
