@@ -2,14 +2,22 @@ package wtf.nucker.kitpvpplus
 
 import cloud.commandframework.kotlin.extension.buildAndRegister
 import org.bukkit.Server
+import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 import org.incendo.interfaces.paper.PaperInterfaceListeners
 import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.config.SettingsConfig
+import wtf.nucker.kitpvpplus.database.DataStorageMethod
+import wtf.nucker.kitpvpplus.database.DatabaseConfigSettings
+import wtf.nucker.kitpvpplus.database.LocalFileStorage
 import wtf.nucker.kitpvpplus.manager.CommandManager
 import wtf.nucker.kitpvpplus.manager.ConfigManager
+import wtf.nucker.kitpvpplus.util.KotlinExtensions
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.component
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.editPlayerData
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.playerData
 
 /**
  *
@@ -22,16 +30,31 @@ class KitPvPPlus(val bukkit: Plugin) {
     val server: Server = bukkit.server
     val pluginManager: PluginManager = bukkit.server.pluginManager
     val commandManager: CommandManager = CommandManager(bukkit)
+    val database: DataStorageMethod
 
     val settingsConfig: SettingsConfig = ConfigManager.loadConfig("settings.yml")
     val langConfig: LangConfig = ConfigManager.loadConfig("lang.yml")
 
     init {
+        KotlinExtensions.plugin = this
+
+        // Load database
+        database = when(settingsConfig.database.driver) {
+            DatabaseConfigSettings.DataDriver.LOCAL_FILE -> LocalFileStorage(settingsConfig.database)
+            DatabaseConfigSettings.DataDriver.MYSQL -> TODO()
+            DatabaseConfigSettings.DataDriver.POSTGRES -> TODO()
+            DatabaseConfigSettings.DataDriver.MONGO -> TODO()
+        }
+
         PaperInterfaceListeners.install(bukkit)
-        //logger.info(langConfig.locale.toLanguageTag())
         commandManager.buildAndRegister("test") {
+            senderType(Player::class)
             handler {
-                it.sender.sendMessage(langConfig.permissionMessage)
+                val player = it.sender as Player
+                player.editPlayerData { data ->
+                    data.kills++
+                }
+                it.sender.sendMessage(player.playerData.kills.toString())
             }
         }
     }

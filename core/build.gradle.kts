@@ -19,8 +19,8 @@ repositories {
 
 dependencies {
     paperDevBundle("1.19.2-R0.1-SNAPSHOT")
-    //implementation("com.github.simplix-softworks:simplixstorage:3.2.4")
     implementation("org.spongepowered:configurate-yaml:4.1.2")
+    implementation("org.spongepowered:configurate-gson:4.1.2")
     implementation("org.spongepowered:configurate-extra-kotlin:4.1.2")
     implementation("cloud.commandframework:cloud-core:1.7.1")
     implementation("cloud.commandframework:cloud-paper:1.7.1")
