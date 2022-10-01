@@ -32,8 +32,8 @@ dependencies {
     implementation("net.kyori:adventure-extra-kotlin:4.11.0")
     implementation("org.apache.logging.log4j:log4j-api:2.19.0")
     implementation("org.apache.logging.log4j:log4j-core:2.19.0")
-    implementation("org.reflections:reflections:0.10.2")
-    implementation("org.mongodb:mongo-java-driver:3.12.11")
+    implementation("dev.morphia.morphia:morphia-core:2.2.9")
+
 }
 
 tasks {
