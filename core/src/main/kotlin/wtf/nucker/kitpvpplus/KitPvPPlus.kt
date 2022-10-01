@@ -11,10 +11,10 @@ import wtf.nucker.kitpvpplus.config.SettingsConfig
 import wtf.nucker.kitpvpplus.database.DataStorageMethod
 import wtf.nucker.kitpvpplus.database.DatabaseConfigSettings
 import wtf.nucker.kitpvpplus.database.LocalFileStorage
+import wtf.nucker.kitpvpplus.database.MongoDataStorage
 import wtf.nucker.kitpvpplus.manager.CommandManager
 import wtf.nucker.kitpvpplus.manager.ConfigManager
 import wtf.nucker.kitpvpplus.util.KotlinExtensions
-import wtf.nucker.kitpvpplus.util.KotlinExtensions.component
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.editPlayerData
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.playerData
@@ -43,7 +43,7 @@ class KitPvPPlus(val bukkit: Plugin) {
             DatabaseConfigSettings.DataDriver.LOCAL_FILE -> LocalFileStorage(settingsConfig.database)
             DatabaseConfigSettings.DataDriver.MYSQL -> TODO()
             DatabaseConfigSettings.DataDriver.POSTGRES -> TODO()
-            DatabaseConfigSettings.DataDriver.MONGO -> TODO()
+            DatabaseConfigSettings.DataDriver.MONGO -> MongoDataStorage(settingsConfig.database)
         }
 
         PaperInterfaceListeners.install(bukkit)
