@@ -5,7 +5,7 @@ import org.spongepowered.configurate.objectmapping.meta.Comment
 
 @ConfigSerializable
 data class DatabaseConfigSettings(
-    val driver: DataDriver = DataDriver.LOCAL_FILE,
+    val driver: DataDriver = DataDriver.LOCAL_STORAGE,
     val host: String? = null,
     val port: Int? = null,
     @Comment("Only needed for SQL-based databases")
@@ -20,7 +20,7 @@ data class DatabaseConfigSettings(
     )
 
     enum class DataDriver {
-        LOCAL_FILE, MYSQL, POSTGRES, MONGO
+        LOCAL_STORAGE, MYSQL, POSTGRES, MONGO
     }
 }
 
