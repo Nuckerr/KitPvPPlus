@@ -19,8 +19,8 @@ repositories {
 
 dependencies {
     paperDevBundle("1.19.2-R0.1-SNAPSHOT")
-    //implementation("com.github.simplix-softworks:simplixstorage:3.2.4")
     implementation("org.spongepowered:configurate-yaml:4.1.2")
+    implementation("org.spongepowered:configurate-gson:4.1.2")
     implementation("org.spongepowered:configurate-extra-kotlin:4.1.2")
     implementation("cloud.commandframework:cloud-core:1.7.1")
     implementation("cloud.commandframework:cloud-paper:1.7.1")
@@ -32,7 +32,10 @@ dependencies {
     implementation("net.kyori:adventure-extra-kotlin:4.11.0")
     implementation("org.apache.logging.log4j:log4j-api:2.19.0")
     implementation("org.apache.logging.log4j:log4j-core:2.19.0")
-    implementation("org.reflections:reflections:0.10.2")
+    implementation("dev.morphia.morphia:morphia-core:2.2.9")
+    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("com.j256.ormlite:ormlite-core:6.1")
+    implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 }
 
 tasks {
