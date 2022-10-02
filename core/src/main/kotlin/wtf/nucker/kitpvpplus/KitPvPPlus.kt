@@ -38,7 +38,7 @@ class KitPvPPlus(val bukkit: Plugin) {
         // Load database
         database = when(settingsConfig.database.driver) {
             DatabaseConfigSettings.DataDriver.LOCAL_FILE -> LocalFileStorage(settingsConfig.database)
-            DatabaseConfigSettings.DataDriver.MYSQL -> TODO()
+            DatabaseConfigSettings.DataDriver.MYSQL -> MySQLDataStorage(settingsConfig.database)
             DatabaseConfigSettings.DataDriver.POSTGRES -> PostgresDataStorage(settingsConfig.database)
             DatabaseConfigSettings.DataDriver.MONGO -> MongoDataStorage(settingsConfig.database)
         }
