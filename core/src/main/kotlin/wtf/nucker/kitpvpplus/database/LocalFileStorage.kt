@@ -35,4 +35,8 @@ class LocalFileStorage(override val configSettings: DatabaseConfigSettings) : Da
         loader.save(configNode)
     }
 
+    override fun disconnect() {
+        loader.save(configNode)
+    }
+
 }

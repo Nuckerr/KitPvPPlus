@@ -43,6 +43,10 @@ class MongoDataStorage(override val configSettings: DatabaseConfigSettings) : Da
         datastore.save(data)
     }
 
+    override fun disconnect() {
+        datastore.session?.close()
+    }
+
 
     //    private val database: MongoCollection<Document>
 //    private val gson = Gson()

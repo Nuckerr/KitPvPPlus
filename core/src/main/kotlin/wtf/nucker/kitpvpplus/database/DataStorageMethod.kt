@@ -15,4 +15,6 @@ interface DataStorageMethod {
     fun updatePlayerData(player: Player, data: PlayerData) = updatePlayerData(player.uniqueId, data)
 
     fun updatePlayerData(uuid: UUID, data: PlayerData)
+
+    fun disconnect()
 }

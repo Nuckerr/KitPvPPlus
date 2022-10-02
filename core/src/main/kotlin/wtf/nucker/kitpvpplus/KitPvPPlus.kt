@@ -37,7 +37,7 @@ class KitPvPPlus(val bukkit: Plugin) {
 
         // Load database
         database = when(settingsConfig.database.driver) {
-            DatabaseConfigSettings.DataDriver.LOCAL_FILE -> LocalFileStorage(settingsConfig.database)
+            DatabaseConfigSettings.DataDriver.LOCAL_STORAGE -> LocalFileStorage(settingsConfig.database)
             DatabaseConfigSettings.DataDriver.MYSQL -> MySQLDataStorage(settingsConfig.database)
             DatabaseConfigSettings.DataDriver.POSTGRES -> PostgresDataStorage(settingsConfig.database)
             DatabaseConfigSettings.DataDriver.MONGO -> MongoDataStorage(settingsConfig.database)
@@ -56,9 +56,8 @@ class KitPvPPlus(val bukkit: Plugin) {
         }
     }
 
-
-
     fun onServerShutdown() {
         logger.info("KitPvPPlus is now shutting down")
+        database.disconnect()
     }
 }

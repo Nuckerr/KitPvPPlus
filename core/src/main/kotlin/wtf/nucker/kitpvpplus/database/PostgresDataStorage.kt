@@ -43,4 +43,8 @@ class PostgresDataStorage(override val configSettings: DatabaseConfigSettings) :
     override fun updatePlayerData(uuid: UUID, data: PlayerData) {
         dao.update(data)
     }
+
+    override fun disconnect() {
+        connection.closeQuietly()
+    }
 }

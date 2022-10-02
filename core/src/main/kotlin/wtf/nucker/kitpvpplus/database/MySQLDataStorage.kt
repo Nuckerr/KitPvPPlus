@@ -43,4 +43,8 @@ class MySQLDataStorage(override val configSettings: DatabaseConfigSettings) : Da
     override fun updatePlayerData(uuid: UUID, data: PlayerData) {
         dao.update(data)
     }
+
+    override fun disconnect() {
+        connection.closeQuietly()
+    }
 }
