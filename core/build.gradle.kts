@@ -33,7 +33,9 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:2.19.0")
     implementation("org.apache.logging.log4j:log4j-core:2.19.0")
     implementation("dev.morphia.morphia:morphia-core:2.2.9")
-
+    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("com.j256.ormlite:ormlite-core:6.1")
+    implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 }
 
 tasks {
