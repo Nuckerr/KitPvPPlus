@@ -8,6 +8,7 @@ import org.spongepowered.configurate.yaml.NodeStyle
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import wtf.nucker.kitpvpplus.adapter.ComponentAdapter
 import wtf.nucker.kitpvpplus.adapter.LocaleAdapter
+import wtf.nucker.kitpvpplus.adapter.TitleAdapter
 import wtf.nucker.kitpvpplus.adapter.register
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
 import java.nio.file.Path
@@ -19,6 +20,7 @@ object ConfigManager {
     private val serializers: TypeSerializerCollection = TypeSerializerCollection.builder()
         .register(ComponentAdapter.INSTANCE)
         .register(LocaleAdapter.INSTANCE)
+        .register(TitleAdapter.INSTANCE)
         .build()
 
     inline fun <reified T : Any> loadConfig(name: String): T {
