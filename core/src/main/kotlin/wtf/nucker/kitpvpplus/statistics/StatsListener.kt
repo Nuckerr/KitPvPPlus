@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import wtf.nucker.kitpvpplus.config.SettingsConfig
+import wtf.nucker.kitpvpplus.statistics.lang.DeathLang
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.editPlayerData
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.placeholder
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.playBukkitSound

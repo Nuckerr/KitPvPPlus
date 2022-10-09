@@ -1,4 +1,4 @@
-package wtf.nucker.kitpvpplus.statistics
+package wtf.nucker.kitpvpplus.statistics.config
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 

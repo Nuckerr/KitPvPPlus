@@ -1,4 +1,4 @@
-package wtf.nucker.kitpvpplus.statistics
+package wtf.nucker.kitpvpplus.statistics.lang
 
 import net.kyori.adventure.text.Component
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
