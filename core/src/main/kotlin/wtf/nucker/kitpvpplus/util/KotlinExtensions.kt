@@ -101,7 +101,7 @@ object KotlinExtensions {
         )
     }
 
-    fun List<Component>.sendTo(sender: CommandSender, target: Player = sender as Player) {
+    fun List<Component>.sendTo(sender: CommandSender, target: OfflinePlayer = sender as Player) {
         forEach {
             it.sendTo(sender, target = target)
         }

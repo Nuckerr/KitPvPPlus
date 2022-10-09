@@ -1,10 +1,10 @@
 package wtf.nucker.kitpvpplus.statistics
 
 import cloud.commandframework.ArgumentDescription
-import cloud.commandframework.bukkit.parsers.PlayerArgument
+import cloud.commandframework.bukkit.parsers.OfflinePlayerArgument
 import cloud.commandframework.kotlin.extension.buildAndRegister
 import net.kyori.adventure.text.Component
-import org.bukkit.entity.Player
+import org.bukkit.OfflinePlayer
 import wtf.nucker.kitpvpplus.manager.CommandManager
 import wtf.nucker.kitpvpplus.statistics.lang.StatisticsLang
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.argumentOrSender
@@ -48,10 +48,10 @@ class StatCommands(private val commandManager: CommandManager, private val messa
             ArgumentDescription.of("View your statistics"),
             arrayOf("statistics")
         ) {
-            argument(PlayerArgument.optional("target"))
+            argument(OfflinePlayerArgument.optional("target"))
             handler {
                 if(!it.argumentOrSender()) return@handler
-                val target: Player = it.getOrDefault<Player>("target", null) ?: (it.sender as Player)
+                val target: OfflinePlayer = it.getOrDefault<OfflinePlayer>("target", null) ?: (it.sender as OfflinePlayer)
                 val data = target.playerData
 
                 messages.statisticsMessage
@@ -70,15 +70,15 @@ class StatCommands(private val commandManager: CommandManager, private val messa
         }
     }
 
-    private fun registerIndividualStatCommand(name: String, description: String, aliases: Array<String> = emptyArray(), message: (Player) -> Component) {
+    private fun registerIndividualStatCommand(name: String, description: String, aliases: Array<String> = emptyArray(), message: (OfflinePlayer) -> Component) {
         commandManager.buildAndRegister(
             name,
             ArgumentDescription.of(description),
             aliases) {
-            argument(PlayerArgument.optional("target"))
+            argument(OfflinePlayerArgument.optional("target"))
             handler {
                 if(!it.argumentOrSender()) return@handler
-                val target: Player = it.getOrDefault<Player>("target", null) ?: (it.sender as Player)
+                val target: OfflinePlayer = it.getOrDefault<OfflinePlayer>("target", null) ?: (it.sender as OfflinePlayer)
                 message.invoke(target).sendTo(it.sender, target = target)
             }
         }
