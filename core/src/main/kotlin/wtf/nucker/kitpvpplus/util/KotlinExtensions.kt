@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.title.Title
 import org.bukkit.Location
+import org.bukkit.OfflinePlayer
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -27,11 +28,11 @@ object KotlinExtensions {
 
     lateinit var plugin: KitPvPPlus
 
-    var Player.playerData
+    var OfflinePlayer.playerData
         get() = plugin.database.getPlayerData(this)
         set(data) = plugin.database.updatePlayerData(this, data)
 
-    fun Player.editPlayerData(editor: Consumer<PlayerData>) {
+    fun OfflinePlayer.editPlayerData(editor: Consumer<PlayerData>) {
         val data = playerData
         editor.accept(data)
         playerData = data
@@ -93,9 +94,9 @@ object KotlinExtensions {
         return list.toList() // Make immutable
     }
 
-    fun Component.sendTo(sender: CommandSender, target: Player = sender as Player) {
+    fun Component.sendTo(sender: CommandSender, target: OfflinePlayer = sender as Player) {
         sender.sendMessage(this
-            .placeholder("player", target.name)
+            .placeholder("player", target.name ?: target.uniqueId.toString())
             .placeholder("sender", sender.name)
         )
     }

@@ -10,6 +10,7 @@ import org.incendo.interfaces.paper.PaperInterfaceListeners
 import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.config.SettingsConfig
 import wtf.nucker.kitpvpplus.database.*
+import wtf.nucker.kitpvpplus.economy.EconomyModule
 import wtf.nucker.kitpvpplus.manager.CommandManager
 import wtf.nucker.kitpvpplus.manager.ConfigManager
 import wtf.nucker.kitpvpplus.statistics.StatisticsModule
@@ -58,6 +59,7 @@ class KitPvPPlus(val bukkit: Plugin) {
         }
 
         StatisticsModule(this)
+        EconomyModule(this)
     }
 
     fun onServerShutdown() {
