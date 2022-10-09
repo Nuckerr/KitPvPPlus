@@ -1,5 +1,6 @@
 package wtf.nucker.kitpvpplus.util
 
+import cloud.commandframework.context.CommandContext
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.Style
 import net.kyori.adventure.text.format.TextColor
@@ -115,4 +116,12 @@ object KotlinExtensions {
     fun Title.placeholder(identifier: String, value: String): Title = placeholder(identifier, Component.text(value))
 
     fun Title.placeholder(identifier: String, value: Any): Title = placeholder(identifier, value.toString())
+
+    fun CommandContext<CommandSender>.argumentOrSender(targetArgumentName: String = "target"): Boolean {
+        if(sender !is Player && getOptional<Player>(targetArgumentName).isEmpty) {
+            sender.sendMessage(plugin.langConfig.mustBeInGame)
+            return false
+        }
+        return true
+    }
 }
