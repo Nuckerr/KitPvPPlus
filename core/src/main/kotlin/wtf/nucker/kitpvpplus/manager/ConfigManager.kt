@@ -6,10 +6,7 @@ import org.spongepowered.configurate.gson.GsonConfigurationLoader
 import org.spongepowered.configurate.serialize.TypeSerializerCollection
 import org.spongepowered.configurate.yaml.NodeStyle
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
-import wtf.nucker.kitpvpplus.adapter.ComponentAdapter
-import wtf.nucker.kitpvpplus.adapter.LocaleAdapter
-import wtf.nucker.kitpvpplus.adapter.TitleAdapter
-import wtf.nucker.kitpvpplus.adapter.register
+import wtf.nucker.kitpvpplus.adapter.*
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
 import java.nio.file.Path
 
@@ -18,16 +15,19 @@ object ConfigManager {
     private const val FOLDER_NAME = "KitPvPPlus"
 
     private val serializers: TypeSerializerCollection = TypeSerializerCollection.builder()
+        .register(LocationAdapter())
+        .register(BlockRegionAdapter())
         .register(ComponentAdapter.INSTANCE)
-        .register(LocaleAdapter.INSTANCE)
         .register(TitleAdapter.INSTANCE)
+        .register(LocaleAdapter.INSTANCE)
+        .register(ArenaAdapter())
         .build()
 
     inline fun <reified T : Any> loadConfig(name: String): T {
         logger.info("Loading $name")
-        val loader: YamlConfigurationLoader = retrieveLoaderYaml(name)
+        val loader = if(name.endsWith(".json")) retrieveLoaderJson(name) else retrieveLoaderYaml(name)
 
-        val node: CommentedConfigurationNode = loader.load()
+        val node = loader.load()
         val config = node.get(T::class.java)!!
         reloadConfig(name, config)
         return config

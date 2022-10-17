@@ -3,6 +3,7 @@ package wtf.nucker.kitpvpplus.config
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
+import wtf.nucker.kitpvpplus.arena.lang.ArenaLang
 import wtf.nucker.kitpvpplus.economy.lang.EconomyLang
 import wtf.nucker.kitpvpplus.statistics.lang.DeathLang
 import wtf.nucker.kitpvpplus.statistics.lang.StatisticsLang
@@ -17,4 +18,5 @@ class LangConfig {
     val statistics: StatisticsLang = StatisticsLang()
     val economy: EconomyLang = EconomyLang()
     val deathMessages: DeathLang = DeathLang()
+    val arena: ArenaLang = ArenaLang()
 }

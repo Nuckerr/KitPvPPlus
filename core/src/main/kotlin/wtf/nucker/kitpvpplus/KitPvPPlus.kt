@@ -7,6 +7,7 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 import org.incendo.interfaces.paper.PaperInterfaceListeners
+import wtf.nucker.kitpvpplus.arena.ArenaManager
 import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.config.SettingsConfig
 import wtf.nucker.kitpvpplus.database.*
@@ -29,11 +30,14 @@ class KitPvPPlus(val bukkit: Plugin) {
 
     val server: Server = bukkit.server
     private val pluginManager: PluginManager = bukkit.server.pluginManager
-    val commandManager: CommandManager = CommandManager(bukkit)
     val database: DataStorageMethod
 
     val settingsConfig: SettingsConfig = ConfigManager.loadConfig("settings.yml")
     val langConfig: LangConfig = ConfigManager.loadConfig("lang.yml")
+
+    val commandManager: CommandManager = CommandManager(bukkit, langConfig)
+
+    val arenaManager: ArenaManager = ArenaManager(this)
 
     init {
         KotlinExtensions.plugin = this

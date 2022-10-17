@@ -10,11 +10,13 @@ import net.kyori.adventure.title.Title
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.Sound
+import org.bukkit.block.Block
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import wtf.nucker.kitpvpplus.KitPvPPlus
+import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.`object`.PlayerData
 import java.util.function.Consumer
 
@@ -94,10 +96,10 @@ object KotlinExtensions {
         return list.toList() // Make immutable
     }
 
-    fun Component.sendTo(sender: CommandSender, target: OfflinePlayer = sender as Player) {
+    fun Component.sendTo(sender: CommandSender, target: OfflinePlayer? = sender as Player) {
         sender.sendMessage(this
-            .placeholder("player", target.name ?: target.uniqueId.toString())
             .placeholder("sender", sender.name)
+            .also { if(target != null) it.placeholder("player", target.name ?: target.uniqueId.toString()) }
         )
     }
 
@@ -125,4 +127,10 @@ object KotlinExtensions {
         }
         return true
     }
+
+    val Block.component
+        get() = Component.text("$x, $y, $z")
+
+    val <C> CommandContext<C>.lang
+        get() = get<LangConfig>("lang")
 }
