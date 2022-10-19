@@ -14,7 +14,7 @@ class ArenaAdapter: Adapter<Arena> {
         if(node.isNull) return null
         val id = node.node("id").string!!
         val name = node.node("name").get(Component::class.java)!!
-        val blockRegion = node.node("id").get(BlockRegion::class.java)!!
+        val blockRegion = node.node("region").get(BlockRegion::class.java)!!
         return object : Arena {
             override val id: String = id
             override var name: Component = name
