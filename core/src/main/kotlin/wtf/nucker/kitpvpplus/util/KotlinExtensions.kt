@@ -63,29 +63,40 @@ object KotlinExtensions {
     }
 
 
-    fun Component.placeholder(identifier: String, value: Component): Component {
-        return this.replaceText {
+    fun Component.placeholder(identifier: String, value: Component, identifierAlias: Array<String> = emptyArray()): Component {
+        var newComp = this.replaceText {
             it.matchLiteral("%$identifier%")
             it.replacement(value)
         }
+        identifierAlias.forEach { id ->
+            newComp = newComp.replaceText {
+                it.matchLiteral("%$id%")
+                it.replacement(value)
+            }
+        }
+        return newComp
     }
 
-    fun Component.placeholder(identifier: String, value: String): Component = placeholder(identifier, Component.text(value))
+    fun Component.placeholder(identifier: String, value: String, identifierAlias: Array<String> = emptyArray()): Component
+    = placeholder(identifier, Component.text(value), identifierAlias)
 
-    fun Component.placeholder(identifier: String, value: Any): Component = placeholder(identifier, value.toString())
+    fun Component.placeholder(identifier: String, value: Any, identifierAlias: Array<String> = emptyArray()): Component
+    = placeholder(identifier, value.toString(), identifierAlias)
 
 
-    fun List<Component>.placeholder(identifier: String, value: Component): List<Component> {
+    fun List<Component>.placeholder(identifier: String, value: Component, identifierAlias: Array<String> = emptyArray()): List<Component> {
         val newList: MutableList<Component> = mutableListOf()
         forEach {
-            newList.add(it.placeholder(identifier, value))
+            newList.add(it.placeholder(identifier, value, identifierAlias))
         }
         return newList.toList() // Turn immutable
     }
 
-    fun List<Component>.placeholder(identifier: String, value: String): List<Component> = placeholder(identifier, Component.text(value))
+    fun List<Component>.placeholder(identifier: String, value: String, identifierAlias: Array<String> = emptyArray()): List<Component>
+    = placeholder(identifier, Component.text(value), identifierAlias)
 
-    fun List<Component>.placeholder(identifier: String, value: Any): List<Component> = placeholder(identifier, value.toString())
+    fun List<Component>.placeholder(identifier: String, value: Any, identifierAlias: Array<String> = emptyArray()): List<Component>
+    = placeholder(identifier, value.toString(), identifierAlias)
 
     fun List<String>.adaptStringsToComponents(): List<Component> {
         val list: MutableList<Component> = mutableListOf()

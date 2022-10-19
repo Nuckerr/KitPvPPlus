@@ -5,5 +5,5 @@ import wtf.nucker.kitpvpplus.arena.Arena
 
 @ConfigSerializable
 data class ArenaConfig(
-    val arenas: MutableMap<String, Arena> = mutableMapOf()
+    var arenas: MutableMap<String, Arena> = mutableMapOf()
 )

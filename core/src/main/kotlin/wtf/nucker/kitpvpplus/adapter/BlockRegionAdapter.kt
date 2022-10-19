@@ -12,6 +12,7 @@ class BlockRegionAdapter: Adapter<BlockRegion> {
     override fun deserialize(type: Type, node: ConfigurationNode): BlockRegion? {
         if(node.isNull) return null
 
+        println(node.path().array().contentToString())
         val point1 = node.node("point1").get(Location::class.java)!!
         val point2 = node.node("point2").get(Location::class.java)!!
         return BlockRegion(point1.block, point2.block)
