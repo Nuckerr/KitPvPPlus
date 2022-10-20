@@ -1,6 +1,7 @@
 package wtf.nucker.kitpvpplus
 
 import cloud.commandframework.kotlin.extension.buildAndRegister
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Server
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
@@ -16,9 +17,8 @@ import wtf.nucker.kitpvpplus.manager.CommandManager
 import wtf.nucker.kitpvpplus.manager.ConfigManager
 import wtf.nucker.kitpvpplus.statistics.StatisticsModule
 import wtf.nucker.kitpvpplus.util.KotlinExtensions
-import wtf.nucker.kitpvpplus.util.KotlinExtensions.editPlayerData
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.component
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
-import wtf.nucker.kitpvpplus.util.KotlinExtensions.playerData
 
 /**
  *
@@ -55,10 +55,12 @@ class KitPvPPlus(val bukkit: Plugin) {
             senderType(Player::class)
             handler {
                 val player = it.sender as Player
-                player.editPlayerData { data ->
-                    data.kills++
+                val arena = arenaManager.arenas[0]
+                if(player in arena.region) {
+                    player.sendMessage("You are in ${arena.id}" component NamedTextColor.WHITE)
+                }else {
+                    player.sendMessage("You are not in an arena" component NamedTextColor.WHITE)
                 }
-                it.sender.sendMessage(player.playerData.kills.toString())
             }
         }
 

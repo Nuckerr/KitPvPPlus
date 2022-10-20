@@ -16,6 +16,7 @@ import org.bukkit.entity.Player
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import wtf.nucker.kitpvpplus.KitPvPPlus
+import wtf.nucker.kitpvpplus.arena.Arena
 import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.`object`.PlayerData
 import java.util.function.Consumer
@@ -144,4 +145,11 @@ object KotlinExtensions {
 
     val <C> CommandContext<C>.lang
         get() = get<LangConfig>("lang")
+
+    fun List<Arena>.isPlayerInArena(player: Player): Boolean {
+        forEach {
+            if(player in it.region) return true
+        }
+        return false
+    }
 }

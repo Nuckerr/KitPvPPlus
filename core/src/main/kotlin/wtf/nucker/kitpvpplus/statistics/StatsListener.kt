@@ -4,20 +4,22 @@ import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
+import wtf.nucker.kitpvpplus.arena.ArenaManager
 import wtf.nucker.kitpvpplus.config.SettingsConfig
 import wtf.nucker.kitpvpplus.statistics.lang.DeathLang
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.editPlayerData
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.isPlayerInArena
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.placeholder
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.playBukkitSound
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.playerData
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.sendTo
 
-class StatsListener(private val lang: DeathLang, private val settings: SettingsConfig): Listener {
+class StatsListener(private val lang: DeathLang, private val settings: SettingsConfig, private val arenaManager: ArenaManager): Listener {
 
     @EventHandler
     fun playerDeathEvent(event: PlayerDeathEvent) {
         val killer = event.player.killer ?: return
-        // TODO: Check if they are in an arena
+        if(!(arenaManager.arenas.isPlayerInArena(event.player) && arenaManager.arenas.isPlayerInArena(killer))) return
 
         // Killed Player
         event.player.editPlayerData {

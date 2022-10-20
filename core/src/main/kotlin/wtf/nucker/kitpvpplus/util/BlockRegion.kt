@@ -8,14 +8,43 @@ import java.util.concurrent.ThreadLocalRandom
 
 class BlockRegion(val point1: Block, val point2: Block) {
 
+    private val largerXPoint: Int
+    private val largerYPoint: Int
+    private val largerZPoint: Int
+
+    private val smallerXPoint: Int
+    private val smallerYPoint: Int
+    private val smallerZPoint: Int
+
+    init {
+        if(point1.x >= point2.x) {
+            largerXPoint = point1.x
+            smallerXPoint = point2.x
+        } else {
+            largerXPoint = point2.x
+            smallerXPoint = point1.x
+        }
+
+        if(point1.y >= point2.y) {
+            largerYPoint = point1.y
+            smallerYPoint = point2.y
+        } else {
+            largerYPoint = point2.y
+            smallerYPoint = point1.y
+        }
+
+        if(point1.z >= point2.z) {
+            largerZPoint = point1.z
+            smallerZPoint = point2.z
+        } else {
+            largerZPoint = point2.z
+            smallerZPoint = point1.z
+        }
+    }
+
     operator fun contains(location: Location): Boolean {
-        val x1: Int = point1.x
-        val z1: Int = point1.z
 
-        val x2: Int = point2.x
-        val z2: Int = point2.z
-
-        return location.x > x1 && location.z > z1 && location.x < x2 && location.z < z2
+        return location.x > smallerXPoint && location.z > smallerZPoint && location.x < largerXPoint && location.z < largerZPoint
     }
 
     operator fun contains(player: Player): Boolean = player.location in this
