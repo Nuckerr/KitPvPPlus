@@ -10,11 +10,14 @@ import net.kyori.adventure.title.Title
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.Sound
+import org.bukkit.block.Block
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import wtf.nucker.kitpvpplus.KitPvPPlus
+import wtf.nucker.kitpvpplus.arena.Arena
+import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.`object`.PlayerData
 import java.util.function.Consumer
 
@@ -48,6 +51,9 @@ object KotlinExtensions {
     val String.component
         get() = Component.text(this)
 
+    val String.parsedComponent
+        get() = MiniMessage.miniMessage().deserialize(this)
+
     infix fun String.component(color: TextColor): Component {
         return Component.text(this, color)
     }
@@ -61,29 +67,40 @@ object KotlinExtensions {
     }
 
 
-    fun Component.placeholder(identifier: String, value: Component): Component {
-        return this.replaceText {
+    fun Component.placeholder(identifier: String, value: Component, identifierAlias: Array<String> = emptyArray()): Component {
+        var newComp = this.replaceText {
             it.matchLiteral("%$identifier%")
             it.replacement(value)
         }
+        identifierAlias.forEach { id ->
+            newComp = newComp.replaceText {
+                it.matchLiteral("%$id%")
+                it.replacement(value)
+            }
+        }
+        return newComp
     }
 
-    fun Component.placeholder(identifier: String, value: String): Component = placeholder(identifier, Component.text(value))
+    fun Component.placeholder(identifier: String, value: String, identifierAlias: Array<String> = emptyArray()): Component
+    = placeholder(identifier, Component.text(value), identifierAlias)
 
-    fun Component.placeholder(identifier: String, value: Any): Component = placeholder(identifier, value.toString())
+    fun Component.placeholder(identifier: String, value: Any, identifierAlias: Array<String> = emptyArray()): Component
+    = placeholder(identifier, value.toString(), identifierAlias)
 
 
-    fun List<Component>.placeholder(identifier: String, value: Component): List<Component> {
+    fun List<Component>.placeholder(identifier: String, value: Component, identifierAlias: Array<String> = emptyArray()): List<Component> {
         val newList: MutableList<Component> = mutableListOf()
         forEach {
-            newList.add(it.placeholder(identifier, value))
+            newList.add(it.placeholder(identifier, value, identifierAlias))
         }
         return newList.toList() // Turn immutable
     }
 
-    fun List<Component>.placeholder(identifier: String, value: String): List<Component> = placeholder(identifier, Component.text(value))
+    fun List<Component>.placeholder(identifier: String, value: String, identifierAlias: Array<String> = emptyArray()): List<Component>
+    = placeholder(identifier, Component.text(value), identifierAlias)
 
-    fun List<Component>.placeholder(identifier: String, value: Any): List<Component> = placeholder(identifier, value.toString())
+    fun List<Component>.placeholder(identifier: String, value: Any, identifierAlias: Array<String> = emptyArray()): List<Component>
+    = placeholder(identifier, value.toString(), identifierAlias)
 
     fun List<String>.adaptStringsToComponents(): List<Component> {
         val list: MutableList<Component> = mutableListOf()
@@ -94,10 +111,10 @@ object KotlinExtensions {
         return list.toList() // Make immutable
     }
 
-    fun Component.sendTo(sender: CommandSender, target: OfflinePlayer = sender as Player) {
+    fun Component.sendTo(sender: CommandSender, target: OfflinePlayer? = sender as Player) {
         sender.sendMessage(this
-            .placeholder("player", target.name ?: target.uniqueId.toString())
             .placeholder("sender", sender.name)
+            .also { if(target != null) it.placeholder("player", target.name ?: target.uniqueId.toString()) }
         )
     }
 
@@ -124,5 +141,17 @@ object KotlinExtensions {
             return false
         }
         return true
+    }
+
+    val Block.component
+        get() = Component.text("$x, $y, $z")
+
+    val <C> CommandContext<C>.lang
+        get() = get<LangConfig>("lang")
+    fun List<Arena>.isPlayerInArena(player: Player): Boolean {
+        forEach {
+            if(player in it) return true
+        }
+        return false
     }
 }

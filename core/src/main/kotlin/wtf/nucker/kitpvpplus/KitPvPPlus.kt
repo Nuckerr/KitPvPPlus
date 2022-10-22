@@ -1,12 +1,14 @@
 package wtf.nucker.kitpvpplus
 
 import cloud.commandframework.kotlin.extension.buildAndRegister
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Server
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.PluginManager
 import org.incendo.interfaces.paper.PaperInterfaceListeners
+import wtf.nucker.kitpvpplus.arena.ArenaManager
 import wtf.nucker.kitpvpplus.config.LangConfig
 import wtf.nucker.kitpvpplus.config.SettingsConfig
 import wtf.nucker.kitpvpplus.database.*
@@ -15,9 +17,8 @@ import wtf.nucker.kitpvpplus.manager.CommandManager
 import wtf.nucker.kitpvpplus.manager.ConfigManager
 import wtf.nucker.kitpvpplus.statistics.StatisticsModule
 import wtf.nucker.kitpvpplus.util.KotlinExtensions
-import wtf.nucker.kitpvpplus.util.KotlinExtensions.editPlayerData
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.component
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.logger
-import wtf.nucker.kitpvpplus.util.KotlinExtensions.playerData
 
 /**
  *
@@ -29,11 +30,14 @@ class KitPvPPlus(val bukkit: Plugin) {
 
     val server: Server = bukkit.server
     private val pluginManager: PluginManager = bukkit.server.pluginManager
-    val commandManager: CommandManager = CommandManager(bukkit)
     val database: DataStorageMethod
 
     val settingsConfig: SettingsConfig = ConfigManager.loadConfig("settings.yml")
     val langConfig: LangConfig = ConfigManager.loadConfig("lang.yml")
+
+    val commandManager: CommandManager = CommandManager(this)
+    val arenaManager: ArenaManager = ArenaManager(this)
+
 
     init {
         KotlinExtensions.plugin = this
@@ -51,15 +55,20 @@ class KitPvPPlus(val bukkit: Plugin) {
             senderType(Player::class)
             handler {
                 val player = it.sender as Player
-                player.editPlayerData { data ->
-                    data.kills++
+                val arena = arenaManager.arenas[0]
+                if(player in arena) {
+                    player.sendMessage("You are in ${arena.id}" component NamedTextColor.WHITE)
+                }else {
+                    player.sendMessage("You are not in an arena" component NamedTextColor.WHITE)
                 }
-                it.sender.sendMessage(player.playerData.kills.toString())
             }
         }
 
         StatisticsModule(this)
         EconomyModule(this)
+
+        commandManager.registerParsers()
+        commandManager.registerCommands()
     }
 
     fun onServerShutdown() {
