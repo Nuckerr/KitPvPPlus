@@ -10,6 +10,8 @@ data class ArenaLang(
     val arenaCreated: Component = "You have successfully created %arena%" component NamedTextColor.GREEN,
     val arenaDeleted: Component = "You have successfully deleted %arena%" component NamedTextColor.GREEN,
     val arenaNameUpdated: Component = "You have successfully changed %arena%'s name from %old_name% to %new_name%" component NamedTextColor.GREEN,
+    val arenaNowRestricted: Component = "%arena% is now restricted" component NamedTextColor.GREEN,
+    val arenaNoLongerRestricted: Component = "%arena% is no longer restricted" component NamedTextColor.GREEN,
     val arenaRegionUpdated: Component = "You have successfully changed %arena%'s region to %region_point_1% to %region_point_2%" component NamedTextColor.GREEN,
     val noArenasCreated: Component = "There are no arenas" component NamedTextColor.RED,
 )

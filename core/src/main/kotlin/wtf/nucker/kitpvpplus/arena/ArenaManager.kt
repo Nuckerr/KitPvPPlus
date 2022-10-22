@@ -28,6 +28,7 @@ class ArenaManager(plugin: KitPvPPlus) {
             override var name: Component = id component NamedTextColor.WHITE
             override val id: String = id
             override var region: BlockRegion = region
+            override var restrictedAccess: Boolean = false
         }.also {
             config.arenas[it.id] = it
             ConfigManager.reloadConfig("arenas.json", config)

@@ -1,6 +1,7 @@
 package wtf.nucker.kitpvpplus.arena.command
 
 import cloud.commandframework.ArgumentDescription
+import cloud.commandframework.arguments.standard.BooleanArgument
 import cloud.commandframework.arguments.standard.StringArgument
 import cloud.commandframework.bukkit.parsers.location.LocationArgument
 import net.kyori.adventure.extra.kotlin.text
@@ -77,11 +78,28 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
                         arena.region = BlockRegion(it.get<Location>("point1").block, it.get<Location>("point2").block)
                         arenaManager.editArena(arena)
 
-                        it.lang.arena.arenaNameUpdated
+                        it.lang.arena.arenaRegionUpdated
                             .placeholder("id", arena.id, identifierAlias = arrayOf("arena"))
                             .placeholder("name", arena.name)
                             .placeholder("region_point_1", arena.region.point1.component)
                             .placeholder("region_point_2", arena.region.point2.component)
+                            .sendTo(it.sender, target = null)
+                    }
+                }.commandBuilder)
+
+                manager.command(copy {
+                    literal("restricted")
+                    argument(ArenaParser.of("arena"))
+                    argument(BooleanArgument.optional("restricted"))
+                    handler {
+                        val arena: Arena = it["arena"]
+                        arena.restrictedAccess = it.getOrDefault("restricted", !arena.restrictedAccess)!!
+                        arenaManager.editArena(arena)
+
+                        (if(arena.restrictedAccess) it.lang.arena.arenaNowRestricted else it.lang.arena.arenaNoLongerRestricted)
+                            .placeholder("id", arena.id, identifierAlias = arrayOf("arena"))
+                            .placeholder("restricted", arena.restrictedAccess)
+                            .placeholder("name", arena.name)
                             .sendTo(it.sender, target = null)
                     }
                 }.commandBuilder)

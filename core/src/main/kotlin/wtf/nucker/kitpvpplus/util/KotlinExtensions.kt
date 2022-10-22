@@ -147,7 +147,7 @@ object KotlinExtensions {
         get() = get<LangConfig>("lang")
     fun List<Arena>.isPlayerInArena(player: Player): Boolean {
         forEach {
-            if(player in it.region) return true
+            if(player in it) return true
         }
         return false
     }

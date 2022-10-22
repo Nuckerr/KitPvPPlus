@@ -15,10 +15,12 @@ class ArenaAdapter: Adapter<Arena> {
         val id = node.node("id").string!!
         val name = node.node("name").get(Component::class.java)!!
         val blockRegion = node.node("region").get(BlockRegion::class.java)!!
+        val restrictedAccess = node.node("restrictedAccess").boolean
         return object : Arena {
             override val id: String = id
             override var name: Component = name
             override var region: BlockRegion = blockRegion
+            override var restrictedAccess: Boolean = restrictedAccess
 
         }
     }
@@ -32,6 +34,7 @@ class ArenaAdapter: Adapter<Arena> {
         node.node("id").set(obj.id)
         node.node("name").set(obj.name)
         node.node("region").set(obj.region)
+        node.node("restrictedAccess").set(obj.restrictedAccess)
     }
 
 }

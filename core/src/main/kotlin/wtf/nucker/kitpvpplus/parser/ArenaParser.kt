@@ -12,30 +12,31 @@ import wtf.nucker.kitpvpplus.arena.Arena
 import wtf.nucker.kitpvpplus.arena.ArenaManager
 import java.util.*
 
-class ArenaParser<C : Any>(private val arenaManager: ArenaManager) : ArgumentParser<C, Arena> {
+class ArenaParser(private val arenaManager: ArenaManager) : ArgumentParser<CommandSender, Arena> {
 
     init {
         instance = this
     }
 
-    override fun parse(commandContext: CommandContext<C>, inputQueue: Queue<String>): ArgumentParseResult<Arena> {
+    override fun parse(commandContext: CommandContext<CommandSender>, inputQueue: Queue<String>): ArgumentParseResult<Arena> {
         val id = inputQueue.peek() ?: return ArgumentParseResult.failure(NoInputProvidedException(this::class.java, commandContext))
         val arena = arenaManager.getArena(id) ?: return ArgumentParseResult.failure(NullPointerException("No arena with the id $id exists"))
+        if(!arena.hasPermission(commandContext.sender)) return ArgumentParseResult.failure(IllegalStateException("You don't have permission to $id"))
         inputQueue.remove()
         return ArgumentParseResult.success(arena)
     }
 
-    override fun suggestions(commandContext: CommandContext<C>, input: String): MutableList<String> = arenaManager.arenas.map { it.id }.toMutableList()
+    override fun suggestions(commandContext: CommandContext<CommandSender>, input: String): MutableList<String> =
+        arenaManager.arenas.filter { it.hasPermission(commandContext.sender) }.map { it.id }.toMutableList()
 
-    @Suppress("UNCHECKED_CAST")
     companion object {
-        private lateinit var instance: ArenaParser<*>
+        private lateinit var instance: ArenaParser
 
         private fun build(name: String, argumentDescription: ArgumentDescription, required: Boolean): CommandArgument<CommandSender, *> {
             return CommandArgument(
                 required,
                 name,
-                instance as ArenaParser<CommandSender>,
+                instance,
                 "",
                 TypeToken.get(Arena::class.java),
                 null,

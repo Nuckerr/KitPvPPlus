@@ -56,7 +56,7 @@ class KitPvPPlus(val bukkit: Plugin) {
             handler {
                 val player = it.sender as Player
                 val arena = arenaManager.arenas[0]
-                if(player in arena.region) {
+                if(player in arena) {
                     player.sendMessage("You are in ${arena.id}" component NamedTextColor.WHITE)
                 }else {
                     player.sendMessage("You are not in an arena" component NamedTextColor.WHITE)
