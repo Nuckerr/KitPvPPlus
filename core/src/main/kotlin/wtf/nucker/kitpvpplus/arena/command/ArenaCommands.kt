@@ -55,21 +55,15 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
                     argument(ArenaParser.of("arena"))
                     argument(StringArgument.of("name", StringArgument.StringMode.QUOTED))
                     handler {
-                        try {
-                            val arena: Arena = it["arena"]
-                            val oldName = arena.name
-                            arena.name = MiniMessage.miniMessage().deserialize(it["name"])
-                            arenaManager.editArena(arena)
-                            it.lang.arena.arenaNameUpdated
-                                .placeholder("id", arena.id, identifierAlias = arrayOf("arena"))
-                                .placeholder("old_name", oldName)
-                                .placeholder("new_name", arena.name)
-                                .sendTo(it.sender, target = null)
-                        }catch (ex: NullPointerException) {
-                            it.lang.arena.arenaDoesntExist
-                                .placeholder("id", it.get<String>("id"), identifierAlias = arrayOf("arena"))
-                                .sendTo(it.sender, target = null)
-                        }
+                        val arena: Arena = it["arena"]
+                        val oldName = arena.name
+                        arena.name = MiniMessage.miniMessage().deserialize(it["name"])
+                        arenaManager.editArena(arena)
+                        it.lang.arena.arenaNameUpdated
+                            .placeholder("id", arena.id, identifierAlias = arrayOf("arena"))
+                            .placeholder("old_name", oldName)
+                            .placeholder("new_name", arena.name)
+                            .sendTo(it.sender, target = null)
                     }
                 }.commandBuilder)
 
@@ -79,22 +73,16 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
                     argument(LocationArgument.of("point1"))
                     argument(LocationArgument.of("point2"))
                     handler {
-                        try {
-                            val arena: Arena = it["arena"]
-                            arena.region = BlockRegion(it.get<Location>("point1").block, it.get<Location>("point2").block)
-                            arenaManager.editArena(arena)
+                        val arena: Arena = it["arena"]
+                        arena.region = BlockRegion(it.get<Location>("point1").block, it.get<Location>("point2").block)
+                        arenaManager.editArena(arena)
 
-                            it.lang.arena.arenaNameUpdated
-                                .placeholder("id", arena.id, identifierAlias = arrayOf("arena"))
-                                .placeholder("name", arena.name)
-                                .placeholder("region_point_1", arena.region.point1.component)
-                                .placeholder("region_point_2", arena.region.point2.component)
-                                .sendTo(it.sender, target = null)
-                        }catch (ex: NullPointerException) {
-                            it.lang.arena.arenaDoesntExist
-                                .placeholder("id", it.get<String>("id"), identifierAlias = arrayOf("arena"))
-                                .sendTo(it.sender, target = null)
-                        }
+                        it.lang.arena.arenaNameUpdated
+                            .placeholder("id", arena.id, identifierAlias = arrayOf("arena"))
+                            .placeholder("name", arena.name)
+                            .placeholder("region_point_1", arena.region.point1.component)
+                            .placeholder("region_point_2", arena.region.point2.component)
+                            .sendTo(it.sender, target = null)
                     }
                 }.commandBuilder)
             }.commandBuilder)
