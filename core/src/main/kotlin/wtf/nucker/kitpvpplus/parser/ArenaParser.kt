@@ -12,44 +12,43 @@ import wtf.nucker.kitpvpplus.arena.Arena
 import wtf.nucker.kitpvpplus.arena.ArenaManager
 import java.util.*
 
-class ArenaParser(private val arenaManager: ArenaManager) : ArgumentParser<CommandSender, Arena> {
+class ArenaParser(arenaManager: ArenaManager, private val applyPermission: Boolean = true) : ArgumentParser<CommandSender, Arena> {
 
     init {
-        instance = this
+        Companion.arenaManager = arenaManager
     }
 
     override fun parse(commandContext: CommandContext<CommandSender>, inputQueue: Queue<String>): ArgumentParseResult<Arena> {
         val id = inputQueue.peek() ?: return ArgumentParseResult.failure(NoInputProvidedException(this::class.java, commandContext))
         val arena = arenaManager.getArena(id) ?: return ArgumentParseResult.failure(NullPointerException("No arena with the id $id exists"))
-        if(!arena.hasPermission(commandContext.sender)) return ArgumentParseResult.failure(IllegalStateException("You don't have permission to $id"))
+        if(!arena.hasPermission(commandContext.sender) && applyPermission) return ArgumentParseResult.failure(IllegalStateException("You don't have permission to $id"))
         inputQueue.remove()
         return ArgumentParseResult.success(arena)
     }
 
     override fun suggestions(commandContext: CommandContext<CommandSender>, input: String): MutableList<String> =
-        arenaManager.arenas.filter { it.hasPermission(commandContext.sender) }.map { it.id }.toMutableList()
-
+        arenaManager.arenas.filter { if(applyPermission) it.hasPermission(commandContext.sender) else true }.map { it.id }.toMutableList()
     companion object {
-        private lateinit var instance: ArenaParser
+        private lateinit var arenaManager: ArenaManager
 
-        private fun build(name: String, argumentDescription: ArgumentDescription, required: Boolean): CommandArgument<CommandSender, *> {
+        private fun build(name: String, argumentDescription: ArgumentDescription, required: Boolean, applyPermission: Boolean): CommandArgument<CommandSender, *> {
             return CommandArgument(
                 required,
                 name,
-                instance,
+                ArenaParser(arenaManager, applyPermission),
                 "",
                 TypeToken.get(Arena::class.java),
                 null,
-                argumentDescription
+                argumentDescription,
             )
         }
 
-        fun of(name: String, argumentDescription: ArgumentDescription = ArgumentDescription.empty()): CommandArgument<CommandSender, *> {
-            return build(name, argumentDescription, true)
+        fun of(name: String, argumentDescription: ArgumentDescription = ArgumentDescription.empty(), applyPermission: Boolean = true): CommandArgument<CommandSender, *> {
+            return build(name, argumentDescription, true, applyPermission)
         }
 
-        fun optional(name: String, argumentDescription: ArgumentDescription = ArgumentDescription.empty()): CommandArgument<CommandSender, *> {
-            return build(name, argumentDescription, false)
+        fun optional(name: String, argumentDescription: ArgumentDescription = ArgumentDescription.empty(), applyPermission: Boolean = true): CommandArgument<CommandSender, *> {
+            return build(name, argumentDescription, false, applyPermission)
         }
     }
 }

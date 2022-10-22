@@ -37,7 +37,7 @@ class CommandManager(private val plugin: KitPvPPlus): PaperCommandManager<Comman
     }
 
     fun registerParsers() {
-        registerParser(TypeToken.get(Arena::class.java), ArenaParser(plugin.arenaManager))
+        registerParser(TypeToken.get(Arena::class.java), ArenaParser(plugin.arenaManager, true))
     }
 
     private fun <T> registerParser(token: TypeToken<T>, instance: ArgumentParser<CommandSender, T>) {

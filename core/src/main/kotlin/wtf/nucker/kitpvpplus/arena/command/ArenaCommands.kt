@@ -7,6 +7,7 @@ import cloud.commandframework.bukkit.parsers.location.LocationArgument
 import net.kyori.adventure.extra.kotlin.text
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Location
 import wtf.nucker.kitpvpplus.arena.Arena
@@ -16,6 +17,7 @@ import wtf.nucker.kitpvpplus.parser.ArenaParser
 import wtf.nucker.kitpvpplus.util.BlockRegion
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.component
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.lang
+import wtf.nucker.kitpvpplus.util.KotlinExtensions.parsedComponent
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.placeholder
 import wtf.nucker.kitpvpplus.util.KotlinExtensions.sendTo
 
@@ -24,10 +26,15 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
     init {
         manager.buildAndQueueRegister("arena", ArgumentDescription.of("Manage arenas")) {
             permission("kitpvpplus.arenas")
+            handler {
+                "<red>Invalid Command Syntax. Correct command syntax is: <gray>/arena <create|delete|set|about|list>".parsedComponent
+                    .sendTo(it.sender, target = null)
+            }
 
             // create <name> <point1> <point2>
             manager.command(copy {
                 literal("create")
+                permission("kitpvpplus.arenas.create")
 
                 argument(StringArgument.of("id"))
                 argument(LocationArgument.of("point1"))
@@ -48,8 +55,13 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
             }.commandBuilder)
 
             manager.command(copy {
-                // set  name|region|location
+                // set name|region|location
                 literal("set")
+                permission("kitpvpplus.arenas.edit")
+                handler {
+                    "<red>Invalid Command Syntax. Correct command syntax is: <gray>/arena set <name|region|restricted> <arena> <value...>".parsedComponent
+                        .sendTo(it.sender, target = null)
+                }
 
                 manager.command(copy {
                     literal("name")
@@ -105,6 +117,34 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
                 }.commandBuilder)
             }.commandBuilder)
 
+            // about
+            manager.command(copy {
+                literal("about")
+                argument(ArenaParser.of("arena", applyPermission = false))
+                handler {
+                    val arena: Arena = it["arena"]
+                    text {
+                        append(arena.name)
+                        append(Component.newline())
+                        append(Component.empty())
+                        append(Component.newline())
+
+                        append("<yellow>Id: <white>${arena.id}".parsedComponent)
+                        append(Component.newline())
+
+
+                        append("Region: " component NamedTextColor.YELLOW)
+                        append(arena.region.point1.component.color(NamedTextColor.WHITE))
+                        append(" to " component TextDecoration.ITALIC)
+                        append(arena.region.point2.component.color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false))
+                        append(Component.newline())
+
+                        append("<yellow>Restricted: <gray>${arena.restrictedAccess}".parsedComponent)
+                    }
+                        .sendTo(it.sender, target = null)
+                }
+            }.commandBuilder)
+
             // list
             manager.command(copy {
                 literal("list")
@@ -127,6 +167,7 @@ class ArenaCommands(manager: CommandManager, arenaManager: ArenaManager) {
             // delete <id>
             manager.command(copy {
                 literal("delete")
+                permission("kitpvpplus.arenas.delete")
                 argument(ArenaParser.of("arena"))
                 handler {
                     val arena: Arena = it["arena"]

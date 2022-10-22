@@ -43,7 +43,6 @@ class BlockRegion(val point1: Block, val point2: Block) {
     }
 
     operator fun contains(location: Location): Boolean {
-
         return location.x > smallerXPoint && location.z > smallerZPoint && location.x < largerXPoint && location.z < largerZPoint
     }
 

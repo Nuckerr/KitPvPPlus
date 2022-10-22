@@ -51,6 +51,9 @@ object KotlinExtensions {
     val String.component
         get() = Component.text(this)
 
+    val String.parsedComponent
+        get() = MiniMessage.miniMessage().deserialize(this)
+
     infix fun String.component(color: TextColor): Component {
         return Component.text(this, color)
     }
