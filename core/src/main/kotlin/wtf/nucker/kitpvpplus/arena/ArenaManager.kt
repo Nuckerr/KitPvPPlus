@@ -18,8 +18,8 @@ class ArenaManager(plugin: KitPvPPlus) {
 
 
     init {
-        ArenaCommands(plugin.commandManager, this)
         ConfigManager.loadConfig<ArenaConfig>("arenas.json")
+        ArenaCommands(plugin.commandManager, this)
     }
     
     fun createArena(id: String, region: BlockRegion): Arena {
@@ -36,12 +36,18 @@ class ArenaManager(plugin: KitPvPPlus) {
 
     fun getArena(id: String): Arena? = config.arenas[id]
 
+    fun editArena(arena: Arena) {
+        config.arenas[arena.id] = arena
+        ConfigManager.reloadConfig("arenas.json", config)
+    }
+
     fun editArena(id: String, consumer: (arena: Arena) -> Unit) {
         val arena = getArena(id)!!
         consumer.invoke(arena)
-        config.arenas[id] = arena
-        ConfigManager.reloadConfig("arenas.json", config)
+        editArena(arena)
     }
+
+    fun deleteArena(arena: Arena) = deleteArena(arena.id)
 
     fun deleteArena(id: String) {
         config.arenas.remove(id)

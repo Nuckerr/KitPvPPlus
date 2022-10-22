@@ -35,9 +35,9 @@ class KitPvPPlus(val bukkit: Plugin) {
     val settingsConfig: SettingsConfig = ConfigManager.loadConfig("settings.yml")
     val langConfig: LangConfig = ConfigManager.loadConfig("lang.yml")
 
-    val commandManager: CommandManager = CommandManager(bukkit, langConfig)
-
+    val commandManager: CommandManager = CommandManager(this)
     val arenaManager: ArenaManager = ArenaManager(this)
+
 
     init {
         KotlinExtensions.plugin = this
@@ -66,6 +66,9 @@ class KitPvPPlus(val bukkit: Plugin) {
 
         StatisticsModule(this)
         EconomyModule(this)
+
+        commandManager.registerParsers()
+        commandManager.registerCommands()
     }
 
     fun onServerShutdown() {

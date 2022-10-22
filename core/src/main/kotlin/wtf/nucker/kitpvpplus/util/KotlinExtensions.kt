@@ -145,7 +145,6 @@ object KotlinExtensions {
 
     val <C> CommandContext<C>.lang
         get() = get<LangConfig>("lang")
-
     fun List<Arena>.isPlayerInArena(player: Player): Boolean {
         forEach {
             if(player in it.region) return true
